@@ -1,0 +1,33 @@
+site_name: USTC 2023 编译原理和技术
+repo_name: ustc-compiler-principles/2023
+repo_url: https://github.com/ustc-compiler-principles/2023
+theme:
+  name: 'material'
+  palette:
+    primary: 'black'
+  custom_dir: 'overrides'
+  language: 'zh'
+  features:
+    - content.code.copy
+    - navigation.footer
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - markdown.extensions.def_list
+  - mdx_truly_sane_lists
+  - toc:
+      permalink: true
+      slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+extra_css:
+  # Borrow CSS from Linux 101 still
+  - 'https://101.ustclug.org/css/extra.css'
+nav:
+  - 首页: README.md
+  - 实验零:
+      - 简介: lab0/README.md
+      - 第一部分: lab0/part1.md
+  - FAQ: faq/README.md
