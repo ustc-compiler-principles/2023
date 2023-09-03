@@ -5,7 +5,6 @@ theme:
   name: 'material'
   palette:
     primary: 'black'
-  custom_dir: 'overrides'
   language: 'zh'
   features:
     - content.code.copy
@@ -27,7 +26,5 @@ extra_css:
   - 'https://101.ustclug.org/css/extra.css'
 nav:
   - 首页: README.md
-  - 实验零:
-      - 简介: lab0/README.md
-      - 第一部分: lab0/part1.md
+  - 实验平台介绍: exp_platform_intro/README.md
   - FAQ: faq/README.md
