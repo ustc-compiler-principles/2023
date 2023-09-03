@@ -36,7 +36,13 @@ to get how to setup your edtiors with prettier to format Markdown files.
 Finally commit your changes.
 Git commit hook has been added to format Markdown files.
 
-## Admonitions
+### File Structure
+
+`mkdocs.yml` is the configuration file. When you want to add a new page, you need to add it to `nav` in `mkdocs.yml`.
+
+`docs/` is the directory of all Markdown files. You can create subdirectories to organize your files.
+
+### Admonitions
 
 Read <https://squidfunk.github.io/mkdocs-material/reference/admonitions/> for more details.
 
