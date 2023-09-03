@@ -26,5 +26,5 @@ extra_css:
   - 'https://101.ustclug.org/css/extra.css'
 nav:
   - 首页: README.md
-  - 实验平台介绍: exp_platform_intro/README.md
+  - 课程平台介绍: exp_platform_intro/README.md
   - FAQ: faq/README.md
