@@ -26,15 +26,28 @@
   - 杨柏森 ybs87@mail.ustc.edu.cn
 
 - QQ 群：805431263
+- 录课视频（需校内统一身份认证）：<https://v.ustc.edu.cn/1/2023-1/capture-course/011163.02/detail>
+- 希冀实验平台：<http://cscourse.ustc.edu.cn/>
 
 ## 公告
 
 - 2023-09-03：[课程平台介绍](exp_platform_intro/) 已发布
 
-## 进度
+## 教学课件
 
-[TBD]
+| 日期 |  标题 | 课件 |
+| :----:| :----: | :----: |
+| 2023-09-04 | 编译原理和技术导论 | [part1](https://rec.ustc.edu.cn/share/be63e5f0-4bbf-11ee-ab8f-8556ef2e1b82) |
 
-## 资源
+## 参考资料
 
-[TBD]
+### 教材和参考书
+
+- 陈意云、张昱，编译原理（第 3 版），高等教育出版社，2014
+- 李诚、徐伟，面向自主指令集的编译器设计与实现，高等教育出版社，2023
+- A. V. Aho, M. S. Lam, R. Sethi, and J. D. Ullman 著，赵建华等译，编译原理，机械工业出版社，2017
+
+### 其他资料
+
+- Stanford 课程主页：<http://web.stanford.edu/class/cs143/>
+- MIT 课程主页：<http://6.035.scripts.mit.edu/fa18/>
