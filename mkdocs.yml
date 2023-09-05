@@ -22,8 +22,7 @@ markdown_extensions:
       permalink: true
       slugify: !!python/name:markdown.extensions.toc.slugify_unicode
 extra_css:
-  # Borrow CSS from Linux 101 still
-  - 'https://101.ustclug.org/css/extra.css'
+  - css/extra.css
 nav:
   - 首页: README.md
   - 课程平台介绍: exp_platform_intro/README.md
