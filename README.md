@@ -33,8 +33,15 @@ npm run prepare
 See [Prettier Doc: Editor Integration](https://prettier.io/docs/en/editors.html)
 to get how to setup your edtiors with prettier to format Markdown files.
 
-Finally commit your changes.
-Git commit hook has been added to format Markdown files.
+Finally commit your changes. Git commit hook has been added to format Markdown files.
+
+Or you can manually format:
+
+```bash
+# see .prettierignore for ignoring certain files or folders
+npm run test    # to see if there is a format error
+npm run format  # to format all files under docs/
+```
 
 ### File Structure
 
