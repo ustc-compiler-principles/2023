@@ -22,20 +22,16 @@ mkdocs serve
 
 ### format
 
-In order to keep the doc style consistent, we use [Prettier](https://prettier.io/).
+In order to keep the doc style consistent, we use [Prettier](https://prettier.io/) and [AutoCorrect](https://github.com/huacnlee/autocorrect).
 
 ```bash
-# Node
-npm install
-npm run prepare
+# you need Node.js installed first
+npm install # then install Prettier and AutoCorrect
 ```
 
-See [Prettier Doc: Editor Integration](https://prettier.io/docs/en/editors.html)
-to get how to setup your edtiors with prettier to format Markdown files.
+See [Prettier Doc: Editor Integration](https://prettier.io/docs/en/editors.html) and [AutoCorrect: VS Code Extension](https://github.com/huacnlee/autocorrect#vs-code-extension) for editor intergration.
 
-Finally commit your changes. Git commit hook has been added to format Markdown files.
-
-Or you can manually format:
+You must format files before commit:
 
 ```bash
 # see .prettierignore for ignoring certain files or folders

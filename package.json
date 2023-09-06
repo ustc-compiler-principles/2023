@@ -2,12 +2,10 @@
   "name": "2023",
   "version": "1.0.0",
   "description": "课程主页",
-  "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "prettier --check docs",
-    "format": "prettier --write docs",
-    "prepare": "husky install",
+    "test": "prettier --check docs && autocorrect --lint docs",
+    "format": "prettier --write docs && autocorrect --fix docs",
     "dev": "mkdocs serve",
     "build": "mkdocs build"
   },
@@ -25,11 +23,7 @@
   },
   "homepage": "https://github.com/ustc-compiler-principles/2023#readme",
   "dependencies": {
-    "husky": "^7.0.4",
-    "lint-staged": "^12.2.2",
+    "autocorrect-node": "^2.8.4",
     "prettier": "^2.5.1"
-  },
-  "lint-staged": {
-    "docs/**/*": "prettier --write --ignore-unknown"
   }
 }
