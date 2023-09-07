@@ -4,9 +4,9 @@
 
 ## LLVM、Clang 安装
 
-LLVM 是一个开源软件项目，它是一种编译器基础设施，以 C++写成，包含一系列模块化的编译器组件和工具链。LLVM 对应的文件格式是\*.ll 文件，它的形式是位于高级语言与汇编语言之间的一种中间代码，通常称为 LLVM IR. LLVM IR 使用三地址码，在第一节课上大家已经初步接触；并且 LLVM IR 还将高级语言中的变量名映射为 LLVM IR 形式的名字，这就方便了我们对其进行优化。总之，包括以上两个特性在内的许多 LLVM 特性方便我们对中间代码进行优化，这也是我们选择 LLVM 的原因之一。
+LLVM是一个用C++编写的开源编译器基础设施项目，包括模块化编译器组件和工具链。它提供了一种称为LLVM IR的中间代码，介于高级语言和汇编语言之间，本课程的实验核心围绕LLVM展开。
 
-Clang 是 LLVM 编译器工具集中用于编译 C、C++、Objective-C 的前端，因此在配置 LLVM 环境时我们同样要下载 Clang。
+Clang是LLVM编译器工具集的前端，用于编译C、C++和Objective-C。在配置LLVM环境时，需要安装Clang。
 
 想要了解更多 LLVM 相关知识可参考：[LLVM Discussion Forums - Our community includes both users and developers of various compiler technologies within the LLVM project.](https://discourse.llvm.org/)
 
@@ -33,40 +33,40 @@ sudo apt install git
 
 ## build-essential 安装
 
-单独安装 gcc、g++、make 等安装包过于繁琐，因此 Ubuntu 提供了一个 build-essential 软件包，该软件包包括了软件编译和构建所需的基本工具和库。它包含了编译 C、C++等语言的编译器、链接器和库文件，以及其他一些常用的构建工具和库文件。
+在Ubuntu中，为了简化安装过程，你可以使用build-essential软件包。它集成了编译C、C++等语言所需的关键工具和库，包括编译器、链接器以及其他常用构建工具和库。这样，你就不需要单独安装gcc、g++、make等包，让编译和构建软件更加便捷。
 
 ```shell
-
 sudo apt install build-essential
 
-#查看是否成功安装
+# 查看是否成功安装
 gcc --version
 ```
 
 ## CMake 安装
 
-CMake 是一个跨平台的编译 (Build) 工具，可以用简单的语句来描述所有平台的编译过程。一个大型项目由多个互相调用的工程共同组成，一些用于生成库文件，一些用于实现逻辑功能，工程之间的调用关系复杂而严格，如果让开发者自己理解文件的编译顺序，需要耗费开发者巨大的精力，因此我们一般通过 makefile 文件来处理这些依赖调用关系（makefile 文件由 make 编译，GNU make 已经内置于 build-essential 包中安装），但因为 makefile 在不同平台的标准不一样，无法有效支持跨平台，因此我们需安装 CMake，程序作者可以编写 CMakeLists.txt 文件，让开发者使用 cmake 编译生成对应平台架构的 makefile 文件，再编译这些文件高效的跨平台快速搭建项目。
+CMake是一个用于管理和生成跨平台构建系统的开源工具。它可以帮助开发人员轻松地配置、构建和测试他们的项目，而无需关心目标操作系统或编译器的细节。CMake的主要目标是使跨平台开发更加容易和可维护，因此它被广泛用于许多开源和商业项目中。
 
 想要了解更多 CMake 可参考：[Modern CMake 简体中文版](https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/)。
 
-make 可参考：[make 官方文档英文版](https://www.gnu.org/software/make/manual/make.html)。
+扩展阅读：
 
-make 和 CMake 的区别：[https://zhuanlan.zhihu.com/p/431118510](https://zhuanlan.zhihu.com/p/431118510)。
+* make 参考：[make 官方文档英文版](https://www.gnu.org/software/make/manual/make.html)。
+* make 和 CMake 的区别：[https://zhuanlan.zhihu.com/p/431118510](https://zhuanlan.zhihu.com/p/431118510)。
 
 ```shell
 # 安装 cmake
 sudo apt install cmake
-# 检查 cmake 版本是否正确安装
+# 检查 cmake 是否正确安装
 cmake --version
 ```
 
 ## Flex 和 Bison 安装
 
-Flex 是一个生成词法分析器的工具。利用 Flex，我们只需提供词法的正则表达式，就可自动生成对应的 C 代码。
+Flex 是一个用于生成词法分析器的工具。它简化了词法分析器的创建过程，只需提供正则表达式描述词法规则，Flex 就能自动生成相应的 C 代码。
 
-Bison 是一款解析器生成器（parser generator），它可以将 LALR 文法转换成可编译的 C 代码，从而大大减轻程序员手动设计解析器的负担。Bison 是 GNU 对早期 Unix 的 Yacc 工具的一个重新实现，所以文件扩展名为 `.y`（Yacc 的意思是 Yet Another Compiler Compiler）。
+Bison 是一款解析器生成器，用于将 LALR 文法转换为可编译的 C 代码，从而显著降低了手动设计解析器的工作量。Bison 是对早期 Unix 上的 Yacc 工具的重新实现，因此通常使用 `.y` 文件扩展名来表示它的语法规则文件（Yacc 是 Yet Another Compiler Compiler 的缩写）。
 
-**将在 Lab1 对 Flex 和 Bison 作更为详细的介绍，Flex 和 Bison 将作为 Lab1 核心学习内容**
+**我们将在 Lab1 对 Flex 和 Bison 作更为详细的介绍**
 
 ```shell
 sudo apt-get install flex bison
@@ -78,7 +78,7 @@ bison --version
 
 ## 测试
 
-成功安装 clang 与 LLVM 是必要的，在后续实验中我们会经常用到它们。为了测试环境配置是否成功，我们准备了一个简单的程序 Test.c，它的内容如下：
+为了测试配置是否成功，我们提供了一个简单的测试程序 Test.c，其内容如下：
 
 ```c
 #include<stdio.h>
@@ -98,7 +98,8 @@ void StudentNumber (int u[], int v[], int k[]) {
     degree = v[0];
     number = k[0];
     result = grade * grade_mul + degree * degree_mul + number;
-    printf("PB%d\n",result);//TODO:若学号前缀不是 PB 可于此修改；
+    //TODO:若学号前缀不是 PB 可于此修改；
+    printf("PB%d\n",result);
     return;
 }
 
@@ -122,23 +123,22 @@ int main(void) {
 
 ```
 
-它的作用是输出你的学号，请你对其进行修改后执行如下指令：
+它的作用是输出你的学号，请你填写相关信息后，在虚拟机/服务器中执行如下指令运行：
 
-```
-clang -S -emit-llvm Test.c -o Test.ll
-lli Test.ll;echo $?
-```
-
-正常情况下在执行完第一条指令后文件夹下会出现新生成的 Test.ll 文件。
-
-执行完第二条指令后输出应如下形式：
-
-```
-PB20114514	// 你的学号
-0			// main 函数返回值
+```shell
+# 该指令对Text.c进行编译，并生成其对应的LLVM IR代码，记为Test.ll。
+$ clang -S -emit-llvm Test.c -o Test.ll
 ```
 
-请将 Test.ll 保存下来，在 Git 实验中将会使用到该文件。
+随后，我们使用`lli`执行该IR文件：
+
+```shell
+$ lli Test.ll && echo $?
+PB20114514  # 第一行结果应为你的学号，助教会评测该结果 [重要]
+0           # main 函数返回值，应该为0
+```
+
+请将你修改的 Test.ll 保存下来，它将在[Git 的使用](git.md)中被使用。
 
 感兴趣的同学们也可自行阅读生成的 Test.ll 文件，注意观察高级语言中的常量、变量、全局变量、数组和函数等在 LLVM IR 中是如何表示的，在后续的实验中我们会经常和它们打交道。
 
