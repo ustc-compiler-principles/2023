@@ -31,7 +31,8 @@
 
 ## 公告
 
-- 2023-09-03：[课程平台介绍](exp_platform_intro/) 已发布
+- 2023-09-03：[课程平台介绍](exp_platform_intro/README.md) 已发布
+- 2023-09-10：[lab0](lab0/index.md) 已发布
 
 ## 教学课件
 
