@@ -6,7 +6,7 @@
 
 LLVM 是一个用 C++ 编写的开源编译器基础设施项目，包括模块化编译器组件和工具链。它提供了一种称为 LLVM IR 的中间代码，介于高级语言和汇编语言之间，本课程的实验核心围绕 LLVM 展开。
 
-Clang 是 LLVM 编译器工具集的前端，用于编译 C、C++和 Objective-C。在配置 LLVM 环境时，需要安装 Clang。
+Clang 是 LLVM 编译器工具集的前端，用于编译 C、C++ 和 Objective-C。在配置 LLVM 环境时，需要安装 Clang。
 
 想要了解更多 LLVM 相关知识可参考：[LLVM Discussion Forums - Our community includes both users and developers of various compiler technologies within the LLVM project.](https://discourse.llvm.org/)
 
@@ -33,7 +33,7 @@ sudo apt install git
 
 ## build-essential 安装
 
-在 Ubuntu 中，为了简化安装过程，你可以使用 build-essential 软件包。它集成了编译 C、C++等语言所需的关键工具和库，包括编译器、链接器以及其他常用构建工具和库。这样，你就不需要单独安装 gcc、g++、make 等包，让编译和构建软件更加便捷。
+在 Ubuntu 中，为了简化安装过程，你可以使用 build-essential 软件包。它集成了编译 C、C++ 等语言所需的关键工具和库，包括编译器、链接器以及其他常用构建工具和库。这样，你就不需要单独安装 gcc、g++、make 等包，让编译和构建软件更加便捷。
 
 ```shell
 sudo apt install build-essential

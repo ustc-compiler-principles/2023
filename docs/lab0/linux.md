@@ -191,10 +191,13 @@ ssh -p 1145 虚拟机用户名@127.0.0.1
 4. 在配置文件中加入如下代码段，保存：
 
    ```sshconfig
-   Host vbox   # 这里名字可以随意
-       HostName 127.0.0.1
-       User test   # 填入你自己的虚拟机 username
-       Port 4514   # 填入在设置虚拟机网络时你填入的主机端口
+   # Host 名字可以随意
+   Host vbox
+     HostName 127.0.0.1
+     # User 填入你自己的虚拟机 username
+     User test
+     # Port 填入在设置虚拟机网络时你填入的主机端口
+     Port 4514
    ```
 
    随后刷新左侧列表可以在 SSH 下看到如下项：
