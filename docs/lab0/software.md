@@ -4,7 +4,7 @@
 
 ## LLVM、Clang 安装
 
-LLVM 是一个用 C++编写的开源编译器基础设施项目，包括模块化编译器组件和工具链。它提供了一种称为 LLVM IR 的中间代码，介于高级语言和汇编语言之间，本课程的实验核心围绕 LLVM 展开。
+LLVM 是一个用 C++ 编写的开源编译器基础设施项目，包括模块化编译器组件和工具链。它提供了一种称为 LLVM IR 的中间代码，介于高级语言和汇编语言之间，本课程的实验核心围绕 LLVM 展开。
 
 Clang 是 LLVM 编译器工具集的前端，用于编译 C、C++和 Objective-C。在配置 LLVM 环境时，需要安装 Clang。
 
@@ -66,7 +66,7 @@ Flex 是一个用于生成词法分析器的工具。它简化了词法分析器
 
 Bison 是一款解析器生成器，用于将 LALR 文法转换为可编译的 C 代码，从而显著降低了手动设计解析器的工作量。Bison 是对早期 Unix 上的 Yacc 工具的重新实现，因此通常使用 `.y` 文件扩展名来表示它的语法规则文件（Yacc 是 Yet Another Compiler Compiler 的缩写）。
 
-**我们将在 Lab1 对 Flex 和 Bison 作更为详细的介绍**
+**我们将在 Lab1 对 Flex 和 Bison 作更为详细的介绍。**
 
 ```shell
 sudo apt-get install flex bison
