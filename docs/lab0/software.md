@@ -4,9 +4,9 @@
 
 ## LLVM、Clang 安装
 
-LLVM是一个用C++编写的开源编译器基础设施项目，包括模块化编译器组件和工具链。它提供了一种称为LLVM IR的中间代码，介于高级语言和汇编语言之间，本课程的实验核心围绕LLVM展开。
+LLVM 是一个用 C++编写的开源编译器基础设施项目，包括模块化编译器组件和工具链。它提供了一种称为 LLVM IR 的中间代码，介于高级语言和汇编语言之间，本课程的实验核心围绕 LLVM 展开。
 
-Clang是LLVM编译器工具集的前端，用于编译C、C++和Objective-C。在配置LLVM环境时，需要安装Clang。
+Clang 是 LLVM 编译器工具集的前端，用于编译 C、C++和 Objective-C。在配置 LLVM 环境时，需要安装 Clang。
 
 想要了解更多 LLVM 相关知识可参考：[LLVM Discussion Forums - Our community includes both users and developers of various compiler technologies within the LLVM project.](https://discourse.llvm.org/)
 
@@ -33,7 +33,7 @@ sudo apt install git
 
 ## build-essential 安装
 
-在Ubuntu中，为了简化安装过程，你可以使用build-essential软件包。它集成了编译C、C++等语言所需的关键工具和库，包括编译器、链接器以及其他常用构建工具和库。这样，你就不需要单独安装gcc、g++、make等包，让编译和构建软件更加便捷。
+在 Ubuntu 中，为了简化安装过程，你可以使用 build-essential 软件包。它集成了编译 C、C++等语言所需的关键工具和库，包括编译器、链接器以及其他常用构建工具和库。这样，你就不需要单独安装 gcc、g++、make 等包，让编译和构建软件更加便捷。
 
 ```shell
 sudo apt install build-essential
@@ -44,14 +44,14 @@ gcc --version
 
 ## CMake 安装
 
-CMake是一个用于管理和生成跨平台构建系统的开源工具。它可以帮助开发人员轻松地配置、构建和测试他们的项目，而无需关心目标操作系统或编译器的细节。CMake的主要目标是使跨平台开发更加容易和可维护，因此它被广泛用于许多开源和商业项目中。
+CMake 是一个用于管理和生成跨平台构建系统的开源工具。它可以帮助开发人员轻松地配置、构建和测试他们的项目，而无需关心目标操作系统或编译器的细节。CMake 的主要目标是使跨平台开发更加容易和可维护，因此它被广泛用于许多开源和商业项目中。
 
 想要了解更多 CMake 可参考：[Modern CMake 简体中文版](https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/)。
 
 扩展阅读：
 
-* make 参考：[make 官方文档英文版](https://www.gnu.org/software/make/manual/make.html)。
-* make 和 CMake 的区别：[https://zhuanlan.zhihu.com/p/431118510](https://zhuanlan.zhihu.com/p/431118510)。
+- make 参考：[make 官方文档英文版](https://www.gnu.org/software/make/manual/make.html)。
+- make 和 CMake 的区别：[https://zhuanlan.zhihu.com/p/431118510](https://zhuanlan.zhihu.com/p/431118510)。
 
 ```shell
 # 安装 cmake
@@ -130,7 +130,7 @@ int main(void) {
 $ clang -S -emit-llvm Test.c -o Test.ll
 ```
 
-随后，我们使用`lli`执行该IR文件：
+随后，我们使用`lli`执行该 IR 文件：
 
 ```shell
 $ lli Test.ll && echo $?

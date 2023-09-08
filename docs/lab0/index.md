@@ -39,7 +39,7 @@ Lab0 完成后，除了 answer.pdf 文件，你还在 GitLab 上拥有一个名�
 - Test.ll
 ```
 
-你需要在希冀平台，提交你的 answer.pdf 文件和你 GitLab 仓库链接。
+在希冀平台上传提交你的 answer.pdf 文件，并提交 GitLab 仓库链接。
 
 #### 文件上传提交方式
 
@@ -47,7 +47,7 @@ Lab0 完成后，除了 answer.pdf 文件，你还在 GitLab 上拥有一个名�
 
 ![Alt text](photos/image.png)
 
-#### GitLab 链接仓库提交方式
+#### GitLab 仓库链接提交方式
 
 ![Alt text](photos/image-1.png)
 
