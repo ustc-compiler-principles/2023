@@ -55,4 +55,4 @@ Lab0 完成后，除了 answer.pdf 文件，你还在 GitLab 上拥有一个名�
 
 #### 答疑
 同学们如果对实验有什么疑问，请在希冀平台在线答疑模块发帖询问，助教看到帖子会及时回复。
-![Alt text](photos/image-3.png)
+![Alt text](photos/image_3.png)
