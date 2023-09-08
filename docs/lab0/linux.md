@@ -11,11 +11,11 @@
 - Flex 2.6.4
 - Bison 3.8.2
 
-本学期实验规定了相应的 Ubuntu 版本以方便后续软件的下载与使用，请各位同学**务必**下载使用推荐版本。
+!!! info "说明"
 
-> 该文档主要针对非 Linux 系统用户，已搭建好 Linux 环境并且符合我们的实验要求的同学可跳过。
+    文档主要针对非 Linux 系统用户，已搭建好 Linux 环境并且**符合版本要求**的同学可选择性跳过。
 
-本实验文档仅提供使用虚拟机搭建环境的方法，使用的虚拟机软件为 VirtualBox。
+下面以虚拟机软件 VirtualBox 为例介绍搭建环境的方法。
 
 ## 1.1 下载
 
@@ -31,9 +31,11 @@
 - 科大镜像：[Index of /ubuntu-releases/ (ustc.edu.cn)](https://mirrors.ustc.edu.cn/ubuntu-releases/)
 - 清华镜像：[Index of /ubuntu-releases/ | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/)
 
-注意本学期推荐使用的 Ubuntu 版本为 **22.04**，请下载时选择相应版本。
+!!! warning "重要"
 
-> 镜像文件请下载 **server** 版本，后续指导基于 server 版本展开。请下载命名为 ubuntu-22.04.3-live-server-amd64 的镜像文件
+    本学期实验规定了相应的 Ubuntu 版本以方便后续软件的下载与使用，请各位同学**务必**下载使用推荐版本 **22.04**。
+
+镜像文件请下载 **server** 版本，后续指导基于 server 版本展开。请下载命名为 ubuntu-22.04.3-live-server-amd64 的镜像文件。
 
 下载完成之后无需打开镜像文件，只需在后续导入虚拟机软件即可。
 
@@ -70,7 +72,9 @@
 
 ## 1.3 使用 VSCode
 
-VSCode 由微软开发，是一款强大的跨平台代码编辑器。它提供美观的界面和可定制的主题，同时支持众多插件，如代码高亮、智能代码补全、括号匹配和代码比较，显著提升工作效率。此外，VSCode 还支持便捷的远程服务器连接，例如虚拟机，让你享受代码编写环境和预配置的 Linux 环境，大幅提高实验效率。熟练使用 VSCode 将为你后续的工作带来极大便利。
+???+ info "VSCode"
+
+    VSCode 由微软开发，是一款强大的跨平台代码编辑器。它提供美观的界面和可定制的主题，同时支持众多插件，如代码高亮、智能代码补全、括号匹配和代码比较，显著提升工作效率。此外，VSCode 还支持便捷的远程服务器连接，例如虚拟机，让你享受代码编写环境和预配置的 Linux 环境，大幅提高实验效率。熟练使用 VSCode 将为你后续的工作带来极大便利。
 
 ### 1.3.1 下载 VSCode
 
@@ -263,9 +267,10 @@ Hello VirtualBox!
 
 通过这个例子，你应该已经掌握了使用 VSCode 连接远程服务器和修改相关文件等操作。
 
-VSCode 还提供文件上传和下载等操作：
+???+ tip "VSCode 远程服务器文件上传和下载"
 
-- 文件上传：直接拖拽桌面文件进入 VSCode 的 explorer
-- 文件下载：在 VSCode 的 explorer 中对相关文件进行右键并选择下载。
+    文件上传：直接拖拽桌面文件进入 VSCode 的 explorer
+
+    文件下载：在 VSCode 的 explorer 中对相关文件进行右键并选择下载。
 
 更多关于 VSCode 的操作，欢迎同学自行探索。
