@@ -32,7 +32,7 @@
 ## 公告
 
 - 2023-09-03：[课程平台介绍](exp_platform_intro/README.md) 已发布
-- 2023-09-08：[Lab0](lab0/index.md) 已发布，Deadline：**2023 年 9 月 15 日 23:59**
+- 2023-09-08：[Lab0](lab0/index.md) 已发布，Deadline：**2023 年 9 月 13 日 23:59**
 
 ## 教学课件
 
