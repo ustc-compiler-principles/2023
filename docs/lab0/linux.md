@@ -70,7 +70,7 @@
 
 ## 1.3 使用 VSCode
 
-VSCode，由微软开发，是一款强大的跨平台代码编辑器。它提供美观的界面和可定制的主题，同时支持众多插件，如代码高亮、智能代码补全、括号匹配和代码比较，显著提升工作效率。此外，VSCode 还支持便捷的远程服务器连接，例如虚拟机，让你享受代码编写环境和预配置的 Linux 环境，大幅提高实验效率。熟练使用 VSCode 将为你后续的工作带来极大便利。
+VSCode 由微软开发，是一款强大的跨平台代码编辑器。它提供美观的界面和可定制的主题，同时支持众多插件，如代码高亮、智能代码补全、括号匹配和代码比较，显著提升工作效率。此外，VSCode 还支持便捷的远程服务器连接，例如虚拟机，让你享受代码编写环境和预配置的 Linux 环境，大幅提高实验效率。熟练使用 VSCode 将为你后续的工作带来极大便利。
 
 ### 1.3.1 下载 VSCode
 
@@ -105,9 +105,9 @@ SSH 客户端（SSH Client）：
 在虚拟机中执行以下命令：
 
 ```shell
-# 安装ssh server
+# 安装 ssh server
 sudo apt install openssh-server
-# 启动ssh server
+# 启动 ssh server
 sudo systemctl start ssh
 # 设置系统开机自启动
 sudo systemctl enable ssh
@@ -116,7 +116,7 @@ sudo systemctl enable ssh
 检验是否启动成功，输入下述命令：
 
 ```shell
-# 出现/usr/sbin/sshd类似信息则已启动成功
+# 出现 /usr/sbin/sshd 类似信息则已启动成功
 $ ps aux | grep sshd
 root         765  0.0  0.0  15420  8784 ?        Ss   03:50   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
 ```
@@ -235,7 +235,7 @@ $ uname -a
 Linux gpu12 5.4.0-156-generic #173-Ubuntu SMP Tue Jul 11 07:25:22 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 
 # mkdir 创建文件夹
-# code 指令是VSCode专有指令，用于打开一个特定的工作区
+# code 指令使用 VSCode 打开一个特定的工作区
 $ mkdir Test
 $ code Test
 ```

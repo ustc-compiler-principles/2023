@@ -4,7 +4,7 @@
 
 ## Git 配置
 
-在 Linux 环境中，我们已经通过 apt 安装了 Git。然而，还需要进行一些配置以确保每次代码提交都能正确标识提交者。在 Shell 中运行以下命令，并将"Your Name"和"Your Email"替换为你自己的信息：
+在 Linux 环境中，我们已经通过 apt 安装了 Git。然而，还需要进行一些配置以确保每次代码提交都能正确标识提交者。在 Shell 中运行以下命令，并将 "Your Name" 和 "Your Email" 替换为你自己的信息：
 
 ```bash
 git config --global user.name "Your Name"
@@ -18,11 +18,11 @@ git config --global user.email "Your Email"
 我们将使用 GitLab 进行远程代码管理。虽然你没有权限在 GitLab 上创建仓库，但你可以通过 fork 的方式拥有一个属于自己的仓库。
 
 1. 进入以下公开仓库链接：**[https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023_warm_up_b](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023_warm_up_b)**
-2. 点击右上角的"fork"按钮。这个操作会创建一个与原仓库一模一样的新仓库，唯一的区别是，这个新仓库是你自己的。你可以在新仓库上执行任何你需要的操作。
+2. 点击右上角的 "Fork" 按钮。这个操作会创建一个与原仓库一模一样的新仓库，唯一的区别是，这个新仓库是你自己的。你可以在新仓库上执行任何你需要的操作。
 
    ![Untitled](photos/git1.png)
 
-3. 点击"Fork"后，页面将自动跳转到新的仓库页面，你将成为这个仓库的拥有者，这也会显示在仓库名称旁边。
+3. 点击 "Fork" 后，页面将自动跳转到新的仓库页面，你将成为这个仓库的拥有者，这也会显示在仓库名称旁边。
 
 ![Untitled](photos/git2.png)
 
@@ -116,10 +116,10 @@ git config --global user.email "Your Email"
        欢迎加入编译原理
    ```
 
-通过以上操作，我们完成了一次本地修改和提交。然而，请注意这些更改仅存储在本地，需要使用"git push"命令将它们上传到服务器，以实现本地和服务器的同步。
+通过以上操作，我们完成了一次本地修改和提交。然而，请注意这些更改仅存储在本地，需要使用 "git push" 命令将它们上传到服务器，以实现本地和服务器的同步。
 
 ```bash
-$ git push origin master  #推送本地仓库的内容到Git远程仓库
+$ git push origin master  # 推送本地仓库的内容到 Git 远程仓库
 Enumerating objects: 4, done.
 Counting objects: 100% (4/4), done.
 Delta compression using up to 8 threads
@@ -183,7 +183,7 @@ To https://cscourse.ustc.edu.cn/vdir/Gitlab/ustc_gongping/2023_warm_up_b.git
   # 此时我们的仓库中存在两条分支
   # master: 我们修改内容
   # upstream/mater: 上游的内存
-  # 我们可以通过merge操作将upstream/master的内存合并到master中
+  # 我们可以通过 merge 操作将 upstream/master 的内容合并到 master 中
   $ git merge upstream/master
   Auto-merging warm_up.txt
   CONFLICT (content): Merge conflict in warm_up.txt

@@ -81,7 +81,7 @@ bison --version
 为了测试配置是否成功，我们提供了一个简单的测试程序 Test.c，其内容如下：
 
 ```c
-#include<stdio.h>
+#include <stdio.h>
 
 int Grade[1];
 int Degree[1];
@@ -89,7 +89,7 @@ int Number[1];
 int grade_mul;
 int degree_mul;
 
-void StudentNumber (int u[], int v[], int k[]) {
+void StudentNumber(int u[], int v[], int k[]) {
     int grade;
     int degree;
     int number;
@@ -98,7 +98,7 @@ void StudentNumber (int u[], int v[], int k[]) {
     degree = v[0];
     number = k[0];
     result = grade * grade_mul + degree * degree_mul + number;
-    //TODO:若学号前缀不是 PB 可于此修改；
+    // 若学号前缀不是 PB 可于此修改
     printf("PB%d\n",result);
     return;
 }
@@ -106,9 +106,9 @@ void StudentNumber (int u[], int v[], int k[]) {
 /**
  * @brief 修改 main 函数中的信息输出你的学号
  *
- * @param Grade[0]:你的年级，如 20，21，22 等
- * @param Degree[0]:你的专业代号，如计科是 11
- * @param Number[0]:你的学生序号，如 0011，4514 等
+ * @param Grade[0]: 你的年级，如 20，21，22 等
+ * @param Degree[0]: 你的专业代号，如计科是 11
+ * @param Number[0]: 你的学生序号，如 0011，4514 等
  * @return int
  */
 int main(void) {
@@ -120,13 +120,12 @@ int main(void) {
     StudentNumber(Grade,Degree,Number);
     return 0;
 }
-
 ```
 
 它的作用是输出你的学号，请你填写相关信息后，在虚拟机/服务器中执行如下指令运行：
 
 ```shell
-# 该指令对Text.c进行编译，并生成其对应的LLVM IR代码，记为Test.ll。
+# 该指令对 Text.c 进行编译，并生成其对应的 LLVM IR 代码，记为 Test.ll。
 $ clang -S -emit-llvm Test.c -o Test.ll
 ```
 
@@ -135,7 +134,7 @@ $ clang -S -emit-llvm Test.c -o Test.ll
 ```shell
 $ lli Test.ll && echo $?
 PB20114514  # 第一行结果应为你的学号，助教会评测该结果 [重要]
-0           # main 函数返回值，应该为0
+0           # main 函数返回值，应该为 0
 ```
 
 请将你修改的 Test.ll 保存下来，它将在[Git 的使用](git.md)中被使用。
