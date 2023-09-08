@@ -129,7 +129,7 @@ int main(void) {
 $ clang -S -emit-llvm Test.c -o Test.ll
 ```
 
-随后，我们使用`lli`执行该 IR 文件：
+随后，我们使用 `lli` 执行该 IR 文件：
 
 ```shell
 $ lli Test.ll && echo $?

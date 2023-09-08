@@ -230,7 +230,7 @@ ssh -p 1145 虚拟机用户名@127.0.0.1
 
 我们已经成功通过 VSCode 连接了虚拟机，下面是一些简单的使用指导。
 
-首先在 VSCode 中，我们可以使用快捷键`` CTRL + ` ``打开终端：
+首先在 VSCode 中，我们可以使用快捷键 ``CTRL + ` `` 打开终端：
 
 ![image-20230907233217641](photos/image-20230907233217641.png)
 
@@ -249,11 +249,11 @@ $ code Test
 
 此时，会弹出一个新的 VSCode 窗口，该新窗口以 Test 文件夹作为 workspace。
 
-下面，我们进行简单的文件创建和添加。选择 VSCode 的 explorer，并点击新建文件操作，新建文件`testfile.txt`。
+下面，我们进行简单的文件创建和添加。选择 VSCode 的 explorer，并点击新建文件操作，新建文件 `testfile.txt`。
 
 ![image-20230907233515388](photos/image-20230907233515388.png)
 
-随后打开该文件，并输入相关信息。此时，我们已经通过 VSCode 在虚拟机上创建一个`testfile.txt`文件，且该文件位于`Test`文件夹下。
+随后打开该文件，并输入相关信息。此时，我们已经通过 VSCode 在虚拟机上创建一个 `testfile.txt` 文件，且该文件位于 `Test` 文件夹下。
 
 ![V36](photos/V23.png)
 
