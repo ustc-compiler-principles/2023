@@ -26,4 +26,9 @@ extra_css:
 nav:
   - 首页: README.md
   - 课程平台介绍: exp_platform_intro/README.md
+  - Lab0:
+    - Lab0 简介: lab0/index.md
+    - Linux 环境配置: lab0/linux.md
+    - LLVM 等软件环境配置: lab0/software.md
+    - Git 的使用: lab0/git.md
   - FAQ: faq/README.md
