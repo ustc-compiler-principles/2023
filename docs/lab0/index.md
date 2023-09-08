@@ -2,7 +2,7 @@
 
 !!! warning "Deadline"
 
-    **2023 年 9 月 15 日 23:59**
+    **2023 年 9 月 13 日 23:59**
 
 本次实验用于指导同学们进行环境的搭建以及带领同学们熟悉 git 的操作，主要有以下内容：
 
@@ -54,5 +54,5 @@ Lab0 完成后，除了 answer.pdf 文件，你还在 GitLab 上拥有一个名�
 ![Alt text](photos/image-2.png)
 
 #### 答疑
-同学们如果对实验有什么疑问，请在希冀平台在线答疑模块发帖询问，助教看到帖子会及时回复。
+同学们如果对实验有什么疑问，请在希冀平台[在线答疑模块](https://cscourse.ustc.edu.cn/forum/forum.jsp?forum=121)发帖询问，助教看到帖子会及时回复。
 ![Alt text](photos/image_3.png)
