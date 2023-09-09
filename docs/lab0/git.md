@@ -242,4 +242,4 @@ To https://cscourse.ustc.edu.cn/vdir/Gitlab/ustc_gongping/2023_warm_up_b.git
    3. 如何从远程仓库抓取更新？
    4. 解释 git init 的作用？
    5. 解释 git fetch 和 git pull 的区别。
-3. 将 [LLVM 等软件环境配置与测试](software.md) 中生成的 Text.ll 文件添加到仓库中，并上传到远程仓库中去。
+3. 将 [LLVM 等软件环境配置与测试](software.md) 中生成的 Test.ll 文件添加到仓库中，并上传到远程仓库中去。
