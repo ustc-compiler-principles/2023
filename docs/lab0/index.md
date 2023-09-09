@@ -35,7 +35,7 @@ Lab0 完成后，除了 answer.pdf 文件，你还在 GitLab 上拥有一个名�
 ```shell
 2023_warm_up_b:
 - warm_up.txt
-- readme.txt
+- readme.md
 - Test.ll
 ```
 
