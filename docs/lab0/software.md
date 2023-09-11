@@ -82,6 +82,9 @@ gdb是一款强大的开发工具，可用于调试各种编程语言的应用�
 
 ```shell
 sudo apt install gdb
+# 查看是否成功安装
+gdb --version
+
 ```
 
 ## 测试
