@@ -40,7 +40,7 @@
 | :--------: | :----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | 2023-09-04 | 编译原理和技术导论 |                                                                              [part1](https://rec.ustc.edu.cn/share/be63e5f0-4bbf-11ee-ab8f-8556ef2e1b82)                                                                              |
 | 2023-09-06 |      词法分析      | [part1](https://rec.ustc.edu.cn/share/7c8cb640-4bfa-11ee-801b-996bfe70e4c4), [part2](https://rec.ustc.edu.cn/share/971f5a80-4bfa-11ee-9c40-3f9629e3618a), [part3](https://rec.ustc.edu.cn/share/daf23f60-4bfa-11ee-ba03-e1b373b96f27) |
-| 2023-09-11 |      语法分析      |                                                                              [part1](https://rec.ustc.edu.cn/share/1adc23a0-5043-11ee-ae58-c51868b36892)                                                                              |
+| 2023-09-11 |      语法分析      |                                       [part1](https://rec.ustc.edu.cn/share/1adc23a0-5043-11ee-ae58-c51868b36892), [part2](https://rec.ustc.edu.cn/share/11c40120-5208-11ee-8fb3-0b34e4219c8a)                                        |
 
 ## 参考资料
 
