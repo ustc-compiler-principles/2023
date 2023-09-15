@@ -190,7 +190,7 @@ To https://cscourse.ustc.edu.cn/vdir/Gitlab/ustc_gongping/2023_warm_up_b.git
   Automatic merge failed; fix conflicts and then commit the result.
 
   # 此时输出信息，告诉我们在 warm_up.txt 中存在冲突，这是由于 master 分支
-  # 和upstream/master分支都对改文件相同位置进行了修改，此时需要我们手动处理冲突
+  # 和 upstream/master 分支都对改文件相同位置进行了修改，此时需要我们手动处理冲突
   # 然后才能完成分支的合并和代码的同步
 
   # 我们先查看当前 warm_up.txt 的内容

@@ -14,12 +14,12 @@ Flex 和 Bison 是 Linux 下生成词法分析器和语法分析器的工具，�
 
 Bison 源程序的一般结构如下所示。Bison 源程序后缀一般为 `.y`。
 
-```shell
+```
 定义部分
 
 语法规则部分
 
-C代码部分
+C 代码部分
 ```
 
 **定义部分**可以分为以下两个部分：
@@ -290,7 +290,7 @@ typedef union YYSTYPE {
 ```shell
 # 生成 calc.tab.c 和 calc.tab.h。如果不给出 -d 参数，则不会生成 .h 文件。
 $ bison -d calc.y
-# 生成lex.yy.c
+# 生成 lex.yy.c
 $ flex calc.l
 
 $ ls calc.tab.c calc.tab.h lex.yy.c
