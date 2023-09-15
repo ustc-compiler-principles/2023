@@ -2,11 +2,11 @@
 
 ## 简介
 
-Bison 是一款 LALR 文法解析器生成器，可转换为可编译的 C 代码，减轻手动设计解析器的工作。它重新实现了早期 Unix 上的 Yacc 工具，文件扩展名为.y（Yacc 意为 Yet Another Compiler Compiler）。
+Bison 是一款 LALR 文法解析器生成器，可转换为可编译的 C 代码，减轻手动设计解析器的工作。它重新实现了早期 Unix 上的 Yacc 工具，文件扩展名为 `.y`（Yacc 意为 Yet Another Compiler Compiler）。
 
 Flex 和 Bison 是 Linux 下生成词法分析器和语法分析器的工具，用于处理结构化输入，协同工作解析复杂文件。Flex 将文本文件拆分为有意义的词法记号（token），而 Bison 根据语法规则生成抽象语法树（AST），Bison 在协同工作中担任主导角色，而 Flex 辅助生成 yylex 函数。
 
-以计算器程序（该程序即为下文的[一个复杂的 Bison 程序](## 一个复杂的 Bison 程序)）为例，用户在界面输入 `2 + 2 * 2`，Flex 将输入识别为 token 流，其中 2 被识别为 `number`，`+` 被识别为 `ADD`，`*` 被识别为 `MUL`。接下来，Bison 负责根据语法规则将这些 token 组织成 AST 树，流程如下图所示：
+以计算器程序（该程序即为下文的[一个复杂的 Bison 程序](#一个复杂的-bison-程序)）为例，用户在界面输入 `2 + 2 * 2`，Flex 将输入识别为 token 流，其中 2 被识别为 `number`，`+` 被识别为 `ADD`，`*` 被识别为 `MUL`。接下来，Bison 负责根据语法规则将这些 token 组织成 AST 树，流程如下图所示：
 
 <img src="../assets/image-20230913142328935.png" alt="image-20230913142328935" style="zoom:25%;" />
 
