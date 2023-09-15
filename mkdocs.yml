@@ -31,4 +31,10 @@ nav:
     - Linux 环境配置: lab0/linux.md
     - LLVM 等软件环境配置: lab0/software.md
     - Git 的使用: lab0/git.md
+  - Lab1:
+    - Lab1 简介: lab1/index.md
+    - 正则表达式: lab1/正则表达式.md
+    - Flex: lab1/flex.md
+    - Bison: lab1/bison.md
+    - 实验细节与要求: lab1/实验细节与要求.md
   - FAQ: faq/README.md
