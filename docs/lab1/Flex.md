@@ -6,7 +6,7 @@
 
 Flex 执行过程如下：
 
-![img](http://alumni.cs.ucr.edu/~lgao/teaching/Img/flex.jpg)
+![img](assets/flex.jpg)
 
 1. 首先，Flex 源程序中的规则被转换成状态转换图，生成对应的代码，包括核心的 `yylex()` 函数，保存在 `lex.yy.c` 文件中。Flex 源程序通常以 `.l` 为后缀，按照 Flex 语法编写，用于描述词法分析器。
 
