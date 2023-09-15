@@ -16,7 +16,7 @@ pip install -r requirements.txt
 Then make your modifications. You can preview your changes by running:
 
 ```bash
-# Python
+# In python environment
 mkdocs serve
 ```
 
@@ -31,7 +31,7 @@ npm install # then install Prettier and AutoCorrect
 
 See [Prettier Doc: Editor Integration](https://prettier.io/docs/en/editors.html) and [AutoCorrect: VS Code Extension](https://github.com/huacnlee/autocorrect#vs-code-extension) for editor intergration.
 
-You must format files before commit:
+You are **recommended** to format files before commit:
 
 ```bash
 # see .prettierignore for ignoring certain files or folders
