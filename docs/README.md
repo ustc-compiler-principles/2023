@@ -34,6 +34,7 @@
 - 2023-09-03：[课程平台介绍](exp_platform_intro/README.md) 已发布
 - 2023-09-08：[Lab0](lab0/index.md) 已发布，Deadline：**2023 年 9 月 15 日**
 - 2023-09-13：希冀平台已发布第一次作业：2.1a、2.2、2.3a、2.4h、2.7c、2.15（教材[<sup>1</sup>](#textbook)），Deadline：**2023 年 9 月 20 日**
+- 2023-09-15：[Lab1](lab1/index.md) 已发布，Deadline：**2023 年 9 月 28 日**
 
 ## 教学课件
 
