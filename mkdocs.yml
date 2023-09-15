@@ -21,8 +21,13 @@ markdown_extensions:
   - toc:
       permalink: true
       slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+extra_javascript:
+  - javascripts/katex.js 
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 extra_css:
   - css/extra.css
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
 nav:
   - 首页: README.md
   - 课程平台介绍: exp_platform_intro/README.md
@@ -31,4 +36,10 @@ nav:
     - Linux 环境配置: lab0/linux.md
     - LLVM 等软件环境配置: lab0/software.md
     - Git 的使用: lab0/git.md
+  - Lab1:
+    - Lab1 简介: lab1/index.md
+    - 正则表达式: lab1/正则表达式.md
+    - Flex: lab1/Flex.md
+    - Bison: lab1/Bison.md
+    - 实验细节与要求: lab1/实验细节与要求.md
   - FAQ: faq/README.md
