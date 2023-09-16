@@ -141,7 +141,7 @@ $ info flex
 
    ```c
    %%
-   "ABC" { return ABC; }
+   ABC { return ABC; }
    [a-zA-Z]+ {return WORDS; }
    %%
    ```
@@ -151,7 +151,7 @@ $ info flex
    ```c
    %%
    [a-zA-Z]+ {return WORDS; }
-   "ABC" { return ABC; }
+   ABC { return ABC; }
    %%
    ```
 
