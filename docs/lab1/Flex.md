@@ -141,8 +141,8 @@ $ info flex
 
    ```c
    %%
-   [a-zA-Z]+ {return WORDS; }
    "ABC" { return ABC; }
+   [a-zA-Z]+ {return WORDS; }
    %%
    ```
 
