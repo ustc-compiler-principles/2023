@@ -131,9 +131,9 @@ $ info flex
 
    ```c
    %%
-   "\+" { return ADD; }
-   "=" { return ASSIGN; }
-   "\+=" { return ASSIGNADD; }
+   \+ { return ADD; }
+   = { return ASSIGN; }
+   \+= { return ASSIGNADD; }
    %%
    ```
 
@@ -141,7 +141,7 @@ $ info flex
 
    ```c
    %%
-   "[a-zA-Z]+" {return WORDS; }
+   [a-zA-Z]+ {return WORDS; }
    "ABC" { return ABC; }
    %%
    ```
