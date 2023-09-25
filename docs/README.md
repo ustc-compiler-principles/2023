@@ -12,18 +12,18 @@
 
 - 时间：1~15 周，1(6,7) 和 3(3,4)
 - 地点：高新校区 GT-B212
-- 主讲教师：[李诚](http://staff.ustc.edu.cn/~chengli7/)
+- 主讲教师：李诚（[主页](http://staff.ustc.edu.cn/~chengli7/)）
 - 助教：
 
-  - 龚平 gpzlx1@mail.ustc.edu.cn
-  - 李晓奇 lxq@mail.ustc.edu.cn
-  - 贺嘉 hej148@mail.ustc.edu.cn
-  - 刘良宇 lly@mail.ustc.edu.cn
-  - 陈清源 qychen@mail.ustc.edu.cn
-  - 金泽文 zevin@mail.ustc.edu.cn
-  - 许坤钊 xkz@mail.ustc.edu.cn
-  - 傅申 fushen@mail.ustc.edu.cn
-  - 杨柏森 ybs87@mail.ustc.edu.cn
+  - 龚平（<gpzlx1@mail.ustc.edu.cn>）
+  - 李晓奇（<lxq@mail.ustc.edu.cn>）
+  - 贺嘉（<hej148@mail.ustc.edu.cn>）
+  - 刘良宇（<lly@mail.ustc.edu.cn>）
+  - 陈清源（<qychen@mail.ustc.edu.cn>）
+  - 金泽文（<zevin@mail.ustc.edu.cn>）
+  - 许坤钊（<xkz@mail.ustc.edu.cn>）
+  - 傅申（<fushen@mail.ustc.edu.cn>）
+  - 杨柏森（<ybs87@mail.ustc.edu.cn>）
 
 - QQ 群：805431263
 - 录课视频（需校内统一身份认证）：<https://v.ustc.edu.cn/1/2023-1/capture-course/011163.02/detail>
