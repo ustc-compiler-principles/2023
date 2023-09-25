@@ -27,15 +27,15 @@
 
 - QQ 群：805431263
 - 录课视频（需校内统一身份认证）：<https://v.ustc.edu.cn/1/2023-1/capture-course/011163.02/detail>
-- 希冀实验平台：<http://cscourse.ustc.edu.cn/>
+- 希冀实验平台（作业及实验提交）：<http://cscourse.ustc.edu.cn/>
 
 ## 公告
 
 - 2023-09-03：[课程平台介绍](exp_platform_intro/README.md) 已发布
 - 2023-09-08：[Lab0](lab0/index.md) 已发布，Deadline：**2023 年 9 月 15 日**
-- 2023-09-13：希冀平台已发布第一次作业：2.1a、2.2、2.3a、2.4h、2.7c、2.15（教材[<sup>1</sup>](#textbook)），Deadline：**2023 年 9 月 20 日**
+- 2023-09-13：第一次作业：2.1a、2.2、2.3a、2.4h、2.7c、2.15（教材[<sup>1</sup>](#textbook)），Deadline：**2023 年 9 月 20 日**
 - 2023-09-15：[Lab1](lab1/index.md) 已发布，Deadline：**2023 年 9 月 28 日**
-- 2023-09-25：希冀平台已发布第二次作业：3.1a、3.2a、3.10、3.11、3.17、3.19a（教材[<sup>1</sup>](#textbook)），Deadline：**2023 年 10 月 7 日（上课前）**
+- 2023-09-25：第二次作业：3.1a、3.2a、3.10、3.11、3.17、3.19a（教材[<sup>1</sup>](#textbook)），Deadline：**2023 年 10 月 7 日（上课前）**
 
 ## 教学课件
 
