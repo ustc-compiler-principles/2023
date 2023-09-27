@@ -1,6 +1,6 @@
-# cminus-f 的语法与语义
+# Cminusf 的语法与语义
 
-## cminus-f 的语法
+## Cminusf 的语法
 
 1. $\text{program} \rightarrow \text{declaration-list}$
 2. $\text{declaration-list} \rightarrow \text{declaration-list}\ \text{declaration}\ |\ \text{declaration}$
@@ -35,10 +35,10 @@
 31. $\text{arg-list} \rightarrow \text{arg-list}\ \textbf{,}\ \text{expression}\ |\ \text{expression}$
 
 
-## cminus-f 的语义
+## Cminusf 的语义
 
-在上述语法规则中，我们定义了 `cminus-f` 语言的语法，接着，我们对照语法规则，给出相关的语义和解释。
-在阅读前，需要理解 `cminus-f` 主要源自于 C 语言，因此它的行为都会接近 C 语言。
+在上述语法规则中，我们定义了 `Cminusf` 语言的语法，接着，我们对照语法规则，给出相关的语义和解释。
+在阅读前，需要理解 `Cminusf` 主要源自于 C 语言，因此它的行为都会接近 C 语言。
 
 1. $\text{program} \rightarrow \text{declaration-list}$
 2. $\text{declaration-list} \rightarrow \text{declaration-list}\ \text{declaration}\ |\ \text{declaration}$
@@ -52,12 +52,12 @@
 
   一个`程序`中至少要有一个`main`函数的`声明`
 
-  因为没有原型这个概念， `cminus-f` 不区分函数的声明和定义。
+  因为没有原型这个概念， `Cminusf` 不区分函数的声明和定义。
 
 4. $\text{var-declaration}\ \rightarrow \text{type-specifier}\ \textbf{ID}\ \textbf{;}\ |\ \text{type-specifier}\ \textbf{ID}\ \textbf{[}\ \textbf{INTEGER}\ \textbf{]}\ \textbf{;}$
 5. $\text{type-specifier} \rightarrow \textbf{int}\ |\ \textbf{float}\ |\ \textbf{void}$
 
-  `cminus-f` 的基础类型只有整型 (`int`)、浮点型 (`float`) 和 `void`。而在变量声明中，只有整型和浮点型可以使用，`void` 仅用于函数声明。
+  `Cminusf` 的基础类型只有整型 (`int`)、浮点型 (`float`) 和 `void`。而在变量声明中，只有整型和浮点型可以使用，`void` 仅用于函数声明。
 
   一个`变量声明`定义一个整型或者浮点型的变量，或者一个整型或浮点型的数组变量（这里整型指的是 32 位有符号整型，浮点数是指 32 位浮点数）。
 
@@ -112,7 +112,7 @@
 
 16. $\text{iteration-stmt} \rightarrow \textbf{while}\ \textbf{(}\ \text{expression}\ \textbf{)}\ \text{statement}$
 
-  `while`语句是 `cminus-f` 中唯一的`迭代语句`。它执行时，会不断对`表达式`进行求值，并且在对`表达式`的求值结果等于 0 前，循环执行执下面的`语句`
+  `while`语句是 `Cminusf` 中唯一的`迭代语句`。它执行时，会不断对`表达式`进行求值，并且在对`表达式`的求值结果等于 0 前，循环执行执下面的`语句`
 
 17. $\text{return-stmt} \rightarrow \textbf{return}\ \textbf{;}\ |\ \textbf{return}\ \text{expression}\ \textbf{;}$
 
@@ -135,7 +135,7 @@
 
   赋值语义为：先找到 `var` 代表的变量地址（如果是数组，需要先对下标表达式求值），然后对右侧的表达式进行求值，求值结果将在转换成变量类型后存储在先前找到的地址中。同时，存储在 `var` 中的值将作为赋值表达式的求值结果。
 
-  在 `C` 中，赋值对象（即 `var` ）必须是左值，而左值可以通过多种方式获得。`cminus-f`中，唯一的左值就是通过 `var` 的语法得到的，因此 `cminus-f` 通过语法限制了 `var` 为左值，而不是像 `C` 中一样通过类型检查，这也是为什么 `cminus-f` 中不允许进行指针算数。
+  在 `C` 中，赋值对象（即 `var` ）必须是左值，而左值可以通过多种方式获得。`Cminusf`中，唯一的左值就是通过 `var` 的语法得到的，因此 `Cminusf` 通过语法限制了 `var` 为左值，而不是像 `C` 中一样通过类型检查，这也是为什么 `Cminusf` 中不允许进行指针算数。
 
 20. $\text{simple-expression} \rightarrow \text{additive-expression}\ \text{relop}\ \text{additive-expression}\ |\ \text{additive-expression}$
 21. $\text{relop}\ \rightarrow \textbf{<=}\ |\ \textbf{<}\ |\ \textbf{>}\ |\ \textbf{>=}\ |\ \textbf{==}\ |\ \textbf{!=}$
@@ -162,7 +162,7 @@
 
 `函数调用`由一个函数的`标识符`与一组括号包围的`实参`组成。`实参`可以为空，也可以是由逗号分隔的的`表达式`组成的列表，这些表达式代表着函数调用时，传给`形参`的值。`函数调用时`的`实参`数量和类型必须与`函数声明`中的`形参`一致，必要时需要进行类型转换。
 
-`cminus-f`中包含四个预定义的函数 `input` 、 `output`、 `outputFloat` 和 `neg_idx_except`，它们的声明为：
+`Cminusf`中包含四个预定义的函数 `input` 、 `output`、 `outputFloat` 和 `neg_idx_except`，它们的声明为：
 
 ```c
 int input(void) {...}

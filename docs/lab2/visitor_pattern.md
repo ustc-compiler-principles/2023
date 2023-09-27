@@ -14,6 +14,8 @@ Visitor Pattern（访问者模式）是一种在 LLVM 项目源码中被广泛�
 
 在 `tests/2-ir-gen/warmup/calculator/calc_ast.hpp` 定义了语法树的不同节点类型。在 `tests/2-ir-gen/warmup/calculator/calc_builder.cpp` 使用 LightIR C++ 库编写了不同的 `visit` 函数。根据节点类型的不同，计算器会在多种 `visit` 函数中，选择对应的实现进行调用。请认真阅读这两个文件和其它相关代码，理解语法树是如何通过访问者模式被遍历的，并完成相应[思考题](./visitor_pattern.md#思考题)。
 
+### 编译、运行
+
 **编译**
 
 ```shell

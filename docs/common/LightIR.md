@@ -1,7 +1,7 @@
 # LightIR
 
 ## LightIR 简介
-本课程以 cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
+本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
 
 ## LightIR 格式
 
@@ -35,7 +35,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 ![image-lightir](figs/lightir.png)
 我们实验中需要生成的 IR 代码有着相对固定的结构模式。
 
-- 最上层的是 `Module`，对应一个`Cminus-f`源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
+- 最上层的是 `Module`，对应一个`Cminusf`源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
 - `Function` 由头部和函数体组成。`Function` 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 `BasicBlock` 构成。
 - `BasicBlock` 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 `Instruction` 构成。
 - 注意一个基本块中的**只能有一条终止指令**（Ret/Br）。
@@ -314,7 +314,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
 
 #### Module
 
-- 概念：一个编译单元。对应一个 `Cminus-f` 文件。
+- 概念：一个编译单元。对应一个 `Cminusf` 文件。
 
 ??? info "Module 的定义"
 

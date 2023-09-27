@@ -17,13 +17,13 @@ LLVM IR 指令参考手册：[Reference Manual](https://llvm.org/docs/LangRef.ht
 
 LLVM IR 的目标是成为一种通用 IR（支持包括动态与静态语言），因此 IR 指令种类较为复杂繁多。本课程从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。
 
-LightIR 指令参考手册：[Light IR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)
+LightIR 指令参考手册：[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)
 
 ### 利用 clang 生成 LLVM IR
 
 clang 是 LLVM 工具链中提供的编译器，在命令行中使用 `clang -S -emit-llvm <c_file>` 命令（其中<c_file>是 c 文件路径），可以得到对应的 `*.ll` 文件，实现从 c 语言向 LLVM IR 的翻译。
 
-本次实验提供了以下例子：[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)。学生可以通过使用 clang 翻译示例，并查阅[Light IR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)来理解每条 LLVM IR 指令与 c 代码的对应情况。
+本次实验提供了以下例子：[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)。学生可以通过使用 clang 翻译示例，并查阅[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)来理解每条 LLVM IR 指令与 c 代码的对应情况。
 
 通过 `lli gcd_array.ll; echo $?` 指令，可以测试 `gcd_array.ll` 执行结果的正确性。其中，
 
@@ -111,7 +111,7 @@ LightIR 预热实验测试量较少，无批量测试脚本，请对四个 cpp �
 
 ## 思考题
 
-1. 在[Light IR 简介](../common/LightIR.md)里，你已经了解了 IR 代码的基本结构，请尝试编写一个有全局变量的 cminus 程序，并用 `clang` 编译生成中间代码，解释全局变量在其中的位置。
+1. 在[LightIR 简介](../common/LightIR.md)里，你已经了解了 IR 代码的基本结构，请尝试编写一个有全局变量的 cminus 程序，并用 `clang` 编译生成中间代码，解释全局变量在其中的位置。
    
 2. LightIR 中基本类型 `label` 在 LightIR C++ 库中是如何用类表示的？
    
