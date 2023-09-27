@@ -8,7 +8,7 @@
 
 ## Cminusf 预定义函数
 
-`Cminusf`语义中提到包含四个预定义的函数 `input` 、 `output`、 `outputFloat` 和 `neg_idx_except`，四个预定义函数的实现在 `src/io` 目录下，在编译过程中被编译成 `cminus_io.a` 静态库，使用四个预定义函数的 Cminusf 程序，在被实验编译器编译成可执行文件时，需要链接 `cminus_io.a` 静态库。
+Cminusf 语义中提到包含四个预定义的函数 `input` 、 `output`、 `outputFloat` 和 `neg_idx_except`，四个预定义函数的实现在 `src/io` 目录下，在编译过程中被编译成 `cminus_io.a` 静态库，使用四个预定义函数的 Cminusf 程序，在被实验编译器编译成可执行文件时，需要链接 `cminus_io.a` 静态库。
 
 ## 符号表 Scope
 
@@ -50,6 +50,7 @@ bool in_global();
 ### 仓库目录结构
 
 与该阶段有关的文件如下。
+
 ```
 .
 ├── CMakeLists.txt
@@ -113,6 +114,7 @@ cminusfc test.cminus
 **测试**
 
 自动测试脚本和所有测试样例都是公开的，它在 `tests/2-ir-gen` 目录下，使用方法如下：
+
 ```sh
 # 在 tests/2-ir-gen 目录下运行：
 python3 ./eval_lab2.py

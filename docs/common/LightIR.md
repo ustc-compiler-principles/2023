@@ -1,6 +1,7 @@
 # LightIR
 
 ## LightIR 简介
+
 本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
 
 ## LightIR 格式
@@ -15,27 +16,28 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - IR 中的变量均代表了一个虚拟寄存器，并且数量无上限
   - 每个虚拟寄存器只被赋值一次
 - 强类型系统
-  - 每个操作数都具备自身的类型，其中 
-    
+
+  - 每个操作数都具备自身的类型，其中
+
     基本类型：
 
     - `i1`：1 位宽的整数类型
     - `i32`：32 位宽的整数类型
     - `float`：单精度浮点数类型
     - `label`: 基本块的标识符类型
-    
+
     组合类型：
-    
+
     - 指针类型：`<type> *`，例如 `i32*, [10 x i32*]`
     - 数组类型：`[n x <type>]`，例如 `[10 x i32], [10 x [10 x i32]]`
     - 函数类型：`<ret-type>@(<arg-type>)`，由函数返回值类型与参数类型列表组合成的类型
-  
+
 ### LightIR 结构
 
 ![image-lightir](figs/lightir.png)
 我们实验中需要生成的 IR 代码有着相对固定的结构模式。
 
-- 最上层的是 `Module`，对应一个`Cminusf`源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
+- 最上层的是 `Module`，对应一个 Cminusf 源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
 - `Function` 由头部和函数体组成。`Function` 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 `BasicBlock` 构成。
 - `BasicBlock` 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 `Instruction` 构成。
 - 注意一个基本块中的**只能有一条终止指令**（Ret/Br）。
@@ -44,7 +46,8 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 通过命令`clang -S -emit-llvm easy.c`可以得到对应的`easy.ll`如下（助教增加了额外的注释）。`.ll`文件中注释以`;`开头。
 
 - `easy.c`:
-  ``` c
+
+  ```c
   int main(){
     int a;
     int b;
@@ -57,7 +60,8 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   ```
 
 - `easy.ll`:
-  ``` c
+
+  ```c
   ; ModuleID = 'easy.c'
   define dso_local i32 @main() #0 {
   ; 注释：函数体，由下面的基本块组成
@@ -99,30 +103,34 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   ; 注释：第三个基本块的结束
   }
   ```
+
 - 以该 IR 文件为例：
-  
+
   `Module`: 整个 `.ll` 文件
-  
+
   `Function`: `Module` 内仅有一个 `Function` 为 "main"，`define i32 @main` 是函数头，余下内容是函数体
-  
+
   `BasicBlock`: "main" `Function` 函数体内有 3 个`BasicBlock`，如下是函数体中最后一个 `BasicBlock`
-  
-  ``` c
+
+  ```c
   8:                                                ; preds = %7, %0
     %9 = load i32, i32* %2, align 4
     %10 = load i32, i32* %3, align 4
     %11 = add nsw i32 %9, %10
     ret i32 %11
   ```
-  
+
   `Instruction`: 标号为 "8:" 的基本块中由 4 条 `Instruction` 组成，其中以`%9 = load i32, i32* %2, align 4`为例
   `%9`是目的操作数，`load`是指令助记符，`i32`是 32 位整型，`i32*`是指向`i32`的指针类型，`%2`是源操作数，`align 4`表示 4 字节对齐。
 
 ### 指令格式
 
 #### Terminator Instructions
+
 **注**：`ret` 与 `br` 都是 Terminator Instructions 也就是终止指令，在 llvm 基本块的定义里，基本块是单进单出的，因此只能有一条终止指令（`ret` 或 `br`）。
+
 ##### Ret
+
 - 概念：返回指令。用于将控制流（以及可选的值）从函数返回给调用者。`ret`指令有两种形式：一种返回值，然后终结函数，另一种仅终结函数。
 - 格式
   - `ret <type> <value>`
@@ -130,7 +138,9 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 - 例子：
   - `ret i32 %0`
   - `ret void`
+
 ##### Br
+
 - 概念：跳转指令。用于使控制流转移到当前功能中的另一个基本块。该指令有两种形式，分别对应于条件分支和无条件分支。
 - 格式：
   - `br i1 <cond>, label <iftrue>, label <iffalse>`
@@ -138,8 +148,11 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 - 例子：
   - `br i1 %cond, label %truebb, label %falsebb`
   - `br label %bb`
+
 #### Standard binary operators
+
 ##### Add FAdd
+
 - 概念：`add`指令返回其两个`i32`类型的操作数之和，返回值为`i32`类型，`fadd`指令返回其两个`float`类型的操作数之和，返回值为`float`类型。
 - 格式：
   - `<result> = add <type> <op1>, <op2>`
@@ -149,19 +162,24 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - `%2 = fadd float %1, %0`
 
 ##### Sub FSub
+
 - 概念：`sub`指令返回其两个`i32`类型的操作数之差，返回值为`i32`类型，`fsub`指令返回其两个`float`类型的操作数之差，返回值为`float`类型。
 - 格式与例子与`add`，`fadd`类似
 
 ##### Mul FMul
+
 - 概念：`mul`指令返回其两个`i32`类型的操作数之积，返回值为`i32`类型，`fmul`指令返回其两个`float`类型的操作数之积，返回值为`float`类型。
 - 格式与例子与`add`，`fadd`类似
 
 ##### SDiv FDiv
+
 - 概念：`sdiv`指令返回其两个`i32`类型的操作数之商，返回值为`i32`类型，`fdiv`指令返回其两个`float`类型的操作数之商，返回值为`float`类型。
 - 格式与例子与`add`，`fadd`类似
 
 #### Memory operators
+
 ##### Alloca
+
 - 概念： `alloca`指令在当前执行函数的栈帧（Stack Frame）上分配内存。
 - 格式：`<result> = alloca <type>`
 - 例子：
@@ -169,33 +187,41 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - `%ptr = alloca [10 x i32]`
 
 ##### Load
+
 - 概念：`load`指令用于从内存中读取。
 - 格式：`<result> = load <type>, <type>* <pointer>`
 - 例子：`%val = load i32, i32* %ptr`
 
 ##### Store
+
 - 概念：`store`指令用于写入内存。
 - 格式：`store <type> <value>, <type>* <pointer>`
 - 例子：`store i32 3, i32* %ptr`
 
 #### CastInst
+
 ##### ZExt
+
 - 概念：`zext`指令将其操作数**零**扩展为`type2`类型。
 - 格式：`<result> = zext <type> <value> to <type2>`
 - 例子：`%1 = zext i1 %0 to i32`
 
 ##### FpToSi
+
 - 概念：`fptosi`指令将浮点值转换为`type2`（整数）类型。
 - 格式：`<result> = fptosi <type> <value> to <type2>`
 - 例子：`%Y = fptosi float 1.0E-247 to i32`
 
 ##### SiToFp
+
 - 概念：`sitofp`指令将有符号整数转换为`type2`（浮点数）类型。
 - 格式：`<result> = sitofp <type> <value> to <type2>`
 - 例子：`%X = sitofp i32 257 to float`
 
 #### Other operators
+
 ##### ICmp FCmp
+
 - 概念：`icmp`指令根据两个整数的比较返回布尔值，`fcmp`指令根据两个浮点数的比较返回布尔值。
 - 格式：
   - `<result> = icmp <cond> <type> <op1>, <op2>`
@@ -205,6 +231,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 - 例子：`i1 %2 = icmp sge i32 %0, %1`
 
 ##### Call
+
 - 概念：`call`指令用于使控制流转移到指定的函数，其传入参数绑定到指定的值。在被调用函数中执行`ret`指令后，如果被调用函数返回值不为 `void` 类型，控制流程将在函数调用后继续执行该指令，并且该函数的返回值绑定到`result`参数。
 - 格式：
   - `<result> = call <return ty> <func name>(<function args>)`
@@ -214,6 +241,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - `call @func( i32 %arg)`
 
 ##### GetElementPtr
+
 - 概念：`getelementptr`指令用于获取数组结构的元素的地址。它**仅执行地址计算**，并且不访问内存。
 - 格式
   - 数组：`<result> = getelementptr <type>, <type>* <ptrval>, i32 0, i32 <idx>`
@@ -251,6 +279,7 @@ auto mainFun = Function::create(..., "main", module);
 // 创建 main 函数内的基本块"entry"
 bb = BasicBlock::create(module, "entry", mainFun);
 ```
+
 如上例所示，展示了创建 IR 各层次抽象的接口。
 
 #### IRBuilder: 生成 IR 指令的辅助类
@@ -300,7 +329,6 @@ User 作为 Value 的子类，含义是使用者，表示一个指令使用了�
 在 [LightIR 格式]()中提到，LightIR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，Type 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 LightIR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
 ![type_inherit](figs/type_inherit.png)
 
-
 获取基本类型的接口在 `Module` 类中，获取组合类型的接口则在对应的类里，例如：
 
 ```cpp
@@ -314,7 +342,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
 
 #### Module
 
-- 概念：一个编译单元。对应一个 `Cminusf` 文件。
+- 概念：一个编译单元。对应一个 Cminusf 文件。
 
 ??? info "Module 的定义"
 
@@ -355,7 +383,6 @@ auto array_type = ArrayType::get(Int32Type, 1);
         std::map<std::pair<Type *,int >, ArrayType *> array_map_;
     };
     ```
-
 
 #### BasicBlock
 
@@ -418,6 +445,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
     ```
 
 #### GlobalVariable
+
 - 概念：全局变量。
 
 ??? info "GlobalVariable 的定义"
@@ -435,7 +463,6 @@ auto array_type = ArrayType::get(Int32Type, 1);
 #### Constant
 
 - 概念：常量。不同类型的常量由不同类来表示。
-
 
 ??? info "Constant 的定义"
 
@@ -518,6 +545,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
     ```
 
 #### Function
+
 - 概念：函数。该类描述了一个过程，包含多个基本块。
 
 ??? info "Funtion 的定义"
@@ -563,6 +591,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
     ```
 
 #### IRBuilder
+
 - 概念：生成 IR 的辅助类。该类提供了独立的接口创建各种 IR 指令，并将它们插入基本块中（注意：该辅助类不做任何类型检查）。
 
 ??? info "IRBuilder 的定义"
@@ -610,7 +639,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
 #### Type
 
 - 概念：IR 的类型（包含 VoidType、LabelType、FloatType、IntegerType、ArrayType、PointerType）。module 中可以通过 API 获得基本类型，并创建自定义类型。
-- 子类介绍：其中 ArrayType、PointerType 可以嵌套得到自定义类型，而 VoidType、IntegerType，FloatType 可看做 IR 的基本类型，LabelType 是 BasicBlcok 的类型，可作为跳转指令的参数，FunctionType 表示函数类型。其中 VoidType 与 LabelType 没有对应的子类，通过 Type 中的 tid_字段判别，而其他类型均有对应子类
+- 子类介绍：其中 ArrayType、PointerType 可以嵌套得到自定义类型，而 VoidType、IntegerType，FloatType 可看做 IR 的基本类型，LabelType 是 BasicBlcok 的类型，可作为跳转指令的参数，FunctionType 表示函数类型。其中 VoidType 与 LabelType 没有对应的子类，通过 Type 中的 tid\_字段判别，而其他类型均有对应子类
 
 ??? info "Type 的定义"
 
@@ -638,7 +667,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
     class IntegerType : public Type {
     public:
         explicit IntegerType(unsigned num_bits ,Module *m);
-        // 创建 IntegerType 类型，IntegerType 包含 int1 与 int32 
+        // 创建 IntegerType 类型，IntegerType 包含 int1 与 int32
         static IntegerType *get(unsigned num_bits, Module *m );
         // 获得 IntegerType 类型的长度
         unsigned get_num_bits();
@@ -725,8 +754,8 @@ auto array_type = ArrayType::get(Int32Type, 1);
     ```
 
 #### User
-- 概念：使用者。维护了 use-def 信息，表示该使用者用了哪些值。
 
+- 概念：使用者。维护了 use-def 信息，表示该使用者用了哪些值。
 
 ??? info "User 的定义"
 
@@ -756,6 +785,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
     ```
 
 #### Use
+
 - 概念：代表了值的使用情况。
 
 ??? info "Use 的定义"
@@ -772,6 +802,7 @@ auto array_type = ArrayType::get(Int32Type, 1);
     ```
 
 #### Value
+
 - 概念：值。代表一个可能用于指令操作数的带类型数据，是最基础的类，维护了 def-use 信息，即该值被哪些使用者使用。
 
 ??? info "Value 的定义"

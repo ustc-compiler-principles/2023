@@ -21,7 +21,7 @@ LightIR 指令参考手册：[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%
 
 ### 利用 clang 生成 LLVM IR
 
-clang 是 LLVM 工具链中提供的编译器，在命令行中使用 `clang -S -emit-llvm <c_file>` 命令（其中<c_file>是 c 文件路径），可以得到对应的 `*.ll` 文件，实现从 c 语言向 LLVM IR 的翻译。
+clang 是 LLVM 工具链中提供的编译器，在命令行中使用 `clang -S -emit-llvm <c_file>` 命令（其中<c_file>是 c 文件路径），可以得到对应的 `*.ll` 文件，实现从 C 语言向 LLVM IR 的翻译。
 
 本次实验提供了以下例子：[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)。学生可以通过使用 clang 翻译示例，并查阅[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)来理解每条 LLVM IR 指令与 c 代码的对应情况。
 
@@ -35,10 +35,10 @@ clang 是 LLVM 工具链中提供的编译器，在命令行中使用 `clang -S 
 ### 实验内容
 
 <!-- TODO: 把 2023ustc-jianmu-compiler-ta 换成公开仓库 -->
+
 实验提供了四个简单的 c 程序，分别是 `tests/2-ir-gen/warmup/c_cases/` 目录下的 [assign.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/assign.c)、 [fun.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/fun.c)、 [if.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/if.c) 和 [while.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/while.c)。你们需要在 `test/2-ir-gen/warmup/stu_ll` 目录中，手工完成自己的 assign_hand.ll、func_hand.ll、if_handf.ll 和 while_hand.ll，以实现与上述四个 C 程序相同的逻辑功能，可以添加必要的注释。`.ll` 文件的注释是以 ";" 开头的。
 
 在手动编写 .ll 文件过程中，可以参考 `clang -S -emit-llvm` 的输出，但是提交的结果必须避免同此输出一字不差。
-
 
 ## 使用 LightIR C++ 库生成 IR 文件
 
@@ -52,7 +52,6 @@ LightIR IR C++ 库参考手册：[LightIR cpp APIs](../common/LightIR.md#c-apis)
 
 仔细阅读实验提供的样例及注释 [gcd_array_generator.cpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array_generator.cpp)。该 cpp 程序会生成与 gcd_array.c 逻辑相同的 LLVM IR 文件。请结合该例子的注释与[LightIR cpp APIs](../common/LightIR.md#c-apis)，掌握 LightIR C++ 库接口的调用方法。运行该示例的方法请参考[编译、运行](./warmup.md#编译运行)
 
-
 ### 实验内容
 
 实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个简单的 c 程序。学生需要在 `tests/2-ir-gen/warmup/stu_cpp/` 目录中，编写 assign_generator.cpp、fun_generator.cpp、if_generator.cpp 和 while_generator.cpp 四个 cpp 程序调用 LightIR 库接口生成与四个 c 程序相同逻辑功能的 IR 文件。
@@ -62,6 +61,7 @@ LightIR IR C++ 库参考手册：[LightIR cpp APIs](../common/LightIR.md#c-apis)
 ### 仓库目录结构
 
 与 LightIR 预热实验相关文件如下
+
 ```
 .
 ├── ...
@@ -112,7 +112,5 @@ LightIR 预热实验测试量较少，无批量测试脚本，请对四个 cpp �
 ## 思考题
 
 1. 在[LightIR 简介](../common/LightIR.md)里，你已经了解了 IR 代码的基本结构，请尝试编写一个有全局变量的 cminus 程序，并用 `clang` 编译生成中间代码，解释全局变量在其中的位置。
-   
 2. LightIR 中基本类型 `label` 在 LightIR C++ 库中是如何用类表示的？
-   
 3. LightIR C++ 库中 `Module` 类中对基本类型与组合类型存储的方式是一样的吗？请尝试解释组合类型使用其存储方式的原因。

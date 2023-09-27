@@ -5,6 +5,7 @@ C++ 是一门面向对象的语言，起初被称作 "C with classes"，作为 C
 注：本介绍假设你有基本的 C 语言认知（略高于程设课标准），如果有不懂的 C 语言术语请自行搜索。
 
 ## STL
+
 STL (Standard Template Library)，意为标准模板库，包含了许多常用的数据结构，在我们的实验中你可能会用到：
 
 - `std::vector`: 可变长数组
@@ -15,11 +16,12 @@ STL (Standard Template Library)，意为标准模板库，包含了许多常用�
 
 这里的 `std` 是 C++ 中的命名空间，可以防止标识符的重复，详见 [维基百科](https://en.wikipedia.org/wiki/Namespace)
 
-同时，这些容器都是模板 [Template](https://en.wikipedia.org/wiki/Template_(C%2B%2B))，需要实例化，例如一个可变长的整形数组应该实例化为 `std::vector<int>`。
+同时，这些容器都是模板 [Template](<https://en.wikipedia.org/wiki/Template_(C%2B%2B)>)，需要实例化，例如一个可变长的整形数组应该实例化为 `std::vector<int>`。
 
 更多信息可以参考：[https://en.cppreference.com/w/cpp/standard_library](https://en.cppreference.com/w/cpp/standard_library)
 
 ## String
+
 C++ 提供了更易用的 `std::string` 以处理字符串，可以支持通过 `+` 拼接，还提供了许多方法：
 
 - `length`: 返回字符串长度。
@@ -45,7 +47,7 @@ class 是 C++ 面向对象的基础，它相当于对 C 中的结构体的扩展
 
 假设某类为`Animal`，一个它的实例为`animal`，我们可以在`Animal`的定义中增加函数声明`void eat();`，这样声明的函数即是成员函数。成员函数的作用域中自带一个`Animal*`类型的指针`this`，指向调用该成员函数的实例。我们可以通过`animal.eat()`一样，用类似访问成员的方法访问该函数。
 
-在面向对象的术语中，我们通常称成员函数为“方法”（[method](https://en.wikipedia.org/wiki/Method_(computer_programming))）。
+在面向对象的术语中，我们通常称成员函数为“方法”（[method](<https://en.wikipedia.org/wiki/Method_(computer_programming)>)）。
 
 ```cpp
 // 注：C++ 中 struct 也会定义结构体，只是访问控制的默认选项有所区别

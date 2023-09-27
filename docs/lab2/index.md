@@ -5,6 +5,7 @@
 ## 文档
 
 本次实验涉及若干文档，请根据实验进度和个人需要认真阅读。
+
 必读：
 
 - [LightIR 简介](../common/LightIR.md)
@@ -17,6 +18,7 @@
 - [logging 工具介绍](../common/logging.md)
 
 ## 实验内容
+
 本次实验需要学生分阶段完成，并分阶段验收
 
 ### 阶段一
@@ -32,19 +34,20 @@
 
     **2023 年 10 月 12 日 23:59**
 
-
 ### 阶段二
-  阅读[IR 自动化生成框架](./autogen.md)，补全 CminusfBuilder 类的所有 visit 函数，并通过`tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例
+
+阅读[IR 自动化生成框架](./autogen.md)，补全 CminusfBuilder 类的所有 visit 函数，并通过`tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例
 
 !!! warning "Deadline"
-    
+
     **2023 年 10 月 19 日 23:59**
 
 ### 阶段三
-  在阶段二的基础上，持续丰富 CminusfBuilder 类 visit 函数的实现，通过`tests/2-ir-gen/autogen/testcases/`目录下所有提供的测试样例
+
+在阶段二的基础上，持续丰富 CminusfBuilder 类 visit 函数的实现，通过`tests/2-ir-gen/autogen/testcases/`目录下所有提供的测试样例
 
 !!! warning "Deadline"
-    
+
     **2023 年 10 月 26 日 23:59**
 
 ## 实验要求
@@ -55,4 +58,3 @@
 
 - 阶段一：在希冀平台提交你的 `answer.pdf` 文件。
 - 阶段二、三：在希冀平台提交你实验仓库的 url（如 `https://cscourse.ustc.edu.cn/vdir/Gitlab/xxx/2023ustc-jianmu-compiler.git`）。
-

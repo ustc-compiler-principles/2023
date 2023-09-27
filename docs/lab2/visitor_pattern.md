@@ -32,7 +32,7 @@ $ make
 
 **运行与测试**
 
-``` shell
+```shell
 # 在 build 目录下操作
 $ ./calc
 Input an arithmatic expression (press Ctrl+D in a new line after you finish the expression):
@@ -41,9 +41,11 @@ result and result.ll have been generated.
 $ ./result
 22
 ```
+
 其中，`result.ll` 是程序产生的中间代码，`result` 是中间代码编译产生的二进制，运行它就可以输出算数表达式的结果。注：单独运行 `lli result.ll` 是会报错的，那怎么才能解决报错的根源问题，通过 `lli` 得到正确的运行结果呢？感兴趣的同学可以思考调研一下。
 
 ## 思考题
+
 1. 分析 `calc` 程序在输入为 `4 * (8 + 4 - 1) / 2` 时的行为：
 
    1. 请画出该表达式对应的抽象语法树（使用 `calc_ast.hpp` 定义的语法树节点来表示，并给出节点成员存储的值），并给节点使用数字编号。
