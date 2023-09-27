@@ -22,8 +22,8 @@ markdown_extensions:
       permalink: true
       slugify: !!python/name:markdown.extensions.toc.slugify_unicode
 extra_javascript:
-  - javascripts/katex.js 
-  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - javascripts/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 extra_css:
   - css/extra.css
@@ -31,6 +31,11 @@ extra_css:
 nav:
   - 首页: README.md
   - 课程平台介绍: exp_platform_intro/README.md
+  - 公共文档:
+    - cminusf 语法语义介绍: common/cminusf.md
+    - Light IR 简介: common/LightIR.md
+    - C++ 介绍: common/simple_cpp.md
+    - Logging 工具使用: common/logging.md
   - Lab0:
     - Lab0 简介: lab0/index.md
     - Linux 环境配置: lab0/linux.md
@@ -42,4 +47,9 @@ nav:
     - Flex: lab1/Flex.md
     - Bison: lab1/Bison.md
     - 实验细节与要求: lab1/实验细节与要求.md
+  - Lab2:
+    - Lab2 简介: lab2/index.md
+    - Light IR 预热: lab2/warmup.md
+    - 访问者模式: lab2/visitor_pattern.md
+    - IR 自动化生成: lab2/autogen.md
   - FAQ: faq/README.md
