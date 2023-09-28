@@ -1,16 +1,20 @@
-# 自动化生成 IR
+# IR 自动化生成
 
-学生将在本阶段提供的自动化 IR 生成框架下，调用 LightIR C++ 库，实现自动化生成 IR
+学生将在本阶段提供的自动化 IR 生成框架下，调用 LightIR C++ 库，实现 IR 自动化生成。
 
 ## 实验框架介绍
 
 ### 抽象语法树
-（补一下具体语法树与抽象语法树定义）
-为了便于大家进行实验，实验框架自动完成了 lab1 生成的具体语法树到 C++ 上的抽象语法树的转换。我们可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义，在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp) CminusfBuilder 类定义了不同语法树节点的 `visit` 函数，需要在此实验中调用 LightIR C++ 库补全 `visit` 函数生成 IR 的规则，来实现 IR 的自动化生成。
+
+为了便于大家进行实验，实验框架已经实现了 lab1 生成的分析树（parse tree）到 C++ 上的抽象语法树（Abstract Syntax Tree，AST）的转换。我们可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义，在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp) CminusfBuilder 类定义了不同语法树节点的 `visit` 函数，需要在此实验中调用 LightIR C++ 库补全 `visit` 函数生成 IR 的规则，来实现 IR 的自动化生成。
+
+!!! notes "分析树与抽象语法树"
+
+    分析树在语法分析的过程中被构造；抽象语法树则是分析树的浓缩表示，使用运算符作为根节点和内部节点，并使用操作数作为子节点。进一步了解可以阅读 [分析树和抽象语法树的比较](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-trees-and-abstract-syntax-trees-asts。
 
 <!-- ### Cminusf 预定义函数
 
-Cminusf 语义中提到包含四个预定义的函数 `input` 、 `output`、 `outputFloat` 和 `neg_idx_except`，四个预定义函数的实现在 `src/io` 目录下，在编译过程中被编译成 `cminus_io.a` 静态库，使用四个预定义函数的 Cminusf 程序，在被实验编译器编译成可执行文件时，需要链接 `cminus_io.a` 静态库。 -->
+Cminusf 语义中提到包含四个预定义的函数 `input`、`output`、`outputFloat` 和 `neg_idx_except`，四个预定义函数的实现在 `src/io` 目录下，在编译过程中被编译成 `cminus_io.a` 静态库，使用四个预定义函数的 Cminusf 程序，在被实验编译器编译成可执行文件时，需要链接 `cminus_io.a` 静态库。 -->
 
 ### 符号表 Scope
 
