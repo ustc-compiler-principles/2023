@@ -4,44 +4,6 @@
 
 本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
 
-## LightIR 格式
-
-### LightIR 指令风格
-
-LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指令风格
-
-- 采用 3 地址的方式
-  - %2 = add i32 %0, %1
-- 无限寄存器 + 静态单赋值形式
-  - IR 中的变量均代表了一个虚拟寄存器，并且数量无上限
-  - 每个虚拟寄存器只被赋值一次
-- 强类型系统
-
-  - 每个操作数都具备自身的类型，其中
-
-    基本类型：
-
-    - `i1`：1 位宽的整数类型
-    - `i32`：32 位宽的整数类型
-    - `float`：单精度浮点数类型
-    - `label`: 基本块的标识符类型
-
-    组合类型：
-
-    - 指针类型：`<type> *`，例如 `i32*, [10 x i32*]`
-    - 数组类型：`[n x <type>]`，例如 `[10 x i32], [10 x [10 x i32]]`
-    - 函数类型：`<ret-type>@(<arg-type>)`，由函数返回值类型与参数类型列表组合成的类型
-
-### LightIR 结构
-
-![image-lightir](figs/lightir.png)
-我们实验中需要生成的 IR 代码有着相对固定的结构模式。
-
-- 最上层的是 `Module`，对应一个 Cminusf 源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
-- `Function` 由头部和函数体组成。`Function` 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 `BasicBlock` 构成。
-- `BasicBlock` 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 `Instruction` 构成。
-- 注意一个基本块中的**只能有一条终止指令**（Ret/Br）。
-
 以下面的`easy.c`与`easy.ll`为例进行说明。
 通过命令`clang -S -emit-llvm easy.c`可以得到对应的`easy.ll`如下（助教增加了额外的注释）。`.ll`文件中注释以`;`开头。
 
@@ -104,26 +66,37 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   }
   ```
 
-- 以该 IR 文件为例：
+## LightIR 指令
 
-  `Module`: 整个 `.ll` 文件
+### LightIR 指令假设
 
-  `Function`: `Module` 内仅有一个 `Function` 为 "main"，`define i32 @main` 是函数头，余下内容是函数体
+LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指令规范
 
-  `BasicBlock`: "main" `Function` 函数体内有 3 个`BasicBlock`，如下是函数体中最后一个 `BasicBlock`
+- 采用 3 地址的方式
+  - %2 = add i32 %0, %1
+- 无限寄存器 + 静态单赋值形式
+  - IR 中的变量均代表了一个虚拟寄存器，并且数量无上限
+  - 每个虚拟寄存器只被赋值一次
+- 强类型系统
 
-  ```c
-  8:                                                ; preds = %7, %0
-    %9 = load i32, i32* %2, align 4
-    %10 = load i32, i32* %3, align 4
-    %11 = add nsw i32 %9, %10
-    ret i32 %11
-  ```
+  - 每个操作数都具备自身的类型，其中
 
-  `Instruction`: 标号为 "8:" 的基本块中由 4 条 `Instruction` 组成，其中以`%9 = load i32, i32* %2, align 4`为例
-  `%9`是目的操作数，`load`是指令助记符，`i32`是 32 位整型，`i32*`是指向`i32`的指针类型，`%2`是源操作数，`align 4`表示 4 字节对齐。
+    基本类型：
 
-### 指令格式
+    - `i1`：1 位宽的整数类型
+    - `i32`：32 位宽的整数类型
+    - `float`：单精度浮点数类型
+    - `label`: 基本块的标识符类型
+
+    组合类型：
+
+    - 指针类型：`<type> *`，例如 `i32*, [10 x i32*]`
+    - 数组类型：`[n x <type>]`，例如 `[10 x i32], [10 x [10 x i32]]`
+    - 函数类型：`<ret-type>@(<arg-type>)`，由函数返回值类型与参数类型列表组合成的类型
+
+    组合类型可以嵌套，例如前面的 `[10 x [10 x i32]]` 就是嵌套后的类型。
+
+### LightIR 指令详解
 
 #### Terminator Instructions
 
@@ -149,7 +122,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - `br i1 %cond, label %truebb, label %falsebb`
   - `br label %bb`
 
-#### Standard binary operators
+#### Standard Binary Instructions
 
 ##### Add FAdd
 
@@ -176,7 +149,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 - 概念：`sdiv`指令返回其两个`i32`类型的操作数之商，返回值为`i32`类型，`fdiv`指令返回其两个`float`类型的操作数之商，返回值为`float`类型。
 - 格式与例子与`add`，`fadd`类似
 
-#### Memory operators
+#### Memory Instructions
 
 ##### Alloca
 
@@ -218,7 +191,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 - 格式：`<result> = sitofp <type> <value> to <type2>`
 - 例子：`%X = sitofp i32 257 to float`
 
-#### Other operators
+#### Other Instructions
 
 ##### ICmp FCmp
 
@@ -260,46 +233,20 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 
     在必做实验阶段，请不要对 LightIR C++ 库进行直接修改
 
+### LightIR 结构
+
+![image-lightir](figs/lightir.png)
+我们实验中需要生成的 IR 代码有着相对固定的结构模式。
+
+- 最上层的是 `Module`，对应一个 Cminusf 源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
+- `Function` 由头部和函数体组成。`Function` 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 `BasicBlock` 构成。
+- `BasicBlock` 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 `Instruction` 构成。
+- 注意一个基本块中的**只能有一条终止指令**（Ret/Br）。
+
 ### LightIR C++ 类总览
 
 在 [LightIR 结构]() 一节中，可以看出 LightIR 最顶层的结构是 module，并具有层次化结构，在 LightIR C++ 库中，对应有层次化类的设计，如图所示，`Module`, `Function`, `BasicBlock`, `Instruction` 类分别对应了 LightIR 中 module，function，basicblock，instruction 的概念。
 ![module_relation](./figs/module_relation.png)
-
-### 使用 LightIR 接口构建层次化 IR
-
-本小节将介绍使用 LightIR C++ 接口层次化顺序生成 IR 的过程，请结合 `tests/ir-gen/warmup/ta_gcd/gcd_array_generator.cpp` 示例中注释相互参考阅读
-
-#### 创建 `Module`, `Function`, `BasicBlock` 的接口
-
-```cpp
-// 实例化 module
-auto module = new Module();
-// 创建 main 函数
-auto mainFun = Function::create(..., "main", module);
-// 创建 main 函数内的基本块"entry"
-bb = BasicBlock::create(module, "entry", mainFun);
-```
-
-如上例所示，展示了创建 IR 各层次抽象的接口。
-
-#### IRBuilder: 生成 IR 指令的辅助类
-
-在创建 basicblock 后，需要在 basicblock 中插入指令，LightIR C++ 库为生成 IR 指令提供了辅助类：IRBuilder。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入基本块中，IRBuilder 类提供以下接口：
-
-```cpp
-class IRBuilder {
-public:
-    // 返回当前插入的基本块
-    BasicBlock *get_insert_block()
-    // 设置当前插入的基本块
-    void set_insert_point(BasicBlock *bb)
-    // 创建一条除法指令，并加入当前基本块中
-    BinaryInst *create_isdiv(Value *lhs, Value *rhs)
-    // 创建的 instr_type 类型的指令，并插入到当前基本块中
-    // 可根据 IRBuilder.h 查看每一条指令的创建细节
-    Instruction *create_[instr_type](...);
-};
-```
 
 ### LightIR C++ 数据基类：Value，User
 
@@ -334,6 +281,42 @@ User 作为 Value 的子类，含义是使用者，表示一个指令使用了�
 ```cpp
 auto int1_type = module->get_int1_type();
 auto array_type = ArrayType::get(Int32Type, 1);
+```
+
+### 使用 LightIR C++ 库生成 IR
+
+本小节将介绍使用 LightIR C++ 接口层次化顺序生成 IR 的过程
+
+#### 创建 `Module`, `Function`, `BasicBlock` 的接口
+
+```cpp
+// 实例化 module
+auto module = new Module();
+// 创建 main 函数
+auto mainFun = Function::create(..., "main", module);
+// 创建 main 函数内的基本块"entry"
+bb = BasicBlock::create(module, "entry", mainFun);
+```
+
+如上例所示，展示了创建 IR 各层次抽象的接口。
+
+#### IRBuilder: 生成 IR 指令的辅助类
+
+在创建 basicblock 后，需要在 basicblock 中插入指令，LightIR C++ 库为生成 IR 指令提供了辅助类：IRBuilder。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入基本块中，IRBuilder 类提供以下接口：
+
+```cpp
+class IRBuilder {
+public:
+    // 返回当前插入的基本块
+    BasicBlock *get_insert_block()
+    // 设置当前插入的基本块
+    void set_insert_point(BasicBlock *bb)
+    // 创建一条除法指令，并加入当前基本块中
+    BinaryInst *create_isdiv(Value *lhs, Value *rhs)
+    // 创建的 instr_type 类型的指令，并插入到当前基本块中
+    // 可根据 IRBuilder.h 查看每一条指令的创建细节
+    Instruction *create_[instr_type](...);
+};
 ```
 
 ### LightIR C++ 库核心类定义
