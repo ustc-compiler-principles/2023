@@ -22,6 +22,7 @@ LLVM IR 的目标是成为一种通用 IR（支持包括动态与静态语言）
 LightIR 指令参考手册：[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)
 
 ### clang 生成 LLVM IR
+<!-- TODO: 重写 bash cat -->
 
 clang 是 LLVM 工具链中的前端，在命令行中使用 `clang -S -emit-llvm <c_file>` 命令（其中<c_file>是 c 文件路径），可以得到对应的 `*.ll` 文件，实现从 C 语言向 LLVM IR 的翻译。
 
@@ -38,7 +39,7 @@ clang 是 LLVM 工具链中的前端，在命令行中使用 `clang -S -emit-llv
 
 <!-- TODO: 把 2023ustc-jianmu-compiler-ta 换成公开仓库 -->
 
-实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个 C 程序： [assign.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/assign.c)、 [fun.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/fun.c)、 [if.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/if.c) 和 [while.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/c_cases/while.c)。学生需要在 `test/2-ir-gen/warmup/stu_ll` 目录中，完成 assign_hand.ll、func_hand.ll、if_handf.ll 和 while_hand.ll，可参考 `clang -S -emit-llvm` 的输出。
+实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个 C 程序： `assign.c`、 `fun.c`、 `if.c` 和 `while.c`。学生需要在 `test/2-ir-gen/warmup/stu_ll` 目录中，完成 assign_hand.ll、func_hand.ll、if_handf.ll 和 while_hand.ll，可参考 `clang -S -emit-llvm` 的输出。
 
 ### 运行、测试
 

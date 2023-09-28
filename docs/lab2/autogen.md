@@ -39,7 +39,7 @@ bool in_global();
 
 ### `CminusfBuilder` 类
 
-
+<!-- TODO: 简单介绍上面四个预定义函数，同时润色 Context 的表达-->
 `CminusfBuilder`构造函数。。。预定义函数
 
 翻译时状态 Context
@@ -53,7 +53,7 @@ bool in_global();
 
 1. 简要阅读 `cminusf_builder.hpp` 和其他头文件中定义的函数和变量，理解项目框架也可以帮助完成实验。
 2. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路
-3. 可以使用 GDB 等软件进行动态分析，可以单步调试来检查错误的原因
+3. 可以使用 GDB 进行调试来检查错误的原因
 
 ## 实验要求
 
@@ -122,6 +122,7 @@ cminusfc test.cminus
 ```
 
 **测试**
+<!-- TODO: 把 general 加上去 -->
 
 自动测试脚本和所有测试样例都是公开的，它在 `tests/2-ir-gen` 目录下，使用方法如下：
 

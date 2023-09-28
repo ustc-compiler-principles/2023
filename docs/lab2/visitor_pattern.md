@@ -9,6 +9,7 @@ Visitor Pattern（访问者模式）是一种在 LLVM 项目源码中被广泛�
     有关 Visitor Pattern 的含义、模式和特点，可参考 [维基百科](https://en.wikipedia.org/wiki/Visitor_pattern#C++_example)。
 
 ### 实验内容
+<!-- TODO: 重写 -->
 
 实验在 `tests/2-ir-gen/warmup/calculator` 目录下提供了一个利用访问者模式，产生计算算数表达式的中间代码的程序。该程序首先对算数表达式进行语法分析生成语法树，再使用访问者模式来遍历语法树，产生中间代码。
 

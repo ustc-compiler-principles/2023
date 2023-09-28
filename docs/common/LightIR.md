@@ -3,7 +3,7 @@
 ## LightIR 简介
 
 本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
-
+<!-- TODO: 换简单例子 -->
 以下面的`easy.c`与`easy.ll`为例进行说明。
 通过命令`clang -S -emit-llvm easy.c`可以得到对应的`easy.ll`如下（助教增加了额外的注释）。`.ll`文件中注释以`;`开头。
 
@@ -234,14 +234,19 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
     在必做实验阶段，请不要对 LightIR C++ 库进行直接修改
 
 ### LightIR 结构
+<!-- TODO: 重绘图片 -->
 
 ![image-lightir](figs/lightir.png)
 我们实验中需要生成的 IR 代码有着相对固定的结构模式。
 
-- 最上层的是 `Module`，对应一个 Cminusf 源文件。包含全局变量`GlobalVariable` 和函数 `Function`。
-- `Function` 由头部和函数体组成。`Function` 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 `BasicBlock` 构成。
-- `BasicBlock` 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 `Instruction` 构成。
+- 最上层的是 module，对应一个 Cminusf 源文件。包含全局变量 global_variable 和函数 function。
+- function 由头部和函数体组成。function 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 basicblock 构成。
+- basicBlock 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 instruction 构成。
 - 注意一个基本块中的**只能有一条终止指令**（Ret/Br）。
+
+!!! notes
+
+    为了区别 LightIR 中的概念与我们实现的 LightIR C++ 库。我们用小写 plain text 来表示 LightIR 中的概念，例如 module；用大写的 code block 来表示 C++ 实现，例如 `Module`。
 
 ### LightIR C++ 类总览
 
@@ -252,20 +257,23 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 
 #### Value
 
-在 IRBuilder 类接口中，可以看到，创建指令需要传入 Value 类型的变量，Value 类代表一个可用于指令操作数的带类型的数据，包含众多子类。Value 成员中维护了一个 use-list，记录了该 Value 的被使用的情况
+`Value` 类代表一个可用于指令操作数的带类型的数据，包含众多子类。`Value` 成员中维护了一个 use-list，记录了该 `Value` 的被使用的情况
+
+<!-- TODO: 介绍 use-list -->
 ![value_inherit](figs/value_inherit.png)
 !!! note
 
-    `Instruction` 类是 Value 的子类，这表示，指令在使用操作数创建后，也可以作为另一条指令创建的操作数。
+    `Instruction` 类是 `Value` 的子类，这表示，指令在使用操作数创建后，也可以作为另一条指令创建的操作数。
 
 #### User
 
-User 作为 Value 的子类，含义是使用者，表示一个指令使用了哪些操作数，如图是 User 类的子类继承关系。User 通过成员 operand-list 记录了该 User 使用的操作数链表。
+<!-- TODO: 修改表述 -->
+`User` 作为 `Value` 的子类，含义是使用者，表示一个指令使用了哪些操作数，如图是 `User` 类的子类继承关系。`User` 通过成员 `operands_` 记录了该 `User` 使用的操作数链表。
 ![user_inherit](figs/user_inherit.jpg)
 
 !!! note
 
-    Value 类的 use-list，与 User 类的 operand-list 构成了指令间的依赖关系图
+    `Value` 类的 use-list，与 User 类的 operand-list 构成了指令间的依赖关系图。
 
 !!! note
 
@@ -273,7 +281,7 @@ User 作为 Value 的子类，含义是使用者，表示一个指令使用了�
 
 ### LightIR C++ 类型基类：Type
 
-在 [LightIR 格式]()中提到，LightIR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，Type 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 LightIR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
+在 [LightIR 格式]()中提到，LightIR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，`Type` 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 LightIR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
 ![type_inherit](figs/type_inherit.png)
 
 获取基本类型的接口在 `Module` 类中，获取组合类型的接口则在对应的类里，例如：
@@ -302,7 +310,7 @@ bb = BasicBlock::create(module, "entry", mainFun);
 
 #### IRBuilder: 生成 IR 指令的辅助类
 
-在创建 basicblock 后，需要在 basicblock 中插入指令，LightIR C++ 库为生成 IR 指令提供了辅助类：IRBuilder。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入基本块中，IRBuilder 类提供以下接口：
+在创建 basicblock 后，需要在 basicblock 中插入指令，LightIR C++ 库为生成 IR 指令提供了辅助类：`IRBuilder`。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入基本块中，`IRBuilder` 类提供以下接口：
 
 ```cpp
 class IRBuilder {
@@ -322,6 +330,7 @@ public:
 ### LightIR C++ 库核心类定义
 
 本节梳理了在生成 IR 过程中可能会用到的接口，学生可按需进行查阅
+<!-- TODO：检查接口是否被框架整理所影响 -->
 
 #### Module
 

@@ -20,6 +20,7 @@
     **2023 年 10 月 12 日 23:59**
 
 ### 阶段二
+<!-- TODO: 增加需要阅读的文件，以及是否需要完成 general -->
 
 阅读[IR 自动化生成](./autogen.md)，补全 CminusfBuilder 类的所有 visit 函数，并通过`tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例
 
@@ -37,6 +38,7 @@
 
 ## 实验要求
 
+<!-- TODO: copy repo 的 README -->
 请根据 Lab0 的内容，将[实验仓库](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler)设置为上游仓库，并获取本次实验更新的内容。
 
 ## 提交内容
