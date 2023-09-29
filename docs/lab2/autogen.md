@@ -6,11 +6,11 @@
 
 ### 抽象语法树
 
-!!! notes "分析树（parse tree）与抽象语法树（Abstract Syntax Tree）"
+!!! notes "分析树（Parse Tree）与抽象语法树（Abstract Syntax Tree）"
 
-    分析树在语法分析的过程中被构造；抽象语法树则是分析树的浓缩表示，使用运算符作为根节点和内部节点，并使用操作数作为子节点。进一步了解可以阅读 [分析树和抽象语法树的比较](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-trees-and-abstract-syntax-trees-asts。
+    分析树在语法分析的过程中被构造；抽象语法树则是分析树的浓缩表示，使用运算符作为根节点和内部节点，并使用操作数作为子节点。进一步了解可以阅读 [分析树和抽象语法树的比较](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-trees-and-abstract-syntax-trees-asts)。
 
-实验框架实现了 lab1 生成的分析树（parse tree）到 C++ 上的抽象语法树（Abstract Syntax Tree）的转换。可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义。
+实验框架实现了 lab1 生成的分析树到 C++ 上的抽象语法树的转换。可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义。
 
 ### 符号表 Scope
 
@@ -33,25 +33,25 @@ bool in_global();
 
 ### `CminusfBuilder` 类
 
-`CminusfBuilder` 类定义在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，CminusfBuilder 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
+`CminusfBuilder` 类定义在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，`CminusfBuilder` 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
 
-在`CminusfBuilder` 构造函数函数中，下列代码片段是对[Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的4个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。
+在`CminusfBuilder` 构造函数函数中，下列代码片段是对[Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。
 
 ```cpp
-    scope.enter();
-    scope.push("input", input_fun);
-    scope.push("output", output_fun);
-    scope.push("outputFloat", output_float_fun);
-    scope.push("neg_idx_except", neg_idx_except_fun);
+scope.enter();
+scope.push("input", input_fun);
+scope.push("output", output_fun);
+scope.push("outputFloat", output_float_fun);
+scope.push("neg_idx_except", neg_idx_except_fun);
 ```
 
-`CminusfBuilder` 类使用成员 context 存储翻译时状态，下列代码片段是 context 的定义，学生可以为该结构体添加需要的变量来存储翻译时的状态。
+`CminusfBuilder` 类使用成员 `context` 存储翻译时状态，下列代码片段是 `context` 的定义，学生需要为该结构体添加更多域来存储翻译时的状态。
 
 ```cpp
 struct {
-        // function that is being built
-        Function *func = nullptr;
-    } context;
+    // function that is being built
+    Function *func = nullptr;
+} context;
 ```
 
 ## 实验内容
@@ -133,12 +133,12 @@ $ cminusfc test.cminus
 **测试**
 <!-- TODO: 把 general 加上去 -->
 
-自动测试脚本和所有测试样例都是公开的，它在 `tests/2-ir-gen` 目录下，使用方法如下：
+自动测试脚本和所有测试样例都是公开的，它在 `tests/2-ir-gen/autogen` 目录下，使用方法如下：
 
 ```sh
-# 在 tests/2-ir-gen 目录下运行：
+# 在 tests/2-ir-gen/autogen 目录下运行：
 $ python3 ./eval_lab2.py
 $ cat eval_result
 ```
 
-测试结果会输出到同文件夹的 `eval_result` 下。
+测试结果会输出到 `tests/2-ir-gen/autogen/eval_result`。

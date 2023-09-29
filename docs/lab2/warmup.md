@@ -23,7 +23,7 @@ LightIR 指令参考手册：[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%
 
 ### clang 生成 LLVM IR
 <!-- TODO: 重写 bash cat -->
-LLVM IR 文件以 .ll 为文件后缀，clang 是 LLVM 工具链中的前端可实现从 C 语言向 LLVM IR 的翻译，操作流程如下
+LLVM IR 文件以 `.ll` 为文件后缀，clang 是 LLVM 工具链中的前端可实现从 C 语言向 LLVM IR 的翻译，操作流程如下
 
 ```shell
 # 可用 clang 生成 C 代码对应的 .ll 文件
@@ -34,13 +34,13 @@ $ lli gcd_array.ll
 $ echo $?
 ```
 
-[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)是实验提供的例子，学生可以通过使用 clang 翻译示例，并查阅[LightIR 手册](../common/LightIR.md#lightir-指令)来理解每条 LLVM IR 指令含义。
+[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)是实验提供的例子，学生可以通过使用 clang 翻译示例，并查阅[LightIR 手册](../common/LightIR.md#lightir-指令)来理解每条 LLVM IR 指令含义。
 
 ### 实验内容
 
 <!-- TODO: 把 2023ustc-jianmu-compiler-ta 换成公开仓库 -->
 
-实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个 C 程序： `assign.c`、 `fun.c`、 `if.c` 和 `while.c`。学生需要在 `test/2-ir-gen/warmup/stu_ll` 目录中，完成 assign_hand.ll、func_hand.ll、if_handf.ll 和 while_hand.ll，可参考 `clang -S -emit-llvm` 的输出。
+实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个 C 程序： `assign.c`、 `fun.c`、 `if.c` 和 `while.c`。学生需要在 `test/2-ir-gen/warmup/stu_ll` 目录中，完成 `assign_hand.ll`、`func_hand.ll`、`if_handf.ll` 和 `while_hand.ll`，可参考 `clang -S -emit-llvm` 的输出。
 
 ### 运行、测试
 
@@ -59,11 +59,11 @@ LightIR IR C++ 库参考手册：[LightIR cpp APIs](../common/LightIR.md#c-apis)
 
 ### 使用 LightIR C++ 库生成 IR 示例
 
-阅读样例 [gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c), [gcd_array_generator.cpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array_generator.cpp)。结合该样例的注释与[LightIR C++ 库](../common/LightIR.md#)章节，掌握使用 LightIR C++ 库生成 IR 的方法
+阅读样例 [gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c), [gcd_array_generator.cpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array_generator.cpp)。结合该样例的注释与[LightIR C++ 库](../common/LightIR.md#)章节，掌握使用 LightIR C++ 库生成 IR 的方法
 
 ### 实验内容
 
-实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个 C 程序。学生需要在 `tests/2-ir-gen/warmup/stu_cpp/` 目录中，编写 assign_generator.cpp、fun_generator.cpp、if_generator.cpp 和 while_generator.cpp 四个 cpp 程序。
+实验在 `tests/2-ir-gen/warmup/c_cases/` 目录下提供了四个 C 程序。学生需要在 `tests/2-ir-gen/warmup/stu_cpp/` 目录中，编写 `assign_generator.cpp`、`fun_generator.cpp`、`if_generator.cpp` 和 `while_generator.cpp` 四个 cpp 程序。
 
 ### 编译、运行、测试
 
@@ -90,7 +90,7 @@ $ lli gcd_array_generator.ll
 $ echo $?
 ```
 
-编译运行 stu cpp 目录下 4 个 cpp 文件获得 4 个相应的 .ll 文件，执行 .ll 文件并判断正确性
+你可以通过观察原来的 C 代码来推断 `echo $?` 应该返回的正确结果，也可以通过 `clang -S -emit-llvm` 编译 `tests/2-ir-gen/warmup/stu_cpp` 目录下 4 个 cpp 文件获得 4 个相应的 .ll 文件，再用 `lli` 执行 .ll 文件来获取正确结果。
 
 ### 仓库目录结构
 

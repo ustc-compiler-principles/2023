@@ -39,9 +39,9 @@
 ## 实验要求
 
 <!-- TODO: copy repo 的 README -->
-请将[实验仓库](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler)设置为上游仓库，并获取本次实验更新的内容。
+请将[实验仓库](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler)设置为上游仓库，并获取本次实验更新的内容，具体步骤如下：
 
-将上游仓库设置一个别名（alias）。在你 fork 后的本地仓库中：
+将上游仓库设置一个别名（alias），在这里我们用 `upstream`，你也可以改成其他你喜欢的名字。在你 fork 后的本地仓库中：
 
 ```shell
 $ git remote add upstream https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler.git
@@ -53,7 +53,9 @@ $ git remote add upstream https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staf
 $ git pull upstream master
 ```
 
-当出现冲突时，请参考[Lab0](../lab0/git.md#上下游同步和冲突处理) 来合理的解决冲突。并将更改同步到你 fork 得到的远程仓库中：
+当 merge 过程出现冲突时，请参考[Lab0](../lab0/git.md#上下游同步和冲突处理) 来合理的解决冲突。
+
+最后你需要将更改同步到你 fork 得到的远程仓库中：
 
 ```shell
 $ git push origin master

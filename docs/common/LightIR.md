@@ -26,7 +26,7 @@
   ; ...
   ; module 中至少有一个 main function
   define dso_local i32 @main() #0 {
-    ; 此处 main function 仅有1个 basicblock
+    ; 此处 main function 仅有 1 个 basicblock
     ; basicblock 由一系列 instruction 组成
     %1 = alloca i32, align 4
     %2 = alloca i32, align 4
@@ -49,7 +49,7 @@
 LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指令规范
 
 - 采用 3 地址的方式
-  - %2 = add i32 %0, %1
+  - `%2 = add i32 %0, %1`
 - 无限寄存器 + 静态单赋值形式
   - IR 中的变量均代表了一个虚拟寄存器，并且数量无上限
   - 每个虚拟寄存器只被赋值一次
@@ -274,7 +274,7 @@ auto array_type = ArrayType::get(Int32Type, 2);
 本小节将以下列 LightIR 片段介绍使用 LightIR C++ 接口层次化顺序生成 IR 的过程，
 
 ```c
-  define i32 @main() #0 {
+define i32 @main() #0 {
 entry：
   %1 = alloca i32
   store i32 72, i32* %1
@@ -293,10 +293,9 @@ auto module = new Module();
 ```cpp
 auto mainFun = Function::create(..., "main", module);
 ```
-为 main function 创建 function 内的第一个 basicblock 
+为 main function 创建 function 内的第一个 basicblock
 ```cpp
-
-bb = BasicBlock::create(module, "entry", mainFun);
+auto bb = BasicBlock::create(module, "entry", mainFun);
 ```
 接下来需要用辅助类 `IRBuilder` 向 basicblock 中插入指令
 
@@ -322,19 +321,19 @@ public:
 ```cpp
 auto module = new Module();
 auto mainFun = Function::create(..., "main", module);
-bb = BasicBlock::create(module, "entry", mainFun);
+auto bb = BasicBlock::create(module, "entry", mainFun);
 ```
 创建 `IRBuilder`，并使用 `IRBuilder` 创建新指令
 ```cpp
-// 实例化IRbuilder
-auto builder = new IRBuilder(nullptr, module); 
+// 实例化 IRbuilder
+auto builder = new IRBuilder(nullptr, module);
 
 builder->set_insert_point(bb);
-// 从module中获取 i32 类型
+// 从 module 中获取 i32 类型
 Type *Int32Type = Type::get_int32_type(module);
 // 为变量 x 分配栈上空间
 auto xAlloca = builder->create_alloca(Int32Type);
-// 创建 store 指令，将72常数存到 x 分配空间里
+// 创建 store 指令，将 72 常数存到 x 分配空间里
 builder->create_store(ConstantInt::get(72, module), xAlloca);
 // 创建 load 指令，将 x 内存值取出来
 xLoad = builder->create_load(xAlloca);
