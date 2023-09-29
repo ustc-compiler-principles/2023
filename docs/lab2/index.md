@@ -13,7 +13,7 @@
 - 内容二：
   阅读[访问者模式](./visitor_pattern.md)，理解 C++ 访问者模式的工作原理及遍历顺序
 
-阶段一要求学生**回答[LightIR 预热](./warmup.md)与[访问者模式](./visitor_pattern.md)文档中的思考题**，回答内容保存为`answer.pdf`。
+阶段一要求学生**回答[LightIR 预热](./warmup.md)与[访问者模式](./visitor_pattern.md)文档中的思考题**，回答内容保存为`answer.pdf`。并完成`tests/2-ir-gen/warmup/stu_ll`与`tests/2-ir-gen/warmup/stu_cpp`目录下代码的编写
 
 !!! warning "Deadline"
 
@@ -22,7 +22,7 @@
 ### 阶段二
 <!-- TODO: 增加需要阅读的文件，以及是否需要完成 general -->
 
-阅读[IR 自动化生成](./autogen.md)，补全 CminusfBuilder 类的所有 visit 函数，并通过`tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例
+阅读[IR 自动化生成](./autogen.md)，[Cminusf 语义](../common/cminusf.md#cminusf-的语义)，`include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，并通过`tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例
 
 !!! warning "Deadline"
 
@@ -30,7 +30,7 @@
 
 ### 阶段三
 
-在阶段二的基础上，持续丰富 CminusfBuilder 类 visit 函数的实现，通过`tests/2-ir-gen/autogen/testcases/`目录下所有提供的测试样例
+在阶段二的基础上，继续补充`include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，并通过`tests/2-ir-gen/autogen/testcases/`目录下所有提供的测试样例
 
 !!! warning "Deadline"
 
@@ -39,7 +39,27 @@
 ## 实验要求
 
 <!-- TODO: copy repo 的 README -->
-请根据 Lab0 的内容，将[实验仓库](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler)设置为上游仓库，并获取本次实验更新的内容。
+请将[实验仓库](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler)设置为上游仓库，并获取本次实验更新的内容。
+
+将上游仓库设置一个别名（alias）。在你 fork 后的本地仓库中：
+
+```shell
+$ git remote add upstream https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler.git
+```
+
+尝试将远程的更新拉取到本地并进行 merge 操作：
+
+```shell
+$ git pull upstream master
+```
+
+当出现冲突时，请参考[Lab0](../lab0/git.md#上下游同步和冲突处理) 来合理的解决冲突。并将更改同步到你 fork 得到的远程仓库中：
+
+```shell
+$ git push origin master
+```
+
+
 
 ## 提交内容
 

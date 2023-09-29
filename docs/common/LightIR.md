@@ -4,8 +4,7 @@
 
 本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
 <!-- TODO: 换简单例子 -->
-以下面的`easy.c`与`easy.ll`为例进行说明。
-通过命令`clang -S -emit-llvm easy.c`可以得到对应的`easy.ll`如下（助教增加了额外的注释，并用省略号略去了不需要关心的内容）。`.ll`文件中注释以`;`开头。
+如下是一段 C 语言代码 `easy.c` 与 其对应的 IR 文件 `easy.ll` 示例。
 
 - `easy.c`:
 
@@ -22,29 +21,23 @@
 - `easy.ll`:
 
   ```c
+  ; 整个 .ll 文件称为 module
   ; ModuleID = 'easy.c'
   ; ...
+  ; module 中至少有一个 main function
   define dso_local i32 @main() #0 {
-    ; 函数体，由下面的基本块组成
-    ; 第一个基本块的开始
-    ; 为返回值分配空间
+    ; 此处 main function 仅有1个 basicblock
+    ; basicblock 由一系列 instruction 组成
     %1 = alloca i32, align 4
-    ; 为变量 a 分配空间
     %2 = alloca i32, align 4
-    ; 为变量 b 分配空间
     %3 = alloca i32, align 4
-    ; 返回值默认为 0
     store i32 0, i32* %1, align 4
-    ; a = 1
     store i32 1, i32* %2, align 4
-    ; b = 2
     store i32 2, i32* %3, align 4
-    ; 计算 a + b 并返回
     %4 = load i32, i32* %2, align 4
     %5 = load i32, i32* %3, align 4
     %6 = add nsw i32 %4, %5
     ret i32 %6
-    ; 第一个基本块结束
   }
   ; ...
   ```
@@ -62,7 +55,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - 每个虚拟寄存器只被赋值一次
 - 强类型系统
 
-  - 每个操作数都具备自身的类型，其中
+  - 每个操作数都具备自身的类型，分为基本类型，以及组合类型
 
     基本类型：
 
@@ -210,7 +203,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 
 ## LightIR C++ 库
 
-LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口，
+LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口，在介绍其核心类之前，先展示 LightIR 的结构
 
 !!! warning
 
@@ -220,12 +213,12 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 <!-- TODO: 重绘图片 -->
 
 ![image-lightir](figs/lightir.png)
-我们实验中需要生成的 IR 代码有着相对固定的结构模式。
+实验中需要生成的 IR 代码有着相对固定的结构模式：
 
 - 最上层的是 module，对应一个 Cminusf 源文件。包含全局变量 global_variable 和函数 function。
 - function 由头部和函数体组成。function 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 basicblock 构成。
-- basicBlock 是指程序顺序执行的语句序列，只有一个入口和一个出口。基本块由若干指令 instruction 构成。
-- 注意一个基本块中的**只能有一条终止指令**（Ret/Br）。
+- basicBlock 是指程序顺序执行的语句序列，只有一个入口和一个出口。basicblock 由若干指令 instruction 构成。
+- 注意一个 basicblock 中的**只能有一条终止指令**（Ret/Br）。
 
 !!! notes
 
@@ -233,18 +226,18 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 
 ### LightIR C++ 类总览
 
-在 [LightIR 结构]() 一节中，可以看出 LightIR 最顶层的结构是 module，并具有层次化结构，在 LightIR C++ 库中，对应有层次化类的设计，如图所示，`Module`, `Function`, `BasicBlock`, `Instruction` 类分别对应了 LightIR 中 module，function，basicblock，instruction 的概念。
+在上一节中，可以看出 LightIR 最顶层的结构是 module，并具有层次化结构，在 LightIR C++ 库中，对应有层次化类的设计，如图所示，`Module`, `Function`, `BasicBlock`, `Instruction` 类分别对应了 LightIR 中 module，function，basicblock，instruction 的概念。
 ![module_relation](./figs/module_relation.png)
 
 ### LightIR C++ 数据基类：Value，User
 
 #### Value
 
-`Value` 类代表一个可用于指令操作数的带类型的数据，包含众多子类。`Value` 成员中维护了一个 `use_list_` 链表，记录了该 `Value` 的被使用的情况
+`Value` 类代表一个可用于指令操作数的带类型的数据，包含众多子类，`Instruction` 也是其子类之一，表示指令在创建后可以作为另一条指令的操作数。`Value` 成员 `use_list_` 是 `Use` 类的列表，每个 Use 类记录了该 `Value` 的一次被使用的情况
 
 !!! note "use-list 详解"
 
-    例如，如果存在指令 `%op2 = add i32 %op0, %op1`，那么 `%op0`、`%op1` 就被 `%op2` 所使用（use），`%op0` 的 `use_list_` 里就会有 `Use(%op2, 0)`（这里的 0 代表 `%op0` 是被使用时的第一个参数）。同理，`%op1` 的 `use_list_` 里有 `Use(%op2, 1)`。
+    例如，如果存在指令 `%op2 = add i32 %op0, %op1`，那么 `%op0`、`%op1` 就被 `%op2` 所使用，`%op0` 基类 `Value` 的 `use_list_` 里就会有 `Use(%op2, 0)`（这里的 0 代表 `%op0` 是被使用时的第一个参数）。同理，`%op1` 的 `use_list_` 里有 `Use(%op2, 1)`。
 
 <!-- TODO: 介绍 use-list -->
 ![value_inherit](figs/value_inherit.png)
@@ -255,49 +248,61 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 #### User
 
 <!-- TODO: 修改表述 -->
-`User` 作为 `Value` 的子类，含义是一个指令使用了其他的值，其中维护了一个 `operands_` 数组，表示该指令使用的操作数。如图是 `User` 类的子类继承关系。
+`User` 作为 `Value` 的子类，含义是使用者，`Instruction` 也是其子类之一，`User` 类成员 `operands_` 是`Value` 类的列表，表示该使用者使用的操作数列表。如图是 `User` 类的子类继承关系。
 ![user_inherit](figs/user_inherit.jpg)
 
 !!! note
 
     `Value` 类的 use-list，与 User 类的 operand-list 构成了指令间的依赖关系图。
 
-!!! note
-
-    `User` 类中的 `get_operand()` 可以用来获取指令的操作数。
-
 ### LightIR C++ 类型基类：Type
 
-在 [LightIR 格式]()中提到，LightIR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，`Type` 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 LightIR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
+在 [LightIR 指令假设](./LightIR.md#lightir-指令假设)中提到，LightIR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，`Type` 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 LightIR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
 ![type_inherit](figs/type_inherit.png)
 
-获取基本类型的接口在 `Module` 类中，获取组合类型的接口则在对应的类里，例如：
+获取基本类型的接口在 `Module` 类中，获取组合类型的接口则在组合类型对应的类中：
 
 ```cpp
+// 获取 i32 基本类型
 auto int1_type = module->get_int1_type();
-auto array_type = ArrayType::get(Int32Type, 1);
+// 获取 [2 x i32] 数组类型
+auto array_type = ArrayType::get(Int32Type, 2);
 ```
 
 ### 使用 LightIR C++ 库生成 IR
 
-本小节将介绍使用 LightIR C++ 接口层次化顺序生成 IR 的过程
+本小节将以下列 LightIR 片段介绍使用 LightIR C++ 接口层次化顺序生成 IR 的过程，
+
+```c
+  define i32 @main() #0 {
+entry：
+  %1 = alloca i32
+  store i32 72, i32* %1
+  %2 = load i32, i32* %1
+  ret i32 %2
+}
+```
 
 #### 创建 `Module`, `Function`, `BasicBlock` 的接口
 
+创建 module
 ```cpp
-// 实例化 module
 auto module = new Module();
-// 创建 main 函数
+```
+为 module 添加 main function 定义
+```cpp
 auto mainFun = Function::create(..., "main", module);
-// 创建 main 函数内的基本块"entry"
+```
+为 main function 创建 function 内的第一个 basicblock 
+```cpp
+
 bb = BasicBlock::create(module, "entry", mainFun);
 ```
+接下来需要用辅助类 `IRBuilder` 向 basicblock 中插入指令
 
-如上例所示，展示了创建 IR 各层次抽象的接口。
+#### `IRBuilder`: 生成 IR 指令的辅助类
 
-#### IRBuilder: 生成 IR 指令的辅助类
-
-在创建 basicblock 后，需要在 basicblock 中插入指令，LightIR C++ 库为生成 IR 指令提供了辅助类：`IRBuilder`。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入基本块中，`IRBuilder` 类提供以下接口：
+LightIR C++ 库为生成 IR 指令提供了辅助类：`IRBuilder`。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入 basicblock 中，`IRBuilder` 类提供以下接口：
 
 ```cpp
 class IRBuilder {
@@ -313,6 +318,30 @@ public:
     Instruction *create_[instr_type](...);
 };
 ```
+在创建 module，main function，basicblock 后：
+```cpp
+auto module = new Module();
+auto mainFun = Function::create(..., "main", module);
+bb = BasicBlock::create(module, "entry", mainFun);
+```
+创建 `IRBuilder`，并使用 `IRBuilder` 创建新指令
+```cpp
+// 实例化IRbuilder
+auto builder = new IRBuilder(nullptr, module); 
+
+builder->set_insert_point(bb);
+// 从module中获取 i32 类型
+Type *Int32Type = Type::get_int32_type(module);
+// 为变量 x 分配栈上空间
+auto xAlloca = builder->create_alloca(Int32Type);
+// 创建 store 指令，将72常数存到 x 分配空间里
+builder->create_store(ConstantInt::get(72, module), xAlloca);
+// 创建 load 指令，将 x 内存值取出来
+xLoad = builder->create_load(xAlloca);
+// 创建 ret 指令，将 x 取出的值返回
+builder->create_ret(xLoad);
+```
+至此，使用 LightIR C++ 接口层次化顺序生成 IR 的过程流程结束
 
 ### LightIR C++ 库核心类定义
 

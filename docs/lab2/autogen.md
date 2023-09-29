@@ -1,20 +1,16 @@
 # IR 自动化生成
 
-学生将在本阶段提供的自动化 IR 生成框架下，调用 LightIR C++ 库，实现 IR 自动化生成。
+学生将在本阶段提供的实验框架下，利用访问者模式遍历抽象语法树，调用 LightIR C++ 库，实现 IR 自动化生成。
 
 ## 实验框架介绍
 
 ### 抽象语法树
 
-为了便于大家进行实验，实验框架已经实现了 lab1 生成的分析树（parse tree）到 C++ 上的抽象语法树（Abstract Syntax Tree，AST）的转换。我们可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义，在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp) CminusfBuilder 类定义了不同语法树节点的 `visit` 函数，需要在此实验中调用 LightIR C++ 库补全 `visit` 函数生成 IR 的规则，来实现 IR 的自动化生成。
-
-!!! notes "分析树与抽象语法树"
+!!! notes "分析树（parse tree）与抽象语法树（Abstract Syntax Tree）"
 
     分析树在语法分析的过程中被构造；抽象语法树则是分析树的浓缩表示，使用运算符作为根节点和内部节点，并使用操作数作为子节点。进一步了解可以阅读 [分析树和抽象语法树的比较](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-trees-and-abstract-syntax-trees-asts。
 
-<!-- ### Cminusf 预定义函数
-
-Cminusf 语义中提到包含四个预定义的函数 `input`、`output`、`outputFloat` 和 `neg_idx_except`，四个预定义函数的实现在 `src/io` 目录下，在编译过程中被编译成 `cminus_io.a` 静态库，使用四个预定义函数的 Cminusf 程序，在被实验编译器编译成可执行文件时，需要链接 `cminus_io.a` 静态库。 -->
+实验框架实现了 lab1 生成的分析树（parse tree）到 C++ 上的抽象语法树（Abstract Syntax Tree）的转换。可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义。
 
 ### 符号表 Scope
 
@@ -35,26 +31,38 @@ bool in_global();
 
 你需要根据语义合理调用`enter`与`exit`，并且在变量声明和使用时正确调用`push`与`find`。
 
-在类`CminusfBuilder`中，有一个`Scope`类型的成员变量`scope`，在类`CminusfBuilder`初始化函数中，将 `input`、`output` 等 Cminusf 预定义函数加入了全局作用域中，这相当于为预定义函数进行声明。
-
 ### `CminusfBuilder` 类
 
-<!-- TODO: 简单介绍上面四个预定义函数，同时润色 Context 的表达-->
-`CminusfBuilder`构造函数。。。预定义函数
+`CminusfBuilder` 类定义在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，CminusfBuilder 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
 
-翻译时状态 Context
-在 `include/cminusf_builder.hpp` 中，我们还定义了一个用于存储翻译过程中状态的结构体`Context`，里面我们已经定义了一个 `func` 域，存储翻译过程中当前的函数。你还需要为这个结构体添加新的域来完成所有的翻译过程。
+在`CminusfBuilder` 构造函数函数中，下列代码片段是对[Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的4个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。
+
+```cpp
+    scope.enter();
+    scope.push("input", input_fun);
+    scope.push("output", output_fun);
+    scope.push("outputFloat", output_float_fun);
+    scope.push("neg_idx_except", neg_idx_except_fun);
+```
+
+`CminusfBuilder` 类使用成员 context 存储翻译时状态，下列代码片段是 context 的定义，学生可以为该结构体添加需要的变量来存储翻译时的状态。
+
+```cpp
+struct {
+        // function that is being built
+        Function *func = nullptr;
+    } context;
+```
 
 ## 实验内容
-
-补全 `gitlab/src/cminusfc/cminusf_builder.cpp` 文件中定义的 `CminusfBuilder` 类不同语法树节点的 `visit` 函数，实现 IR 自动产生的算法，使得它能正确编译任何合法的 Cminusf 程序，生成符合 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)的 IR。
+阅读[Cminusf 语义](../common/cminusf.md#cminusf-的语义)，并根据语义补全 `include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，实现 IR 自动产生的算法，使得它能正确编译任何合法的 Cminusf 程序，生成符合 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)的 IR。
 
 **友情提示**：
 
-1. 简要阅读 `cminusf_builder.hpp` 和其他头文件中定义的函数和变量，理解项目框架也可以帮助完成实验。
-2. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路
-3. 可以使用 GDB 进行调试来检查错误的原因
-4. 我们为 `Function`、`Type` 等类都实现了 `print` 接口，可以使用我们提供的 [logging 工具](../common/logging.md) 进行打印调试。
+1. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路
+2. 使用 GDB 进行调试来检查错误的原因
+3. 我们为 `Function`、`Type` 等类都实现了 `print` 接口，可以使用我们提供的 [logging 工具](../common/logging.md) 进行打印调试。
+4. 对于 C++ 不熟悉的学生可以参考[C++ 简介](../common/simple_cpp.md)
 
 ## 实验要求
 
@@ -114,12 +122,12 @@ $ sudo make install
 # 假设 cminusfc 的路径在你的$PATH中
 # 1. 利用构建好的 Module 生成 test.ll
 # 注意，如果调用了外部函数，如 input, output 等，则无法使用lli运行
-cminusfc test.cminus -emit-llvm
+$ cminusfc test.cminus -emit-llvm
 
 # 假设libcminus_io.a的路径在$LD_LIBRARY_PATH中，clang的路径在$PATH中
 # 1. 利用构建好的 Module 生成 test.ll
 # 2. 调用 clang 来编译 IR 并链接上静态链接库 libcminus_io.a，生成二进制文件 test
-cminusfc test.cminus
+$ cminusfc test.cminus
 ```
 
 **测试**
@@ -129,7 +137,8 @@ cminusfc test.cminus
 
 ```sh
 # 在 tests/2-ir-gen 目录下运行：
-python3 ./eval_lab2.py
+$ python3 ./eval_lab2.py
+$ cat eval_result
 ```
 
 测试结果会输出到同文件夹的 `eval_result` 下。

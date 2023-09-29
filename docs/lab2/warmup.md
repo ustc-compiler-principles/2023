@@ -23,17 +23,18 @@ LightIR 指令参考手册：[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%
 
 ### clang 生成 LLVM IR
 <!-- TODO: 重写 bash cat -->
+LLVM IR 文件以 .ll 为文件后缀，clang 是 LLVM 工具链中的前端可实现从 C 语言向 LLVM IR 的翻译，操作流程如下
 
-clang 是 LLVM 工具链中的前端，在命令行中使用 `clang -S -emit-llvm <c_file>` 命令（其中<c_file>是 c 文件路径），可以得到对应的 `*.ll` 文件，实现从 C 语言向 LLVM IR 的翻译。
+```shell
+# 可用 clang 生成 C 代码对应的 .ll 文件
+$ clang -S -emit-llvm gcd_array.c
+# lli 可用来执行 .ll 文件
+$ lli gcd_array.ll
+# `$?` 的内容是上一条命令所返回的结果，而 `echo $?` 可以将其输出到终端中
+$ echo $?
+```
 
-本次实验提供了以下例子：[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)。学生可以通过使用 clang 翻译示例，并查阅[LightIR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)来理解每条 LLVM IR 指令与 c 代码的对应情况。
-
-通过 `lli gcd_array.ll; echo $?` 指令，可以测试 `gcd_array.ll` 执行结果的正确性。其中，
-
-- `lli` 会运行 `*.ll` 文件
-- `$?` 的内容是上一条命令所返回的结果，而 `echo $?` 可以将其输出到终端中
-
-在后续实验中会经常用到这两条指令。
+[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)是实验提供的例子，学生可以通过使用 clang 翻译示例，并查阅[LightIR 手册](../common/LightIR.md#lightir-指令)来理解每条 LLVM IR 指令含义。
 
 ### 实验内容
 
@@ -45,7 +46,7 @@ clang 是 LLVM 工具链中的前端，在命令行中使用 `clang -S -emit-llv
 
 **运行**：.ll 文件的运行与测试参考[运行 IR 文件](./warmup.md#clang 生成 LLVM IR)
 
-**测试**：通道将通过 lli 运行 `tests/2-ir-gen/warmup/stu_ll` 目录下四个.ll 文件，并通过检查返回值来判断 .ll 文件的正确性。
+**测试**：lli 运行 `tests/2-ir-gen/warmup/stu_ll` 目录下四个.ll 文件，并通过检查返回值来判断 .ll 文件的正确性。
 
 
 ## 使用 LightIR C++ 库生成 IR 文件
@@ -89,9 +90,7 @@ $ lli gcd_array_generator.ll
 $ echo $?
 ```
 
-评测通道将编译运行 stu cpp 目录下 4 个 cpp 文件获得 4 个相应的.ll
-
-## 实验要求
+编译运行 stu cpp 目录下 4 个 cpp 文件获得 4 个相应的 .ll 文件，执行 .ll 文件并判断正确性
 
 ### 仓库目录结构
 
