@@ -54,6 +54,7 @@ bool in_global();
 1. 简要阅读 `cminusf_builder.hpp` 和其他头文件中定义的函数和变量，理解项目框架也可以帮助完成实验。
 2. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路
 3. 可以使用 GDB 进行调试来检查错误的原因
+4. 我们为 `Function`、`Type` 等类都实现了 `print` 接口，可以使用我们提供的 [logging 工具](../common/logging.md) 进行打印调试。
 
 ## 实验要求
 

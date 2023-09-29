@@ -5,7 +5,7 @@
 本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
 <!-- TODO: 换简单例子 -->
 以下面的`easy.c`与`easy.ll`为例进行说明。
-通过命令`clang -S -emit-llvm easy.c`可以得到对应的`easy.ll`如下（助教增加了额外的注释）。`.ll`文件中注释以`;`开头。
+通过命令`clang -S -emit-llvm easy.c`可以得到对应的`easy.ll`如下（助教增加了额外的注释，并用省略号略去了不需要关心的内容）。`.ll`文件中注释以`;`开头。
 
 - `easy.c`:
 
@@ -15,8 +15,6 @@
     int b;
     a = 1;
     b = 2;
-    if(a < b)
-      b = 3;
     return a + b;
   }
   ```
@@ -25,45 +23,30 @@
 
   ```c
   ; ModuleID = 'easy.c'
+  ; ...
   define dso_local i32 @main() #0 {
-  ; 注释：函数体，由下面的基本块组成
-  ; 注释：第一个基本块的开始
-  ; 注释：为返回值分配空间
+    ; 函数体，由下面的基本块组成
+    ; 第一个基本块的开始
+    ; 为返回值分配空间
     %1 = alloca i32, align 4
-  ; 注释：为变量 a 分配空间
+    ; 为变量 a 分配空间
     %2 = alloca i32, align 4
-  ; 注释：为变量 b 分配空间
+    ; 为变量 b 分配空间
     %3 = alloca i32, align 4
-  ; 返回值默认为 0
+    ; 返回值默认为 0
     store i32 0, i32* %1, align 4
-  ; a = 1
+    ; a = 1
     store i32 1, i32* %2, align 4
-  ; b = 2
+    ; b = 2
     store i32 2, i32* %3, align 4
-  ; 下面三条把 a, b 的值取出来进行比较
+    ; 计算 a + b 并返回
     %4 = load i32, i32* %2, align 4
     %5 = load i32, i32* %3, align 4
-    %6 = icmp slt i32 %4, %5
-  ; 根据比较的值进行跳转，br 指令是终止指令，因此基本块在之后结束
-    br i1 %6, label %7, label %8
-  ; 注释：第一个基本块的结束
-
-  ; 注释：第二个基本块的开始
-  7:                                                ; preds = %0
-  ; 注释：比较为真时跳转，b = 3
-    store i32 3, i32* %3, align 4
-    br label %8
-  ; 注释：第二个基本块的结束
-
-  ; 注释：第三个基本块的开始
-  8:                                                ; preds = %7, %0
-  ; 注释：计算 a + b 并返回
-    %9 = load i32, i32* %2, align 4
-    %10 = load i32, i32* %3, align 4
-    %11 = add nsw i32 %9, %10
-    ret i32 %11                                     ; 注释：返回语句
-  ; 注释：第三个基本块的结束
+    %6 = add nsw i32 %4, %5
+    ret i32 %6
+    ; 第一个基本块结束
   }
+  ; ...
   ```
 
 ## LightIR 指令
@@ -257,18 +240,22 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 
 #### Value
 
-`Value` 类代表一个可用于指令操作数的带类型的数据，包含众多子类。`Value` 成员中维护了一个 use-list，记录了该 `Value` 的被使用的情况
+`Value` 类代表一个可用于指令操作数的带类型的数据，包含众多子类。`Value` 成员中维护了一个 `use_list_` 链表，记录了该 `Value` 的被使用的情况
+
+!!! note "use-list 详解"
+
+    例如，如果存在指令 `%op2 = add i32 %op0, %op1`，那么 `%op0`、`%op1` 就被 `%op2` 所使用（use），`%op0` 的 `use_list_` 里就会有 `Use(%op2, 0)`（这里的 0 代表 `%op0` 是被使用时的第一个参数）。同理，`%op1` 的 `use_list_` 里有 `Use(%op2, 1)`。
 
 <!-- TODO: 介绍 use-list -->
 ![value_inherit](figs/value_inherit.png)
 !!! note
 
-    `Instruction` 类是 `Value` 的子类，这表示，指令在使用操作数创建后，也可以作为另一条指令创建的操作数。
+    `Instruction` 类是 `Value` 的子类，这表示，指令在使用操作数创建后的返回值也可以作为另一条指令创建的操作数。
 
 #### User
 
 <!-- TODO: 修改表述 -->
-`User` 作为 `Value` 的子类，含义是使用者，表示一个指令使用了哪些操作数，如图是 `User` 类的子类继承关系。`User` 通过成员 `operands_` 记录了该 `User` 使用的操作数链表。
+`User` 作为 `Value` 的子类，含义是一个指令使用了其他的值，其中维护了一个 `operands_` 数组，表示该指令使用的操作数。如图是 `User` 类的子类继承关系。
 ![user_inherit](figs/user_inherit.jpg)
 
 !!! note
@@ -357,22 +344,6 @@ public:
         // 获得基本类型 int32
         IntegerType *get_int32_type();
         // 其他基本类型类似...
-    private:
-        // 存储全局变量的链表
-        std::list<GlobalVariable *> global_list_;
-        // 存储函数的链表
-        std::list<Function *> function_list_;
-
-        // 存储基本类型
-        IntegerType *int1_ty_;
-        IntegerType *int32_ty_;
-        Type *label_ty_;
-        Type *void_ty_;
-        FloatType *float32_ty_;
-
-        // 存储自定义类型
-        std::map<Type *, PointerType *> pointer_map_;
-        std::map<std::pair<Type *,int >, ArrayType *> array_map_;
     };
     ```
 
@@ -383,8 +354,7 @@ public:
 ??? info "BasicBlock 的定义"
 
     ```cpp
-    class BasicBlock : public Value
-    {
+    class BasicBlock : public Value {
     public:
         // 创建并返回基本块，参数分别是基本块所属的模块，基本块名字（默认为空），基本块所属的函数
         static BasicBlock *create(Module *m, const std::string &name, Function *parent);
@@ -399,7 +369,7 @@ public:
         // 将指令 instr 添加到该基本块的指令链表首部
         void add_instr_begin(Instruction *instr);
         // 将指令 instr 从该基本块的指令链表中移除，该 API 会同时维护好 instr 的操作数的 use 链表。
-        void delete_instr(Instruction *instr);
+        void erase_instr(Instruction *instr);
         // 判断该基本块是否为空
         bool empty();
         // 返回该基本块中的指令数目
@@ -423,16 +393,6 @@ public:
         // 移除后继基本块
         void remove_succ_basic_block(BasicBlock *bb);
         /****************APIs about cfg****************/
-    private:
-        // 存储前驱基本块的链表
-        std::list<BasicBlock *> pre_bbs_;
-        // 存储后继基本块的链表
-        std::list<BasicBlock *> succ_bbs_;
-        // 存储该基本块指令的链表
-        std::list<Instruction *> instr_list_;
-        // 指向该基本块所属函数的指针
-        Function *parent_;
-
     };
     ```
 
@@ -443,8 +403,7 @@ public:
 ??? info "GlobalVariable 的定义"
 
     ```cpp
-    class GlobalVariable : public User
-    {
+    class GlobalVariable : public User {
     public:
         // 创建一个全局变量
         static GlobalVariable *create(std::string name, Module *m, Type* ty,
@@ -459,8 +418,7 @@ public:
 ??? info "Constant 的定义"
 
     ```cpp
-    class Constant : public User
-    {
+    class Constant : public User {
     public:
         Constant(Type *ty, const std::string &name = "", unsigned num_ops = 0);
     };
@@ -469,11 +427,7 @@ public:
 ??? info "整型常量 ConstantInt 的定义"
 
     ```cpp
-    class ConstantInt : public Constant
-    {
-    private:
-        // 该常量表示的值
-        int value_;
+    class ConstantInt : public Constant {
     public:
         // 返回该常量中存的数
         int get_value();
@@ -489,11 +443,7 @@ public:
 ??? info "浮点数常量 ConstantFP 的定义"
 
     ```cpp
-    class ConstantFP : public Constant
-    {
-    private:
-        // 该常量表示的值
-        float val_;
+    class ConstantFP : public Constant {
     public:
         // 以值 val 创建并返回浮点数常量
         static ConstantFP *get(float val, Module *m);
@@ -506,8 +456,7 @@ public:
 
     ```cpp
     // 用于全局变量初始化的零常量
-    class ConstantZero : public Constant
-    {
+    class ConstantZero : public Constant {
     public:
         // 创建并返回零常量
         static ConstantZero *get(Type *ty, Module *m);
@@ -528,11 +477,6 @@ public:
         Function *get_parent();
         // 返回该参数在所在函数的参数列表中的序数
         unsigned get_arg_no() const;
-    private:
-        // 指向该参数的所属的函数的指针
-        Function *parent_;
-        // 该参数在所在函数的参数列表中的序数
-        unsigned arg_no_;
     };
     ```
 
@@ -543,8 +487,7 @@ public:
 ??? info "Funtion 的定义"
 
     ```cpp
-    class Function : public Value
-    {
+    class Function : public Value {
     public:
         // 创建并返回函数，参数依次是待创建函数类型 ty，函数名字 name (不可为空)，函数所属的模块 parent
         static Function *create(FunctionType *ty, const std::string &name, Module *parent);
@@ -560,10 +503,6 @@ public:
         unsigned get_num_basic_blocks() const;
         // 得到该函数所属的 Module
         Module *get_parent() const;
-        // 得到该函数参数列表的起始迭代器
-        std::list<Argument *>::iterator arg_begin()
-        // 得到该函数参数列表的终止迭代器
-        std::list<Argument *>::iterator arg_end()
         // 从函数的基本块链表中删除基本块 bb
         void remove(BasicBlock* bb)
         // 返回函数基本块链表
@@ -572,13 +511,6 @@ public:
         std::list<Argument *> &get_args()
         // 给函数中未命名的基本块和指令命名
         void set_instr_name();
-    private:
-        // 储存基本块的链表
-        std::list<BasicBlock *> basic_blocks_;
-        // 储存参数的链表
-        std::list<Argument *> arguments_;
-        // 指向该函数所属的模块的指针
-        Module *parent_;
     };
     ```
 
@@ -590,11 +522,6 @@ public:
 
     ```cpp
     class IRBuilder {
-    private:
-        // 该辅助类正在插入的基本块
-        BasicBlock *BB_;
-        // 该辅助类绑定的模块
-        Module *m_;
     public:
         // 返回当前插入的基本块
         BasicBlock *get_insert_block()
@@ -613,70 +540,45 @@ public:
 ??? info "Instruction 的定义"
 
     ```c++
-    class Instruction : public User
-    {
-    private:
-        // 该指令所属的基本块
-        BasicBlock *parent_;
-        // 该指令的类型 id
-        OpID op_id_;
-        // 该指令的操作数个数
-        unsigned num_ops_;
+    class Instruction : public User {
     public:
-        // 所有指令的创建都要通过 IRBuilder 进行，暂不需要关注 Instruction 类的实现细节
-        //（注：不通过 IRBuilder 来创建指令，而直接调用指令子类的创建方法未经助教完善的测试）
+        // 获取指令所在函数
+        Function *get_function();
+        // 获取指令所在 module
+        Module *get_module();
+        // 获取指令类型
+        OpID get_instr_type() const { return op_id_; }
+        // 获取指令类型的名字
+        std::string get_instr_op_name() const;
+        // 判断指令是否是 instr_type 类型
+        bool is_[instr_type] const;
+        // 判断指令是否是二元运算
+        bool isBinary() const;
+        // 判断指令是否为终止指令
+        bool isTerminator() const;
     };
     ```
 
 #### Type
 
-- 概念：IR 的类型（包含 VoidType、LabelType、FloatType、IntegerType、ArrayType、PointerType）。module 中可以通过 API 获得基本类型，并创建自定义类型。
-- 子类介绍：其中 ArrayType、PointerType 可以嵌套得到自定义类型，而 VoidType、IntegerType，FloatType 可看做 IR 的基本类型，LabelType 是 BasicBlcok 的类型，可作为跳转指令的参数，FunctionType 表示函数类型。其中 VoidType 与 LabelType 没有对应的子类，通过 Type 中的 tid\_字段判别，而其他类型均有对应子类
+- 概念：IR 的类型（包含 `VoidType`、`LabelType`、`FloatType`、`IntegerType`、`ArrayType`、`PointerType`）。module 中可以通过 API 获得基本类型，并创建自定义类型。
+- 子类介绍：其中 `ArrayType`、`PointerType` 可以嵌套得到自定义类型，而 `VoidType`、`IntegerType`，`FloatType` 可看做 IR 的基本类型，`LabelType` 是 `BasicBlcok` 的类型，可作为跳转指令的参数，`FunctionType` 表示函数类型。其中 `VoidType` 与 `LabelType` 没有对应的子类，通过 `Type` 中的 `tid_` 字段判别，而其他类型均有对应子类
 
 ??? info "Type 的定义"
 
     ```c++
     class Type {
-    private:
-        // 类型种类
-        TypeID tid_;
-        Module *m_;
     public:
+        // 获取 type id
+        TypeID get_type_id() const;
         // 判断是否是 ty 类型
         bool is_[ty]_type();
-        // 获得 ty 类型
-        static Type *get_[ty]_type(Module *m)
         // 若是 PointerType 则返回指向的类型，若不是则返回 nullptr。
         Type *get_pointer_element_type();
         // 若是 ArrayType 则返回数组元素的类型，若不是则返回 nullptr。
         Type *get_array_element_type();
-    };
-    ```
-
-??? info "IntegerType 的定义"
-
-    ```c++
-    class IntegerType : public Type {
-    public:
-        explicit IntegerType(unsigned num_bits ,Module *m);
-        // 创建 IntegerType 类型，IntegerType 包含 int1 与 int32
-        static IntegerType *get(unsigned num_bits, Module *m );
-        // 获得 IntegerType 类型的长度
-        unsigned get_num_bits();
-    private:
-        // 表示 IntegerType 类型的长度
-        unsigned num_bits_;
-    };
-    ```
-
-??? info "FloatType 的定义"
-
-    ```c++
-    class FloatType : public Type {
-    public:
-        FloatType (Module *m);
-        // 创建 FloatType 类型
-        static FloatType *get(Module *m);
+        // 返回类型的大小
+        unsigned get_size() const;
     };
     ```
 
@@ -693,11 +595,6 @@ public:
         Type *get_element_type() const;
         // 获得该数组类型的长度
         unsigned get_num_of_elements();
-    private:
-        // 数组元素类型
-        Type *contained_;
-        // 数组长度
-        unsigned num_elements_;
     };
     ```
 
@@ -710,9 +607,6 @@ public:
         Type *get_element_type() const;
         // 创建指向类型为 contained 的指针类型
         static PointerType *get(Type *contained);
-    private:
-        // 记录指针指向的类型
-        Type *contained_;
     };
     ```
 
@@ -737,11 +631,6 @@ public:
         std::vector<Type *>::iterator param_end();
         // 获得该函数类型的返回值类型
         Type *get_return_type() const;
-    private:
-        // 返回值的类型
-        Type *result_;
-        // 存储该函数类型的参数类型的链表
-        std::vector<Type *> args_;
     }
     ```
 
@@ -752,8 +641,7 @@ public:
 ??? info "User 的定义"
 
     ```cpp
-    class User : public Value
-    {
+    class User : public Value {
     public:
         // 从该使用者的操作数链表中取出第 i 个操作数
         Value *get_operand(unsigned i) const;
@@ -765,14 +653,8 @@ public:
         unsigned get_num_operand() const;
         // 从该使用者的操作数链表中的所有操作数的使用情况中移除该使用者
         void remove_use_of_ops();
-        // 移除操作数链表中索引为 index1 到 index2 的操作数
-        // 例如想删除第 0 个操作数：remove_operands(0,0)
-        void remove_operands(int index1,int index2);
-    private:
-        // 参数列表，表示该使用者用到的参数
-        std::vector<Value *> operands_;
-        // 该使用者使用的参数个数
-        unsigned num_ops_;
+        // 从该使用者的操作数链表中移除第 index 个
+        void remove_operands(unsigned index);
     };
     ```
 
@@ -783,8 +665,7 @@ public:
 ??? info "Use 的定义"
 
     ```cpp
-    struct Use
-    {
+    struct Use {
         // 使用者
         Value *val_;
         // 使用者中值的序数
@@ -807,17 +688,12 @@ public:
         Type *get_type() const;
 
         // 取得该值的使用情况
-        std::list<Use> &get_use_list() { return use_list_; }
+        const std::list<Use> &get_use_list() const { return use_list_; }
         // 添加加该值的使用情况
         void add_use(Value *val, unsigned arg_no = 0);
         // 在所有地方将该值用新的值 new_val 替换，并维护好 use_def 和 def_use 链表
         void replace_all_use_with(Value *new_val);
         // 将值 val 从使用链表中移除
         void remove_use(Value *val);
-    private:
-        // 值的类型
-        Type *type_;
-        // 储存了该值的使用情况的链表
-        std::list<Use> use_list_;
     };
     ```
