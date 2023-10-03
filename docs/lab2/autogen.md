@@ -10,11 +10,11 @@
 
     分析树在语法分析的过程中被构造；抽象语法树则是分析树的浓缩表示，使用运算符作为根节点和内部节点，并使用操作数作为子节点。进一步了解可以阅读 [分析树和抽象语法树的比较](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-trees-and-abstract-syntax-trees-asts)。
 
-实验框架实现了 lab1 生成的分析树到 C++ 上的抽象语法树的转换。可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/include/common/ast.hpp)文件中包含抽象语法树节点定义。
+实验框架实现了 Lab1 生成的分析树到 C++ 上的抽象语法树的转换。可以使用[访问者模式](./visitor_pattern.md)来实现对抽象语法树的遍历，[ast.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/include/common/ast.hpp) 文件中包含抽象语法树节点定义。
 
 ### 符号表 Scope
 
-在 `include/cminusf_builder.hpp` 中，我们定义了一个用于存储作用域的类`Scope`。它的作用是辅助我们在遍历语法树时，管理不同作用域中的变量。它提供了以下接口：
+在 `include/cminusf_builder.hpp` 中，我们定义了一个用于存储作用域的类 `Scope`。它的作用是辅助我们在遍历语法树时，管理不同作用域中的变量。它提供了以下接口：
 
 ```cpp
 // 进入一个新的作用域
@@ -29,13 +29,13 @@ Value* find(std::string name);
 bool in_global();
 ```
 
-你需要根据语义合理调用`enter`与`exit`，并且在变量声明和使用时正确调用`push`与`find`。
+你需要根据语义合理调用 `enter` 与 `exit`，并且在变量声明和使用时正确调用 `push` 与 `find`。
 
 ### `CminusfBuilder` 类
 
 `CminusfBuilder` 类定义在 [cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，`CminusfBuilder` 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
 
-在`CminusfBuilder` 构造函数函数中，下列代码片段是对 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。
+在 `CminusfBuilder` 构造函数函数中，下列代码片段是对 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。
 
 ```cpp
 scope.enter();
@@ -60,7 +60,7 @@ struct {
 
 **友情提示**：
 
-1. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路。
+1. 请比较通过 cminusfc 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路。
 2. 使用 GDB 进行调试来检查错误的原因。
 3. 我们为 `Function`、`Type` 等类都实现了 `print` 接口，可以使用我们提供的 [logging 工具](../common/logging.md) 进行打印调试。
 4. 对于 C++ 不熟悉的学生可以参考 [C++ 简介](../common/simple_cpp.md)。
@@ -113,7 +113,7 @@ $ make
 $ sudo make install
 ```
 
-如果构建成功，你会在 `build` 文件夹下找到 `cminusfc` 可执行文件，它能将 cminus 文件输出为 IR 文件，编译成二进制可执行文件。
+如果构建成功，你会在 `build` 文件夹下找到 cminusfc 可执行文件，它能将 cminus 文件输出为 IR 文件，编译成二进制可执行文件。
 
 **运行**
 
@@ -123,7 +123,7 @@ $ sudo make install
 
 !!! note
 
-    为了让 `cminusfc` 在 `$PATH` 中，一定要 `sudo make install`。
+    为了让 cminusfc 在 `$PATH` 中，一定要 `sudo make install`。
 
 ```shell
 # 假设 cminusfc 的路径在你的 $PATH 中，并且你现在在 test.cminus 文件所在目录中
