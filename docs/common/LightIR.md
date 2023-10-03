@@ -3,7 +3,9 @@
 ## Light IR 简介
 
 本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 Light IR。同时依据 LLVM 的设计，为 Light IR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，用于生成 IR。
+
 <!-- TODO: 换简单例子 -->
+
 如下是一段 C 语言代码 `easy.c` 与 其对应的 IR 文件 `easy.ll` 示例。
 
 - `easy.c`:
@@ -210,6 +212,7 @@ Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之�
     在必做实验阶段，请不要对 Light IR C++ 库进行直接修改
 
 ### Light IR 结构
+
 <!-- TODO: 重绘图片 -->
 
 ![image-lightir](figs/lightir.png)
@@ -240,6 +243,7 @@ Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之�
     例如，如果存在指令 `%op2 = add i32 %op0, %op1`，那么 `%op0`、`%op1` 就被 `%op2` 所使用，`%op0` 基类 `Value` 的 `use_list_` 里就会有 `Use(%op2, 0)`（这里的 0 代表 `%op0` 是被使用时的第一个参数）。同理，`%op1` 的 `use_list_` 里有 `Use(%op2, 1)`。
 
 <!-- TODO: 介绍 use-list -->
+
 ![value_inherit](figs/value_inherit.png)
 !!! note
 
@@ -248,6 +252,7 @@ Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之�
 #### User
 
 <!-- TODO: 修改表述 -->
+
 `User` 作为 `Value` 的子类，含义是使用者，`Instruction` 也是其子类之一，`User` 类成员 `operands_` 是`Value` 类的列表，表示该使用者使用的操作数列表。如图是 `User` 类的子类继承关系。
 ![user_inherit](figs/user_inherit.jpg)
 
@@ -286,17 +291,23 @@ entry：
 #### 创建 `Module`, `Function`, `BasicBlock` 的接口
 
 创建 module
+
 ```cpp
 auto module = new Module();
 ```
+
 为 module 添加 main function 定义
+
 ```cpp
 auto mainFun = Function::create(..., "main", module);
 ```
+
 为 main function 创建 function 内的第一个 basicblock
+
 ```cpp
 auto bb = BasicBlock::create(module, "entry", mainFun);
 ```
+
 接下来需要用辅助类 `IRBuilder` 向 basicblock 中插入指令
 
 #### `IRBuilder`: 生成 IR 指令的辅助类
@@ -317,13 +328,17 @@ public:
     Instruction *create_[instr_type](...);
 };
 ```
+
 在创建 module，main function，basicblock 后：
+
 ```cpp
 auto module = new Module();
 auto mainFun = Function::create(..., "main", module);
 auto bb = BasicBlock::create(module, "entry", mainFun);
 ```
+
 创建 `IRBuilder`，并使用 `IRBuilder` 创建新指令
+
 ```cpp
 // 实例化 IRbuilder
 auto builder = new IRBuilder(nullptr, module);
@@ -340,11 +355,13 @@ xLoad = builder->create_load(xAlloca);
 // 创建 ret 指令，将 x 取出的值返回
 builder->create_ret(xLoad);
 ```
+
 至此，使用 Light IR C++ 接口层次化顺序生成 IR 的过程流程结束
 
 ### Light IR C++ 库核心类定义
 
 本节梳理了在生成 IR 过程中可能会用到的接口，学生可按需进行查阅
+
 <!-- TODO：检查接口是否被框架整理所影响 -->
 
 #### Module

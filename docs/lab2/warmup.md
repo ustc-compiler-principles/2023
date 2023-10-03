@@ -6,7 +6,6 @@
 
 2. 了解并掌握 Light IR C++ 库的使用方法，通过调用 Light IR C++ 库提供的接口生成 IR 文件。
 
-
 ## 手工编写 IR 文件
 
 ### LLVM IR 介绍
@@ -22,7 +21,9 @@ LLVM IR 的目标是成为一种通用 IR（支持包括动态与静态语言）
 Light IR 指令参考手册：[Light IR 手册](../common/LightIR.md#ir-%E6%A0%BC%E5%BC%8F)
 
 ### clang 生成 LLVM IR
+
 <!-- TODO: 重写 bash cat -->
+
 LLVM IR 文件以 `.ll` 为文件后缀，clang 是 LLVM 工具链中的前端可实现从 C 语言向 LLVM IR 的翻译，操作流程如下
 
 ```shell
@@ -34,7 +35,7 @@ $ lli gcd_array.ll
 $ echo $?
 ```
 
-[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)是实验提供的例子，学生可以通过使用 clang 翻译示例，并查阅[Light IR 手册](../common/LightIR.md#lightir-指令)来理解每条 LLVM IR 指令含义。
+[gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c)是实验提供的例子，学生可以通过使用 clang 翻译示例，并查阅 [Light IR 手册](../common/LightIR.md#lightir-指令)来理解每条 LLVM IR 指令含义。
 
 ### 实验内容
 
@@ -48,7 +49,6 @@ $ echo $?
 
 **测试**：lli 运行 `tests/2-ir-gen/warmup/stu_ll` 目录下四个.ll 文件，并通过检查返回值来判断 .ll 文件的正确性。
 
-
 ## 使用 Light IR C++ 库生成 IR 文件
 
 ### Light IR C++ 库介绍
@@ -59,7 +59,7 @@ Light IR IR C++ 库参考手册：[Light IR cpp APIs](../common/LightIR.md#c-api
 
 ### 使用 Light IR C++ 库生成 IR 示例
 
-阅读样例 [gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c), [gcd_array_generator.cpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array_generator.cpp)。结合该样例的注释与[Light IR C++ 库](../common/LightIR.md#)章节，掌握使用 Light IR C++ 库生成 IR 的方法
+阅读样例 [gcd_array.c](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array.c), [gcd_array_generator.cpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/tests/2-ir-gen/warmup/ta_gcd/gcd_array_generator.cpp)。结合该样例的注释与 [Light IR C++ 库](../common/LightIR.md#)章节，掌握使用 Light IR C++ 库生成 IR 的方法
 
 ### 实验内容
 
@@ -114,9 +114,8 @@ $ echo $?
             └── ta_gcd            <- 助教编写的 .ll 代码手动生成器示例
 ```
 
-
 ## 思考题
 
-1. 在[Light IR 简介](../common/LightIR.md)里，你已经了解了 IR 代码的基本结构，请尝试编写一个有全局变量的 cminus 程序，并用 `clang` 编译生成中间代码，解释全局变量在其中的位置。
+1. 在 [Light IR 简介](../common/LightIR.md)里，你已经了解了 IR 代码的基本结构，请尝试编写一个有全局变量的 cminus 程序，并用 `clang` 编译生成中间代码，解释全局变量在其中的位置。
 2. Light IR 中基本类型 label 在 Light IR C++ 库中是如何用类表示的？
 3. Light IR C++ 库中 `Module` 类中对基本类型与组合类型存储的方式是一样的吗？请尝试解释组合类型使用其存储方式的原因。

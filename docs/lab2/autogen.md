@@ -33,9 +33,9 @@ bool in_global();
 
 ### `CminusfBuilder` 类
 
-`CminusfBuilder` 类定义在[cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，`CminusfBuilder` 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
+`CminusfBuilder` 类定义在 [cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，`CminusfBuilder` 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
 
-在`CminusfBuilder` 构造函数函数中，下列代码片段是对[Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。
+在`CminusfBuilder` 构造函数函数中，下列代码片段是对 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。
 
 ```cpp
 scope.enter();
@@ -55,14 +55,15 @@ struct {
 ```
 
 ## 实验内容
-阅读[Cminusf 语义](../common/cminusf.md#cminusf-的语义)，并根据语义补全 `include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，实现 IR 自动产生的算法，使得它能正确编译任何合法的 Cminusf 程序，生成符合 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)的 IR。
+
+阅读 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)，并根据语义补全 `include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，实现 IR 自动产生的算法，使得它能正确编译任何合法的 Cminusf 程序，生成符合 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)的 IR。
 
 **友情提示**：
 
-1. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路
-2. 使用 GDB 进行调试来检查错误的原因
+1. 请比较通过 `cminusfc` 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路。
+2. 使用 GDB 进行调试来检查错误的原因。
 3. 我们为 `Function`、`Type` 等类都实现了 `print` 接口，可以使用我们提供的 [logging 工具](../common/logging.md) 进行打印调试。
-4. 对于 C++ 不熟悉的学生可以参考[C++ 简介](../common/simple_cpp.md)
+4. 对于 C++ 不熟悉的学生可以参考 [C++ 简介](../common/simple_cpp.md)。
 
 ## 实验要求
 
@@ -144,6 +145,7 @@ $ clang -O0 -w -no-pie test.ll -o test -lcminus_io
     上面的命令编译了 `test.ll`，并链接了 `cminus_io` 库。
 
 **测试**
+
 <!-- TODO: 把 general 加上去 -->
 
 自动测试脚本和所有测试样例都是公开的，它在 `tests/2-ir-gen/autogen` 目录下，使用方法如下：
