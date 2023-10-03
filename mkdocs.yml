@@ -33,7 +33,7 @@ nav:
   - 课程平台介绍: exp_platform_intro/README.md
   - 公共文档:
     - Cminusf 语法语义介绍: common/cminusf.md
-    - LightIR 简介: common/LightIR.md
+    - Light IR 简介: common/LightIR.md
     - C++ 介绍: common/simple_cpp.md
     - Logging 工具使用: common/logging.md
   - Lab0:
@@ -49,7 +49,7 @@ nav:
     - 实验细节与要求: lab1/实验细节与要求.md
   - Lab2:
     - Lab2 简介: lab2/index.md
-    - LightIR 预热: lab2/warmup.md
+    - Light IR 预热: lab2/warmup.md
     - 访问者模式: lab2/visitor_pattern.md
     - IR 自动化生成: lab2/autogen.md
   - FAQ: faq/README.md

@@ -1,6 +1,6 @@
 # IR 自动化生成
 
-学生将在本阶段提供的实验框架下，利用访问者模式遍历抽象语法树，调用 LightIR C++ 库，实现 IR 自动化生成。
+学生将在本阶段提供的实验框架下，利用访问者模式遍历抽象语法树，调用 Light IR C++ 库，实现 IR 自动化生成。
 
 ## 实验框架介绍
 
@@ -118,17 +118,30 @@ $ sudo make install
 
 我们在 `tests/testcases_general` 文件夹中准备了一些通用案例。当需要对 `.cminus` 单个文件测试时，可以这样使用：
 
-```sh
-# 假设 cminusfc 的路径在你的$PATH中
-# 1. 利用构建好的 Module 生成 test.ll
-# 注意，如果调用了外部函数，如 input, output 等，则无法使用lli运行
-$ cminusfc test.cminus -emit-llvm
+#### 情况一：生成 IR 文件
 
-# 假设libcminus_io.a的路径在$LD_LIBRARY_PATH中，clang的路径在$PATH中
-# 1. 利用构建好的 Module 生成 test.ll
-# 2. 调用 clang 来编译 IR 并链接上静态链接库 libcminus_io.a，生成二进制文件 test
-$ cminusfc test.cminus
+!!! note
+
+    为了让 `cminusfc` 在 `$PATH` 中，一定要 `sudo make install`。
+
+```shell
+# 假设 cminusfc 的路径在你的 $PATH 中，并且你现在在 test.cminus 文件所在目录中
+$ cminusfc test.cminus -emit-llvm
 ```
+
+此时会在同目录下生成同名的 .ll 文件，在这里即为 `test.ll`。
+
+#### 情况二：生成可执行文件
+
+上面生成的 .ll 文件用于阅读，如果需要运行，需要调用 clang 编译链接生成二进制文件 `test`
+
+```shell
+$ clang -O0 -w -no-pie test.ll -o test -lcminus_io
+```
+
+!!! note
+
+    上面的命令编译了 `test.ll`，并链接了 `cminus_io` 库。
 
 **测试**
 <!-- TODO: 把 general 加上去 -->

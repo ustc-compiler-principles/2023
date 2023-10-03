@@ -1,8 +1,8 @@
-# LightIR
+# Light IR
 
-## LightIR 简介
+## Light IR 简介
 
-本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 LightIR。同时依据 LLVM 的设计，为 LightIR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口。
+本课程以 Cminusf 语言为源语言，从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 Light IR。同时依据 LLVM 的设计，为 Light IR 提供了配套简化的 [C++ 库](./LightIR.md#c-apis)，用于生成 IR。
 <!-- TODO: 换简单例子 -->
 如下是一段 C 语言代码 `easy.c` 与 其对应的 IR 文件 `easy.ll` 示例。
 
@@ -42,11 +42,11 @@
   ; ...
   ```
 
-## LightIR 指令
+## Light IR 指令
 
-### LightIR 指令假设
+### Light IR 指令假设
 
-LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指令规范
+Light IR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指令规范
 
 - 采用 3 地址的方式
   - `%2 = add i32 %0, %1`
@@ -72,7 +72,7 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
 
     组合类型可以嵌套，例如前面的 `[10 x [10 x i32]]` 就是嵌套后的类型。
 
-### LightIR 指令详解
+### Light IR 指令详解
 
 #### Terminator Instructions
 
@@ -201,15 +201,15 @@ LightIR 指令从 LLVM IR 中裁剪得到，因此保留了 LLVM IR 如下的指
   - `%2 = getelementptr i32, i32* %1 i32 %0`
 - 额外阅读：[The Often Misunderstood GEP Instruction](https://llvm.org/docs/GetElementPtr.html)
 
-## LightIR C++ 库
+## Light IR C++ 库
 
-LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了核心类的继承关系与成员设计，给学生提供与 LLVM 相同的生成 IR 的接口，在介绍其核心类之前，先展示 LightIR 的结构
+Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之前，先展示 Light IR 的结构
 
 !!! warning
 
-    在必做实验阶段，请不要对 LightIR C++ 库进行直接修改
+    在必做实验阶段，请不要对 Light IR C++ 库进行直接修改
 
-### LightIR 结构
+### Light IR 结构
 <!-- TODO: 重绘图片 -->
 
 ![image-lightir](figs/lightir.png)
@@ -222,14 +222,14 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 
 !!! notes
 
-    为了区别 LightIR 中的概念与我们实现的 LightIR C++ 库。我们用小写 plain text 来表示 LightIR 中的概念，例如 module；用大写的 code block 来表示 C++ 实现，例如 `Module`。
+    为了区别 Light IR 中的概念与我们实现的 Light IR C++ 库。我们用小写 plain text 来表示 Light IR 中的概念，例如 module；用大写的 code block 来表示 C++ 实现，例如 `Module`。
 
-### LightIR C++ 类总览
+### Light IR C++ 类总览
 
-在上一节中，可以看出 LightIR 最顶层的结构是 module，并具有层次化结构，在 LightIR C++ 库中，对应有层次化类的设计，如图所示，`Module`, `Function`, `BasicBlock`, `Instruction` 类分别对应了 LightIR 中 module，function，basicblock，instruction 的概念。
+在上一节中，可以看出 Light IR 最顶层的结构是 module，并具有层次化结构，在 Light IR C++ 库中，对应有层次化类的设计，如图所示，`Module`, `Function`, `BasicBlock`, `Instruction` 类分别对应了 Light IR 中 module，function，basicblock，instruction 的概念。
 ![module_relation](./figs/module_relation.png)
 
-### LightIR C++ 数据基类：Value，User
+### Light IR C++ 数据基类：Value，User
 
 #### Value
 
@@ -255,9 +255,9 @@ LightIR C++ 库依据 LLVM 的设计，仅保留必要的核心类，简化了�
 
     `Value` 类的 use-list，与 User 类的 operand-list 构成了指令间的依赖关系图。
 
-### LightIR C++ 类型基类：Type
+### Light IR C++ 类型基类：Type
 
-在 [LightIR 指令假设](./LightIR.md#lightir-指令假设)中提到，LightIR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，`Type` 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 LightIR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
+在 [Light IR 指令假设](./LightIR.md#lightir-指令假设)中提到，Light IR 保留了 LLVM IR 的强类型系统，包含基本类型与组合类型，`Type` 类是所有类型基类，其子类继承关系如图所示，其中 `IntegerType`, `FloatType` 对应表示 Light IR 中的 `i1`，`i32`，`float` 基本类型。`ArrayType`，`PointerType`，`FunctionType` 对应表示组合类型：数组类型，指针类型，函数类型。
 ![type_inherit](figs/type_inherit.png)
 
 获取基本类型的接口在 `Module` 类中，获取组合类型的接口则在组合类型对应的类中：
@@ -269,9 +269,9 @@ auto int1_type = module->get_int1_type();
 auto array_type = ArrayType::get(Int32Type, 2);
 ```
 
-### 使用 LightIR C++ 库生成 IR
+### 使用 Light IR C++ 库生成 IR
 
-本小节将以下列 LightIR 片段介绍使用 LightIR C++ 接口层次化顺序生成 IR 的过程，
+本小节将以下列 Light IR 片段介绍使用 Light IR C++ 接口层次化顺序生成 IR 的过程，
 
 ```c
 define i32 @main() #0 {
@@ -301,7 +301,7 @@ auto bb = BasicBlock::create(module, "entry", mainFun);
 
 #### `IRBuilder`: 生成 IR 指令的辅助类
 
-LightIR C++ 库为生成 IR 指令提供了辅助类：`IRBuilder`。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入 basicblock 中，`IRBuilder` 类提供以下接口：
+Light IR C++ 库为生成 IR 指令提供了辅助类：`IRBuilder`。该类提供了独立创建 IR 指令的接口，可以创建指令的同时并将它们插入 basicblock 中，`IRBuilder` 类提供以下接口：
 
 ```cpp
 class IRBuilder {
@@ -340,9 +340,9 @@ xLoad = builder->create_load(xAlloca);
 // 创建 ret 指令，将 x 取出的值返回
 builder->create_ret(xLoad);
 ```
-至此，使用 LightIR C++ 接口层次化顺序生成 IR 的过程流程结束
+至此，使用 Light IR C++ 接口层次化顺序生成 IR 的过程流程结束
 
-### LightIR C++ 库核心类定义
+### Light IR C++ 库核心类定义
 
 本节梳理了在生成 IR 过程中可能会用到的接口，学生可按需进行查阅
 <!-- TODO：检查接口是否被框架整理所影响 -->

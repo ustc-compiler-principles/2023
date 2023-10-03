@@ -9,11 +9,11 @@
 ### 阶段一
 
 - 内容一：
-  阅读[LightIR 预热](./warmup.md)并参考[LightIR 简介](../common/LightIR.md)，掌握手写 LightIR，使用 LightIR C++ 库生成 IR 的方法
+  阅读[Light IR 预热](./warmup.md)并参考[Light IR 简介](../common/LightIR.md)，掌握手写 Light IR，使用 Light IR C++ 库生成 IR 的方法
 - 内容二：
   阅读[访问者模式](./visitor_pattern.md)，理解 C++ 访问者模式的工作原理及遍历顺序
 
-阶段一要求学生**回答[LightIR 预热](./warmup.md)与[访问者模式](./visitor_pattern.md)文档中的思考题**，回答内容保存为`answer.pdf`。并完成`tests/2-ir-gen/warmup/stu_ll`与`tests/2-ir-gen/warmup/stu_cpp`目录下代码的编写
+阶段一要求学生**回答[Light IR 预热](./warmup.md)与[访问者模式](./visitor_pattern.md)文档中的思考题**，回答内容保存为`answer.pdf`。并完成`tests/2-ir-gen/warmup/stu_ll`与`tests/2-ir-gen/warmup/stu_cpp`目录下代码的编写
 
 !!! warning "Deadline"
 

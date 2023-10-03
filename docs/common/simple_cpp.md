@@ -171,9 +171,9 @@ C++11 引入了许多智能指针类型来帮助自动内存管理，本实验�
 ### Segmentation Fault
 在之后的实验中，你可能会各种各样的段错误（Segmentation Fault），不要害怕！clang 提供了一个工具来帮助我们解决内存泄漏。
 ```bash
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Asan
-make
+$ cd build
+$ cmake .. -DCMAKE_BUILD_TYPE=Asan
+$ make
 ```
 然后再次运行你的错误代码，Asan 会提供更详细的报错信息。
 
