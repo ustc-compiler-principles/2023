@@ -32,7 +32,7 @@ nav:
   - 首页: README.md
   - 课程平台介绍: exp_platform_intro/README.md
   - 公共文档:
-    - cminusf 语法语义介绍: common/cminusf.md
+    - Cminusf 语法语义介绍: common/cminusf.md
     - Light IR 简介: common/LightIR.md
     - C++ 介绍: common/simple_cpp.md
     - Logging 工具使用: common/logging.md

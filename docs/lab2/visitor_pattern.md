@@ -1,4 +1,4 @@
-# 理解 Visitor Pattern（访问者模式）
+# 访问者模式
 
 ### 简介
 
@@ -10,9 +10,11 @@ Visitor Pattern（访问者模式）是一种在 LLVM 项目源码中被广泛�
 
 ### 实验内容
 
-实验在 `tests/2-ir-gen/warmup/calculator` 目录下提供了一个利用访问者模式，产生计算算数表达式的中间代码的程序。该程序首先对算数表达式进行语法分析生成语法树，再使用访问者模式来遍历语法树，产生中间代码。
+<!-- TODO: 重写 -->
 
-在 `tests/2-ir-gen/warmup/calculator/calc_ast.hpp` 定义了语法树的不同节点类型。在 `tests/2-ir-gen/warmup/calculator/calc_builder.cpp` 使用 LightIR C++ 库编写了不同的 `visit` 函数。根据节点类型的不同，计算器会在多种 `visit` 函数中，选择对应的实现进行调用。请认真阅读这两个文件和其它相关代码，理解语法树是如何通过访问者模式被遍历的，并完成相应[思考题](./visitor_pattern.md#思考题)。
+在 `tests/2-ir-gen/warmup/calculator` 目录下提供了一个接受算术表达式，利用访问者模式，产生计算算数表达式的中间代码的程序，其中 `calc_ast.hpp` 定义了语法树的不同节点类型，`calc_builder.cpp` 实现了访问不同语法树节点 `visit` 函数。**阅读这两个文件和目录下的其它相关代码**，理解语法树是如何通过访问者模式被遍历的，并回答相应[思考题](./visitor_pattern.md#思考题)。
+
+### 编译、运行
 
 **编译**
 
@@ -26,11 +28,11 @@ $ cmake ..
 $ make
 ```
 
-如果构建成功，你会在 `build` 文件夹下找到`calc`可执行文件
+如果构建成功，你会在 `build` 文件夹下找到 calc 可执行文件
 
 **运行与测试**
 
-``` shell
+```shell
 # 在 build 目录下操作
 $ ./calc
 Input an arithmatic expression (press Ctrl+D in a new line after you finish the expression):
@@ -39,9 +41,11 @@ result and result.ll have been generated.
 $ ./result
 22
 ```
-其中，`result.ll` 是程序产生的中间代码，`result` 是中间代码编译产生的二进制，运行它就可以输出算数表达式的结果。注：单独运行 `lli result.ll` 是会报错的，那怎么才能解决报错的根源问题，通过 `lli` 得到正确的运行结果呢？感兴趣的同学可以思考调研一下。
+
+其中，`result.ll` 是 `calc` 产生的中间代码，`result` 是中间代码编译产生的二进制可执行文件，运行它就可以输出算数表达式的结果。
 
 ## 思考题
+
 1. 分析 `calc` 程序在输入为 `4 * (8 + 4 - 1) / 2` 时的行为：
 
    1. 请画出该表达式对应的抽象语法树（使用 `calc_ast.hpp` 定义的语法树节点来表示，并给出节点成员存储的值），并给节点使用数字编号。
