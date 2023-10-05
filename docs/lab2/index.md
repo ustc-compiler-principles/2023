@@ -23,7 +23,7 @@
 
 <!-- TODO: 增加需要阅读的文件，以及是否需要完成 general -->
 
-阅读 [IR 自动化生成](./autogen.md)，[Cminusf 语义](../common/cminusf.md#cminusf-的语义)，`include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，并通过 `tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例。
+阅读 [IR 自动化生成](./autogen.md)，[Cminusf 语义](../common/cminusf.md#cminusf-的语义)，补充 `include/cminusfc/cminusf_builder.hpp` 与 `src/cminusfc/cminusf_builder.cpp` 文件，并通过 `tests/2-ir-gen/autogen/testcases/`目录下 `lv0_1`, `lv0_2`, `lv1` 级别的测试样例。
 
 !!! warning "Deadline"
 
