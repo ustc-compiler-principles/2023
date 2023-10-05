@@ -220,7 +220,7 @@ Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之�
 
 - 最上层的是 module，对应一个 Cminusf 源文件。包含全局变量 global_variable 和函数 function。
 - function 由头部和函数体组成。function 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 basicblock 构成。
-- basicBlock 是指程序顺序执行的语句序列，只有一个入口和一个出口。basicblock 由若干指令 instruction 构成。
+- basicblock 是指程序顺序执行的语句序列，只有一个入口和一个出口。basicblock 由若干指令 instruction 构成。
 - 注意一个 basicblock 中的**只能有一条终止指令**（Ret/Br）。
 
 !!! notes
@@ -368,7 +368,7 @@ builder->create_ret(xLoad);
 
 - 概念：一个编译单元。对应一个 Cminusf 文件。
 
-??? info "Module 的定义"
+??? info "Module 常用接口"
 
     ```cpp
     class Module
@@ -396,7 +396,7 @@ builder->create_ret(xLoad);
 
 - 概念：基本块。是一个是单入口单出口的代码块，可以作为分支指令目标对象。
 
-??? info "BasicBlock 的定义"
+??? info "BasicBlock 常用接口"
 
     ```cpp
     class BasicBlock : public Value {
@@ -445,7 +445,7 @@ builder->create_ret(xLoad);
 
 - 概念：全局变量。
 
-??? info "GlobalVariable 的定义"
+??? info "GlobalVariable 常用接口"
 
     ```cpp
     class GlobalVariable : public User {
@@ -460,7 +460,7 @@ builder->create_ret(xLoad);
 
 - 概念：常量。不同类型的常量由不同类来表示。
 
-??? info "Constant 的定义"
+??? info "Constant 常用接口"
 
     ```cpp
     class Constant : public User {
@@ -469,7 +469,7 @@ builder->create_ret(xLoad);
     };
     ```
 
-??? info "整型常量 ConstantInt 的定义"
+??? info "整型常量 ConstantInt 常用接口"
 
     ```cpp
     class ConstantInt : public Constant {
@@ -485,7 +485,7 @@ builder->create_ret(xLoad);
     };
     ```
 
-??? info "浮点数常量 ConstantFP 的定义"
+??? info "浮点数常量 ConstantFP 常用接口"
 
     ```cpp
     class ConstantFP : public Constant {
@@ -497,7 +497,7 @@ builder->create_ret(xLoad);
     };
     ```
 
-??? info "ConstantZero 的定义"
+??? info "ConstantZero 常用接口"
 
     ```cpp
     // 用于全局变量初始化的零常量
@@ -512,7 +512,7 @@ builder->create_ret(xLoad);
 
 - 概念：函数的参数。
 
-??? info "Argument 的定义"
+??? info "Argument 常用接口"
 
     ```cpp
     class Argument : public Value
@@ -529,7 +529,7 @@ builder->create_ret(xLoad);
 
 - 概念：函数。该类描述了一个过程，包含多个基本块。
 
-??? info "Funtion 的定义"
+??? info "Funtion 常用接口"
 
     ```cpp
     class Function : public Value {
@@ -563,7 +563,7 @@ builder->create_ret(xLoad);
 
 - 概念：生成 IR 的辅助类。该类提供了独立的接口创建各种 IR 指令，并将它们插入基本块中（注意：该辅助类不做任何类型检查）。
 
-??? info "IRBuilder 的定义"
+??? info "IRBuilder 常用接口"
 
     ```cpp
     class IRBuilder {
@@ -582,7 +582,7 @@ builder->create_ret(xLoad);
 
 - 概念：指令。该类是所有 LLVM 指令的基类。子类包含 IR 部分中的所有指令。
 
-??? info "Instruction 的定义"
+??? info "Instruction 常用接口"
 
     ```c++
     class Instruction : public User {
@@ -609,7 +609,7 @@ builder->create_ret(xLoad);
 - 概念：IR 的类型（包含 `VoidType`、`LabelType`、`FloatType`、`IntegerType`、`ArrayType`、`PointerType`）。module 中可以通过 API 获得基本类型，并创建自定义类型。
 - 子类介绍：其中 `ArrayType`、`PointerType` 可以嵌套得到自定义类型，而 `VoidType`、`IntegerType`，`FloatType` 可看做 IR 的基本类型，`LabelType` 是 `BasicBlcok` 的类型，可作为跳转指令的参数，`FunctionType` 表示函数类型。其中 `VoidType` 与 `LabelType` 没有对应的子类，通过 `Type` 中的 `tid_` 字段判别，而其他类型均有对应子类
 
-??? info "Type 的定义"
+??? info "Type 常用接口"
 
     ```c++
     class Type {
@@ -627,7 +627,7 @@ builder->create_ret(xLoad);
     };
     ```
 
-??? info "数组类型 ArrayType 的定义"
+??? info "数组类型 ArrayType 常用接口"
 
     ```c++
     class ArrayType : public Type {
@@ -643,7 +643,7 @@ builder->create_ret(xLoad);
     };
     ```
 
-??? info "指针类型 PointerType 的定义"
+??? info "指针类型 PointerType 常用接口"
 
     ```c++
     class PointerType : public Type {
@@ -655,7 +655,7 @@ builder->create_ret(xLoad);
     };
     ```
 
-??? info "函数类型 FunctionType 的定义"
+??? info "函数类型 FunctionType 常用接口"
 
     ```c++
     class FunctionType : public Type {
@@ -683,7 +683,7 @@ builder->create_ret(xLoad);
 
 - 概念：使用者。维护了 use-def 信息，表示该使用者用了哪些值。
 
-??? info "User 的定义"
+??? info "User 常用接口"
 
     ```cpp
     class User : public Value {
@@ -707,7 +707,7 @@ builder->create_ret(xLoad);
 
 - 概念：代表了值的使用情况。
 
-??? info "Use 的定义"
+??? info "Use 常用接口"
 
     ```cpp
     struct Use {
@@ -723,7 +723,7 @@ builder->create_ret(xLoad);
 
 - 概念：值。代表一个可能用于指令操作数的带类型数据，是最基础的类，维护了 def-use 信息，即该值被哪些使用者使用。
 
-??? info "Value 的定义"
+??? info "Value 常用接口"
 
     ```cpp
     class Value
