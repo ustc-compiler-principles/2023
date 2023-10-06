@@ -85,7 +85,7 @@ $ make
 
 ```shell
 # 在 build 目录下操作
-$ ./gcd_array_generator
+$ ./gcd_array_generator > gcd_array_generator.ll
 $ lli gcd_array_generator.ll
 $ echo $?
 ```
