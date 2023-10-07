@@ -48,7 +48,7 @@
 | 2023-09-18 |           语法分析 - 自顶向下 - LL(1) 文法           |                                                                              [part3](https://rec.ustc.edu.cn/share/08643ef0-5564-11ee-88f3-1509f631aa4a)                                                                              |
 | 2023-09-20 | 语法分析 - 自底向上 - 移进规约 & LR 分析器的简单模型 |                                       [part4](https://rec.ustc.edu.cn/share/fcba4990-5772-11ee-a14c-a36e421ab311), [part5](https://rec.ustc.edu.cn/share/08206b90-5773-11ee-a7a9-2766281e042e)                                        |
 | 2023-09-25 |      语法分析 - 简单的 LR 方法 & 规范的 LR 方法      |                                       [part6](https://rec.ustc.edu.cn/share/1a7a4df0-5b4c-11ee-8033-1da927361dcb), [part7](https://rec.ustc.edu.cn/share/322166f0-5b4c-11ee-b6aa-cb031e864251)                                        |
-| 2023-09-27 |                     中间代码表示                     |                                                                              [part1](https://rec.ustc.edu.cn/share/ae68adf0-5cdf-11ee-9351-91c4bb20099e)                                                                              |
+| 2023-09-27 |                     中间代码表示                     |                                                                              [part1](https://rec.ustc.edu.cn/share/3fba3780-64dc-11ee-b89d-3bff5ec34c27)                                                                              |
 | 2023-10-07 |             语法制导翻译 - 语法制导定义              |                                                                              [part1](https://rec.ustc.edu.cn/share/e0e4d8e0-5cdf-11ee-a097-75437996f503)                                                                              |
 
 ## 参考资料
