@@ -67,6 +67,10 @@ Light IR IR C++ 库参考手册：[Light IR cpp APIs](../common/LightIR.md#c-api
 
 ### 编译、运行、测试
 
+!!! note
+
+    如果你在 `cmake ..` 一步遇到如下报错`Target "IR_lib" links to target "ZLIB::ZLIB" but the target was not found.`，请使用 `sudo apt install zlib1g-dev` 安装 zlib 库，然后重新 `cmake .. && make`。
+
 **编译**
 
 ```shell
