@@ -36,6 +36,7 @@ nav:
     - Light IR 简介: common/LightIR.md
     - C++ 介绍: common/simple_cpp.md
     - Logging 工具使用: common/logging.md
+    - 龙芯汇编介绍: common/asm_intro.md
   - Lab0:
     - Lab0 简介: lab0/index.md
     - Linux 环境配置: lab0/linux.md
@@ -52,4 +53,8 @@ nav:
     - Light IR 预热: lab2/warmup.md
     - 访问者模式: lab2/visitor_pattern.md
     - IR 自动化生成: lab2/autogen.md
+  - Lab3:
+    - Lab3 简介: lab3/index.md
+    - 后端环境配置: lab3/environment.md
+    - 后端框架介绍: lab3/codegen.md
   - FAQ: faq/README.md
