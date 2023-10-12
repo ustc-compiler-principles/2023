@@ -299,7 +299,9 @@ auto module = new Module();
 为 module 添加 main function 定义
 
 ```cpp
-auto mainFun = Function::create(..., "main", module);
+// 从 module 中获取 i32 类型
+Type *Int32Type = module->get_int32_type();
+auto mainFun = Function::create(FunctionType::get(Int32Type, {Int32Type}), "main", module);
 ```
 
 为 main function 创建 function 内的第一个 basicblock
@@ -333,25 +335,25 @@ public:
 
 ```cpp
 auto module = new Module();
-auto mainFun = Function::create(..., "main", module);
+// 从 module 中获取 i32 类型
+auto *Int32Type = module->get_int32_type();
+auto mainFun = Function::create(FunctionType::get(Int32Type, {Int32Type}), "main", module);
 auto bb = BasicBlock::create(module, "entry", mainFun);
 ```
 
 创建 `IRBuilder`，并使用 `IRBuilder` 创建新指令
 
 ```cpp
-// 实例化 IRbuilder
+// 实例化 IRBuilder
 auto builder = new IRBuilder(nullptr, module);
-
+// 将 IRBuilder 插入指令位置设置为 bb 尾部
 builder->set_insert_point(bb);
-// 从 module 中获取 i32 类型
-Type *Int32Type = Type::get_int32_type(module);
 // 为变量 x 分配栈上空间
 auto xAlloca = builder->create_alloca(Int32Type);
 // 创建 store 指令，将 72 常数存到 x 分配空间里
 builder->create_store(ConstantInt::get(72, module), xAlloca);
 // 创建 load 指令，将 x 内存值取出来
-xLoad = builder->create_load(xAlloca);
+auto xLoad = builder->create_load(xAlloca);
 // 创建 ret 指令，将 x 取出的值返回
 builder->create_ret(xLoad);
 ```
