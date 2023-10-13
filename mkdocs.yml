@@ -56,5 +56,6 @@ nav:
   - Lab3:
     - Lab3 简介: lab3/index.md
     - 后端环境配置: lab3/environment.md
-    - 后端框架介绍: lab3/codegen.md
+    - 后端框架介绍: lab3/framework.md
+    - Lab3 实验指导: lab3/guidance.md
   - FAQ: faq/README.md
