@@ -48,10 +48,10 @@ class 是 C++ 面向对象的基础，它相当于对 C 中的结构体的扩展
 在面向对象的术语中，我们通常称成员函数为“方法”（[method](<https://en.wikipedia.org/wiki/Method_(computer_programming)>)）。
 
 ```cpp
-// 注：C++ 中 struct 也会定义结构体，只是访问控制的默认选项有所区别
+// 注：C++ 中 struct 可以看作默认所有成员都是 public 的 class
 struct Animal {
-  void eat()
-}
+  void eat();
+};
 ```
 
 类的访问控制指的是在定义 class 时，可以用 `public` 与 `private` 标签，指定接下来的成员是私有或是公开成员。公开成员可以在外部函数使用该类的实例时访问，而内部成员只有该类的成员函数能访问。访问控制的作用是对使用者隐藏实现的细节，而关注于设计者想要公开的接口，从而让使用者能更容易理解如何使用该类。详细介绍在 [access specifiers](https://en.cppreference.com/w/cpp/language/access)。
@@ -65,7 +65,7 @@ struct Animal {
 ```cpp
 struct Cat : Animal {
   // 从 Animal 中继承了 void eat();
-  void nyan()
+  void nyan();
 };
 
 struct Dog : Animal {
