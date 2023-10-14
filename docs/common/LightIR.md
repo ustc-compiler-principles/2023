@@ -221,7 +221,7 @@ Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之�
 - 最上层的是 module，对应一个 Cminusf 源文件。包含全局变量 global_variable 和函数 function。
 - function 由头部和函数体组成。function 的头部包括返回值类型、函数名和参数表。函数体可以由一个或多个 basicblock 构成。
 - basicblock 是指程序顺序执行的语句序列，只有一个入口和一个出口。basicblock 由若干指令 instruction 构成。
-- 注意一个 basicblock 中的**只能有一条终止指令**（Ret/Br）。
+- 注意一个 basicblock 中**只能有一条终止指令**（Ret/Br）。
 
 !!! notes
 
