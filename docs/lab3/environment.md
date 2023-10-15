@@ -40,19 +40,11 @@ $ sudo tar xaf gdb.tar.gz -C /opt
 - `/opt/qemu/bin/qemu-loongarch64`
 - `/opt/gdb/bin/loongarch64-unknown-linux-gnu-gdb`
 
-需要使用绝对路径访问。为了使用方便和 **lab3 的顺利测评**，我们将上述路径加入到`PATH`中：
+需要使用绝对路径访问。为了使用方便和 **Lab3 的顺利测评**，我们将上述路径加入到`PATH`中：
 
-1. 打开 `~/.bashrc`
-
-2. 搜索找到 `export PATH=...` 一行
-
-3. 在这一行**最后追加**：`:/opt/qemu/bin:/opt/cross-tools.gcc_glibc/bin:/opt/gdb/bin`
-
-4. 这一行最后看起来像这样：
-
-   ```shell
-   export PATH=$PATH:~/.local/bin:/opt/cross-tools.gcc_glibc/bin:/opt/gdb/bin:/opt/qemu/bin
-   ```
+```shell
+$ echo "export PATH=\$PATH:/opt/cross-tools.gcc_glibc/bin:/opt/gdb/bin:/opt/qemu/bin" >> ~/.bashrc && source ~/.bashrc
+```
 
 ## 测试
 
