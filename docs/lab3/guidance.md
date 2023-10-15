@@ -39,7 +39,7 @@
 
 !!! warning "编译"
 
-    评测之前，确保你已经在项目 `build` 目录下进行了 `sudo make install`，使程序 `cminusfc` 是最新版本。详情可以查询[ lab2 的相关章节](../../lab2/autogen/#编译运行和评测)。
+    评测之前，确保你已经在项目 `build` 目录下进行了 `sudo make install`，使程序 `cminusfc` 是最新版本。详情可以查询[ lab2 的相关章节](../lab2/autogen.md#编译运行和评测)。
 
 在 `tests/3-codegen` 目录下，使用我们提供的 `eval_lab3.sh` 进行本地评测，其接受两个参数：
 
