@@ -94,7 +94,7 @@ $ lli gcd_array_generator.ll
 $ echo $?
 ```
 
-你可以通过观察原来的 C 代码来推断 `echo $?` 应该返回的正确结果，也可以通过 `clang -S -emit-llvm` 编译 `tests/2-ir-gen/warmup/c_cases` 目录下 4 个 C 文件获得 4 个相应的 .ll 文件，再用 `lli` 执行 .ll 文件来获取正确结果。
+你可以通过观察原来的 C++ 代码来推断 `echo $?` 应该返回的正确结果，也可以通过 `clang -S -emit-llvm` 编译 `tests/2-ir-gen/warmup/c_cases` 目录下 4 个 CPP 文件获得 4 个相应的 .ll 文件，再用 `lli` 执行 .ll 文件来获取正确结果。
 
 ### 仓库目录结构
 
