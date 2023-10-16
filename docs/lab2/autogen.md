@@ -33,7 +33,7 @@ bool in_global();
 
 ### `CminusfBuilder` 类
 
-`CminusfBuilder` 类定义在 [cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler-ta/-/blob/master/src/cminusfc/cminusf_builder.cpp)文件中，`CminusfBuilder` 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
+`CminusfBuilder` 类定义在 [cminusf_builder.hpp](https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/src/cminusfc/cminusf_builder.hpp)文件中，`CminusfBuilder` 类中定义了对抽象语法树不同语法节点的 `visit` 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。
 
 在 `CminusfBuilder` 构造函数函数中，下列代码片段是对 [Cminusf 语义](../common/cminusf.md#cminusf-的语义)中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。
 
