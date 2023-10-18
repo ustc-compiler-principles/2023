@@ -16,7 +16,7 @@
 │   ├── ...
 │   └── codegen
 │       ├── CMakeLists.txt
-│       ├── CodeGen.cpp
+│       ├── CodeGen.cpp		<-- 你需要修改的文件
 │       └── Register.cpp
 └── tests
     ├── ...
@@ -25,7 +25,7 @@
 
 ## 极简框架
 
-本次实验的框架非常简单，你只需要少量的代码阅读就能快速进入代码撰写的环节。
+本次实验的框架相对简单，你只需要少量的代码阅读就能快速进入代码撰写的环节。
 
 顶层的 `Codegen` 类只维护了如下成员：
 
@@ -33,9 +33,9 @@
 class CodeGen {
     // ...
   private:
-    struct { ... } context;				// 类似 lab2 的 context
-    Module *m;							// IR 模块
-    std::list<ASMInstruction> output;	// 汇编指令列表
+    struct { ... } context;				// 类似 lab2 的 context，用于保存翻译过程中的上下文信息，如当前所在函数
+    Module *m;							// 输入的 IR 模块
+    std::list<ASMInstruction> output;	// 生成的汇编指令
 };
 ```
 
@@ -46,8 +46,8 @@ class CodeGen {
     // ...
   public:
     explicit CodeGen(Module *module) : m(module) {}	// 构造函数
-    std::string print() const;						// 输出汇编指令
-    void run();										// 代码生成
+    std::string print() const;						// 将汇编指令格式化输出
+    void run();										// 后端代码生成的入口函数
 }
 ```
 
@@ -57,17 +57,18 @@ class CodeGen {
 class CodeGen {
     // ...
   private:
-    // 变量分配
+    // 栈式分配的变量分配环节，将在函数翻译开始时调用
     void allocate();
 
-	/* 助教准备的辅助函数 */
+	/*=== 以下为助教准备的辅助函数 ===*/
     // 将数据在寄存器和栈帧间搬移。下边的章节将详细介绍
 	void load_xxx(...);
     void store_xxx(...);
     // 添加汇编指令
     void append_inst(...);
-    // 根据基本块名字生成汇编指令段的标号
+    // 基本块在汇编程序中的名字
 	static std::string label_name(BasicBlock *bb);
+	/*=== 以上为助教准备的辅助函数 ===*/
 
 	// 需要补全的部分，进行代码生成的各个环节
     void gen_xxx(...);
@@ -78,31 +79,35 @@ class CodeGen {
 
 ## 基本类描述
 
+框架对后端中的指令和寄存器进行了抽象，下面将依次介绍这两个基本类。
+
 ### 指令类
 
-在上述代码中，你已经看到了指令类 `ASMInstruction` 的用处：在 `CodeGen` 中以 `std::list` 形式组织。指令类的代码定义如下：
+指令类 `ASMInstruction` 是用来描述一行汇编指令的，在 `CodeGen` 中以 `std::list` 形式组织。指令类的代码定义如下：
 
 ```cpp
 struct ASMInstruction {
-    enum InstType { Instruction, Atrribute, Label, Comment } type;
-    std::string content;
+    enum InstType {
+        Instruction,	// 汇编指令
+        Atrribute,		// 汇编伪指令、描述符等非常规指令
+        Label,			// 汇编中的 label
+        Comment			// 注释
+    } type; 			// 用来描述指令的用途，会被下面的 format 函数使用
 
-    explicit ASMInstruction(std::string s, InstType ty = Instruction);
-    std::string format() const;
+    std::string content; // 汇编代码，不包含换行符等格式化的信息
+
+    explicit ASMInstruction(std::string s, InstType ty = Instruction); // 构造函数
+    std::string format() const; // 根据 type 对 content 进行格式化（如添加缩进、换行符等）
 };
 ```
-
-一个指令类实例，对应汇编代码的一行，在 `content` 中保存其核心内容，通过枚举类型 `type` 记录其用途。
-
-在指令输出时，会调用 `format()` 函数，根据类型 `type` 添加缩进或其他字符，详细请查阅 `ASMInstruction::format()` 的实现。
 
 举个例子，`ASMInstruction("some debug info", ASMInstruction::Comment)` 定义了一个指令类实例，其用途是注释， `format()` 的返回结果是如下字符串：`"#some debug info\n"`。
 
 ### 寄存器类
 
-对寄存器的抽象，聚焦在区分不同物理寄存器上。
+寄存器分为通用寄存器 `Reg` 、浮点寄存器 `FReg` 和条件标志寄存器 `CFReg`。
 
-寄存器分为通用寄存器 `Reg` 和浮点寄存器 `FReg`，以下是 `FReg` 的代码定义：
+以下是 `FReg` 的代码定义，`Reg` 与 `CFReg` 的定义与之类似：
 
 ```cpp
 struct FReg {
@@ -111,28 +116,26 @@ struct FReg {
     explicit FReg(unsigned i);
     bool operator==(const FReg &other);
 
-    std::string print() const;
+    std::string print() const;	// 根据 id 返回寄存器别名，如 "$fa0" 而不是 "$f0"
 
-    static FReg fa(unsigned i);
-    static FReg ft(unsigned i);
-    static FReg fs(unsigned i);
+    static FReg fa(unsigned i);	// 得到寄存器 $faN
+    static FReg ft(unsigned i);	// 得到寄存器 $ftN
+    static FReg fs(unsigned i);	// 得到寄存器 $fsN
 };
 ```
 
-`Reg` 的定义与之基本一致，两个类都会在内部保存 `id`，用来比较寄存器是否相同和打印输出。
-
 举例：
 
-- `FReg(0)` 定义了寄存器 `$f0` 的实例，其打印的结果是 `"$fa0"`
+- `FReg(0)` 定义了寄存器 `$f0` 的实例，`print()` 的结果是 `"$fa0"`
 - 为了获得 `$ft0` 的实例，你可以使用 `FReg(8)`，也可以使用更方便的`FReg::ft(0)`
 
 ## 辅助函数
 
-助教提供了很多辅助函数，来帮助你更舒适地完成本次实验。
+在顶层的 `CodeGen` 类中，助教提供了很多辅助函数，主要是进行数据装载/写回的 load/store 相关和追加指令相关两大类，来帮助你更舒适地完成本次实验。
 
 ### load/store
 
-阅读过[栈式分配](./guidance.md/#栈式分配)的介绍后，一些同学会敏锐地意识到，我们生成的汇编中，内存交互会非常频繁。
+阅读过[栈式分配介绍](stack_allocation.md)后，你将认同：我们生成的汇编中，load、store的使用会非常频繁。
 
 针对此，我们提供了如下函数，用于方便地提取数据至寄存器和将寄存器数据保存至栈上。
 
@@ -141,32 +144,31 @@ class CodeGen {
 	//...
   private:
 	// 向寄存器中装载数据
-    void load_to_greg(Value *, const Reg &);
-    void load_to_freg(Value *, const FReg &);
-    void load_from_stack_to_greg(Value *, const Reg &);
+    void load_to_greg(Value *, const Reg &);	// 将 IR 中的 Value 加载到整形寄存器中
+    void load_to_freg(Value *, const FReg &);	// 将 IR 中的 Value 加载到浮点寄存器中
+
     // 将寄存器中的数据保存回栈上
-    void store_from_greg(Value *, const Reg &);
-    void store_from_freg(Value *, const FReg &);
+    void store_from_greg(Value *, const Reg &);	// 将整形寄存器中的数据保存至 IR 中 Value 对应的栈帧位置
+    void store_from_freg(Value *, const FReg &);// 将浮点寄存器中的数据保存至 IR 中 Value 对应的栈帧位置
 };
 ```
 
-你只需要提供 IR 中的 Value 指针，同时指定目标寄存器，即可方便地完成数据的 load/store.
+你只需要提供 IR 中的 `Value` 指针，同时指定目标寄存器，即可方便地完成数据的加载或备份。
 
-事实上，寄存器另一大数据来源，还有立即数的提取。我们也提供了一些辅助函数：
+事实上，寄存器的另一大数据来源，还有立即数的提取。对于 12bit 能够表示的整形立即数，你可以直接使用 `$dest = $zero + imm` 的形式，对于比较复杂的大立即数提取及浮点立即数提取，我们提供了一些辅助函数：
 
 ```cpp
 class CodeGen{
     // ...
   private:
 	// 向寄存器中加载立即数
-    void load_int32_imm(int32_t, const Reg &);
-    void load_large_int32(int32_t, const Reg &);
-    void load_large_int64(int64_t, const Reg &);
-    void load_float_imm(float, const FReg &);
+    void load_large_int32(int32_t, const Reg &);	// 提取 32 bit 的整数
+    void load_large_int64(int64_t, const Reg &);	// 提取 64 bit 的整数
+    void load_float_imm(float, const FReg &);		// 提取单精度浮点数（32bit）
 };
 ```
 
-关于这些 API，虽然在这里给出了一些注释，它们看起来很好用，但是仍然不建议你开箱即用，希望你能简单阅读一下源码，理解其中在做什么后，再开始你的实现。
+关于这些 API，虽然在这里给出了一些注释，它们看起来很好用，但是仍然不建议你开箱即用，希望你能简单阅读一下源码，理解其中在做什么后，再拿来使用。
 
 ### append_inst()
 
@@ -177,16 +179,16 @@ class CodeGen{
 - 你可以直接按照 `ASMInstruction` 的构造函数添加指令，如：
 
   ```cpp
-  // 第二个参数的默认值即为 ASMInstruction::Instruction
-  // append_inst("st.d $ra, $sp, -8", ASMInstruction::Instruction);
+  append_inst("st.d $ra, $sp, -8", ASMInstruction::Instruction);
+  // 第二个参数的默认值即为 ASMInstruction::Instruction，所以下边的代码等价
   append_inst("st.d $ra, $sp, -8");
   ```
 
 - 也可以使用二次封装后的版本：
 
   ```cpp
-  // 最后一个参数的默认值即为 ASMInstruction::Instruction
-  // append_inst("st.d", {"$ra", "$sp", "-8"}, ASMInstruction::Instruction);
+  append_inst("st.d", {"$ra", "$sp", "-8"}, ASMInstruction::Instruction);
+  // 最后一个参数的默认值即为 ASMInstruction::Instruction，所以下边的代码等价
   append_inst("st.d", {"$ra", "$sp", "-8"});
   ```
 
@@ -198,16 +200,6 @@ class CodeGen{
 
 ## 变量分配
 
-关于变量分配，我们需要为函数中每个变量分配一段栈空间，这个并没有固定的标准，框架中提供了一个已经经过验证的版本，即 `CodeGen::allocate()`。你可以设计自己喜欢的 `allocate()`，但是这不被推荐，因为我们不能保证框架的其他部分（主要是辅助函数）和你的设计兼容。
+关于变量分配的实验方案，我们已经在[栈式分配介绍](stack_allocation.md/#实验方案)中有过提及，初始代码已经为你实现，在 `src/codegen/CodeGen.cpp` 中的 `CodeGen::allocate()`。
 
-初始代码中的 `allocate()` 是这样分配空间的：
-
-- 记录每个变量相对于栈底的偏移，由于栈从高向低生长，所以这个偏移量为负数
-- 固定备份两个寄存器：`$ra` 和 `$fp`
-- 备份函数参数
-- 为每个存在定值的指令分配相应的空间
-- 对于 `alloca` 指令，`alloca` 本身的定值为指针类型，`alloca` 的空间紧挨着这个这个指针，在更靠近栈顶的位置
-
-即我们的栈帧结构如下：
-
-![](figs/stack-frame.png)
+你可以设计自己喜欢的 `allocate()`，但是这不被推荐，因为我们不能保证框架的其他部分（主要是辅助函数）和你的设计兼容。
