@@ -135,7 +135,7 @@ struct FReg {
 
 ### load/store
 
-阅读过[栈式分配介绍](stack_allocation.md)后，你将认同：我们生成的汇编中，load、store的使用会非常频繁。
+阅读过[栈式分配介绍](stack_allocation.md)后，你将认同：我们生成的汇编中，load、store 的使用会非常频繁。
 
 针对此，我们提供了如下函数，用于方便地提取数据至寄存器和将寄存器数据保存至栈上。
 
