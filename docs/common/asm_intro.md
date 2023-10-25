@@ -513,12 +513,12 @@ exit:
   - 在执行下面的指令前，`$t0` 寄存器的值为 `0x0000_0000_0000_0001`，`$t1` 寄存器的值为 `0x0000_0000_0000_0002`
 
     ```asm
-        blt  $t0, $t1, true_label
-        addi $t2, $zero, 0
-        b    exit # 无条件跳转
+        blt    $t0, $t1, true_label
+        addi.w $t2, $zero, 0
+        b      exit # 无条件跳转
     true_label:
-        addi $t2, $zero, 1
-        b    exit # 无条件跳转
+        addi.w $t2, $zero, 1
+        b      exit # 无条件跳转
     exit:
         # ...
     ```
@@ -880,7 +880,7 @@ exit:
   - 在执行下面的指令前，`$ft0` 寄存器的值为 `0x0000_0000_4060_0000`（`3.5` 的 FP32 表示），`$ft1` 寄存器的值为 `0x0000_0000_4090_0000`（`4.5` 的 FP32 表示）`
 
     ```asm
-    fcmp.slt $fcc0, $ft0, $ft1
+    fcmp.slt.s $fcc0, $ft0, $ft1
     ```
 
     执行后，条件标志寄存器 `$fcc0` 的值为 1
@@ -912,7 +912,7 @@ exit:
 
   ```asm
   bceqz $fccj, offs21
-  bceqz $fccj, offs21
+  bcnez $fccj, offs21
   ```
 
 - 跳转地址：将指令码中的 21 比特立即数 `offs21` 逻辑左移 2 位后再符号扩展，所得偏移值加上该分支指令的 `PC` 的和
