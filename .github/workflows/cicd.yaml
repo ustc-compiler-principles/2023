@@ -17,5 +17,8 @@ jobs:
         with:
           node-version: '18'
       - run: npm install
-      # - run: npm test
-      - run: mkdocs gh-deploy --force
+      - run: npm test
+
+      - name: deploy
+        if: always()
+        run: mkdocs gh-deploy --force
