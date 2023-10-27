@@ -21,17 +21,124 @@
 
 此外，存在部分 `void main() {...}` 的样例，其返回值是未定义的，我们要求这样的主函数通过寄存器 `$a0` 返回 0，以顺利进行测评。
 
-## 本地评测
+## 实验
 
-!!! warning "编译"
+### 阶段一：预热实验
 
-    评测之前，确保你已经在项目 `build` 目录下进行了 `sudo make install`，使程序 `cminusfc` 是最新版本。详情可以查询[ lab2 的相关章节](../lab2/autogen.md#编译运行和评测)。
+#### 实验内容
 
-### 评测脚本
+实验在 `tests/3-codegen/warmup/ll_cases/` 目录下提供了六个 `.ll` 文件。学生需要在 `tests/3-codegen/warmup/stu_cpp/` 目录中，依次完成 `assign_codegen.cpp`、`float_codegen.cpp`、`global_codegen.cpp`、`function_codegen.cpp`、`icmp_codegen.cpp` 和 `fcmp_codegen.cpp` 六个 C++ 程序中的 TODO。这六个程序运行后应该能够生成 `tests/3-codegen/warmup/ll_cases/` 目录下六个 `.ll` 文件对应的汇编程序。
 
-在 `tests/3-codegen` 目录下，使用我们提供的 `eval_lab3.sh` 进行本地评测，其接受两个**参数**：
+#### 编译、运行、测试
 
-1. 测试样例目录：考核的两个测例目录分别是 `./testcases` 和 `../testcases_general`
+##### 编译
+
+```shell
+$ cd 2023ustc-jianmu-compiler
+$ mkdir build
+$ cd build
+# 使用 cmake 生成 makefile 等文件
+$ cmake ..
+# 使用 make 进行编译
+$ make
+```
+
+如果构建成功，你会在 `build` 文件夹下找到 `stu_assign_codegen`, `stu_float_codegen` 等可执行文件。
+
+##### 运行与测试
+
+!!! note
+
+    在运行和测试之前，你应该确保你完成了[后端环境配置](./environment.md)。
+
+```shell
+# 在 build 目录下操作
+$ ./stu_assign_codegen > assign.s
+$ loongarch64-unknown-linux-gnu-gcc -static assign.s -o assign
+$ qemu-loongarch64 ./assign
+$ echo $?
+```
+
+你可以通过观察原来的 `.ll` 代码来推断 `echo $?` 应该返回的正确结果，也可以直接使用 `lli` 执行 `.ll` 文件来获取正确结果。
+
+#### 仓库目录结构
+
+与预热实验相关的文件如下：
+
+```
+.
+├── ...
+├── include
+│   ├── common
+│   └── codegen/*
+└── tests
+    ├── ...
+    └── 3-codegen
+        └── warmup
+            ├── CMakeLists.txt
+            ├── ll_cases          <- 需要翻译的 ll 代码
+            └── stu_cpp           <- 学生需要编写的汇编代码手动生成器
+```
+
+### 阶段二：编译器后端
+
+#### 编译
+
+```shell
+$ cd 2023ustc-jianmu-compiler
+$ mkdir build
+$ cd build
+# 使用 cmake 生成 makefile 等文件
+$ cmake ..
+# 使用 make 进行编译
+$ make
+# 安装以链接 libcminus_io.a
+$ sudo make install
+```
+
+如果构建成功，你会在 `build` 文件夹下找到 cminusfc 可执行文件，它能将 cminus 文件输出为龙芯汇编文件。
+
+#### 运行
+
+我们在 `tests/testcases_general` 文件夹中准备了一些通用案例。当需要对 `.cminus` 单个文件测试时，可以这样使用：
+
+##### 情况一：生成 IR 文件
+
+!!! note
+
+    为了让 cminusfc 在 `$PATH` 中，一定要 `sudo make install`。
+
+```shell
+# 假设 cminusfc 的路径在你的 $PATH 中，并且你现在在 test.cminus 文件所在目录中
+$ cminusfc test.cminus -S
+```
+
+此时会在同目录下生成同名的汇编文件，在这里即为 `test.s`。
+
+##### 情况二：生成可执行文件
+
+上面生成的汇编文件用于阅读，如果需要运行，需要调用龙芯交叉编译器编译链接生成二进制文件 `test`
+
+```shell
+# 假设你位于 2023ustc-jianmu-compiler 目录, 否则你应该修改下面 src/io/io.c 到具体的路径
+$ loongarch64-unknown-linux-gnu-gcc -static test.s src/io/io.c -o test
+```
+
+!!! note
+
+    上面的命令编译了 `test.s`，并链接了 `io.c` 中的函数。
+
+然后你可以使用 `qemu-loongarch64` 运行二进制文件 `test`
+
+```shell
+qemu-loongarch64 ./test
+```
+
+#### 测试
+
+在 `tests/3-codegen/autogen` 目录下，使用我们提供的 `eval_lab3.sh` 进行本地评测，其接受两个**参数**：
+
+1. 测试样例目录：考核的两个测例目录分别是 `./testcases` 和 `../../testcases_general`
 1. 评测模式：`test` 和 `debug` 两种模式都能正常测评，后者会额外生成 `.ll` 文件
 
 脚本运行后，会留下如下文件/目录来辅助你 **debug**：
@@ -43,7 +150,7 @@
 
 在结束测评后，你可以使用 `./cleanup.sh` **清空**上述文件/目录，以保持仓库的清爽。
 
-### 示例
+#### 测试示例
 
 以下是评测脚本的**使用示例**：
 
@@ -84,48 +191,49 @@ error at line 7 column 5: syntax error
 
 直接使用初始代码尝试评测，每个样例都会报错 `CE: cminusfc compiler error`。
 
-<details>
-    <summary>初始代码评测后的 log 文件</summary>
-    ==========./testcases/0-io.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_call</br>
-    ==========./testcases/1-return.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_call</br>
-    ==========./testcases/2-calculate.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/3-output.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_call</br>
-    ==========./testcases/4-if.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/5-while.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/6-array.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/7-function.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/8-store.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/9-fibonacci.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/10-float.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/11-floatcall.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-    ==========./testcases/12-global.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_load</br>
-    ==========./testcases/13-complex.cminus==========</br>
-    terminate called after throwing an instance of 'not_implemented_error'</br>
-      what():  gen_alloca</br>
-</details>
+!!! detail "初始代码评测后的 log 文件"
+
+    ```
+    ==========./testcases/0-io.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_call
+    ==========./testcases/1-return.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_call
+    ==========./testcases/2-calculate.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/3-output.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_call
+    ==========./testcases/4-if.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/5-while.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/6-array.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/7-function.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/8-store.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/9-fibonacci.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/10-float.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/11-floatcall.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ==========./testcases/12-global.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_load
+    ==========./testcases/13-complex.cminus==========
+    terminate called after throwing an instance of 'not_implemented_error'
+    what(): gen_alloca
+    ```
