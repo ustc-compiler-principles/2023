@@ -81,15 +81,14 @@ $ echo "export PATH=\$PATH:/opt/cross-tools.gcc_glibc/bin:/opt/gdb/bin:/opt/qemu
 
     ```shell
     $ qemu-loongarch64 -version
-    qemu-loongarch64 version 8.1.1
-    Copyright (c) 2003-2023 Fabrice Bellard and the QEMU Project developers
+    qemu-loongarch64 version 6.2.50 (v6.0.0-7567-gac069a8ffb)
+    Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
     ```
 
 ??? info "检查龙芯 gdb 版本"
 
     ```shell
     $ loongarch64-unknown-linux-gnu-gdb -v
-
     GNU gdb (GDB) 12.0.50.20210713-git
     Copyright (C) 2021 Free Software Foundation, Inc.
     License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
