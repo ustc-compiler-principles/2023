@@ -1,4 +1,4 @@
-# Lab0：基础实验
+# Lab0 实验准备
 
 !!! warning "Deadline"
 
