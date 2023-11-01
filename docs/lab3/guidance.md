@@ -2,42 +2,6 @@
 
 ## 阶段一：预热实验
 
-### 实验内容
-
-实验在 `tests/3-codegen/warmup/ll_cases/` 目录下提供了六个 `.ll` 文件。学生需要在 `tests/3-codegen/warmup/stu_cpp/` 目录中，依次完成 `assign_codegen.cpp`、`float_codegen.cpp`、`global_codegen.cpp`、`function_codegen.cpp`、`icmp_codegen.cpp` 和 `fcmp_codegen.cpp` 六个 C++ 程序中的 TODO。这六个程序运行后应该能够生成 `tests/3-codegen/warmup/ll_cases/` 目录下六个 `.ll` 文件对应的汇编程序。
-
-### 编译、运行、测试
-
-#### 编译
-
-```shell
-$ cd 2023ustc-jianmu-compiler
-$ mkdir build
-$ cd build
-# 使用 cmake 生成 makefile 等文件
-$ cmake ..
-# 使用 make 进行编译
-$ make
-```
-
-如果构建成功，你会在 `build` 文件夹下找到 `stu_assign_codegen`, `stu_float_codegen` 等可执行文件。
-
-#### 运行与测试
-
-!!! note
-
-    在运行和测试之前，你应该确保你完成了[后端环境配置](./environment.md)。
-
-```shell
-# 在 build 目录下操作
-$ ./stu_assign_codegen > assign.s
-$ loongarch64-unknown-linux-gnu-gcc -static assign.s -o assign
-$ qemu-loongarch64 ./assign
-$ echo $?
-```
-
-你可以通过观察原来的 `.ll` 代码来推断 `echo $?` 应该返回的正确结果，也可以直接使用 `lli` 执行 `.ll` 文件来获取正确结果。
-
 ### 仓库目录结构
 
 与预热实验相关的文件如下：
@@ -57,7 +21,60 @@ $ echo $?
             └── stu_cpp           <- 学生需要编写的汇编代码手动生成器
 ```
 
+### 实验内容
+
+实验在 `tests/3-codegen/warmup/ll_cases/` 目录下提供了六个 `.ll` 文件。学生需要在 `tests/3-codegen/warmup/stu_cpp/` 目录中，依次完成 `assign_codegen.cpp`、`float_codegen.cpp`、`global_codegen.cpp`、`function_codegen.cpp`、`icmp_codegen.cpp` 和 `fcmp_codegen.cpp` 六个 C++ 程序中的 TODO。这六个程序运行后应该能够生成 `tests/3-codegen/warmup/ll_cases/` 目录下六个 `.ll` 文件对应的汇编程序。
+
+### 编译
+
+```shell
+$ cd 2023ustc-jianmu-compiler
+$ mkdir build
+$ cd build
+# 使用 cmake 生成 makefile 等文件
+$ cmake ..
+# 使用 make 进行编译
+$ make
+```
+
+如果构建成功，你会在 `build` 文件夹下找到 `stu_assign_codegen`, `stu_float_codegen` 等可执行文件。
+
+### 运行与测试
+
+!!! note
+
+    在运行和测试之前，你应该确保你完成了[后端环境配置](./environment.md)。
+
+```shell
+# 在 build 目录下操作
+$ ./stu_assign_codegen > assign.s
+$ loongarch64-unknown-linux-gnu-gcc -static assign.s -o assign
+$ qemu-loongarch64 ./assign
+$ echo $?
+```
+
+你可以通过观察原来的 `.ll` 代码来推断 `echo $?` 应该返回的正确结果，也可以直接使用 `lli` 执行 `.ll` 文件来获取正确结果。
+
 ## 阶段二：编译器后端
+
+### 仓库目录结构
+
+与实验第二阶段相关的文件如下：
+
+```
+.
+├── include
+│   └── codegen/*					# 相关头文件
+├── src
+│   └── codegen
+│       └── CodeGen.cpp     	<-- 学生需要补全的文件
+└── tests
+    ├── 3-codegen
+    │   └── autogen
+    │       ├── eval_lab3.sh	<-- 测评脚本
+    │		└── testcases 		<-- lab3 第二阶段的测例目录一
+    └── testcases_general		<-- lab3 第二阶段的测例目录二
+```
 
 ### 实验内容
 
@@ -66,11 +83,11 @@ $ echo $?
 !!! info "实现约定"
 
     出于简化实验的目的，我们只考核最核心的功能点，对如下情况不做要求：
-
+    
     - phi 指令：本实验不考核对于 phi 指令的处理
-
+    
     - 函数调用传参：本次实验只考核使用寄存器传参的情况，即对于超多参数的栈上传参不做要求
-
+    
     此外，存在部分 `void main() {...}` 的样例，其返回值是未定义的，我们要求这样的主函数通过寄存器 `$a0` 返回 0，以顺利进行测评。
 
 ### 编译
@@ -136,8 +153,6 @@ $ qemu-loongarch64 ./test
 出现错误时请查阅相关文件。
 
 在结束测评后，你可以使用 `./cleanup.sh` **清空**上述文件/目录，以保持仓库的清爽。
-
-#### 测试示例
 
 以下是评测脚本的**使用示例**：
 
