@@ -1,9 +1,5 @@
 # Lab3 后端代码生成
 
-!!! warning "Deadline"
-
-    **2023 年 11 月 xx 日 23:59**
-
 经过 Lab1 和 Lab2，我们的编译器能够将 Cminusf 源代码翻译成 Light IR。本次实验要求同学们将 IR 翻译成龙芯汇编指令。
 
 ## 实验内容
@@ -24,7 +20,7 @@
 
 !!! warning "Deadline"
 
-    **待定**
+    **2023 年 11 月 10 日 23:59**
 
 ### 阶段二
 
@@ -41,7 +37,7 @@ $ git pull upstream master
 
 !!! warning "Deadline"
 
-    **待定**
+    **2023 年 11 月 24 日 23:59**
 
 ## 实验要求
 
