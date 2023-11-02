@@ -1,27 +1,6 @@
 # 后端框架介绍
 
-本次更新的相关文件如下：
-
-```
-.
-├── ...
-├── include
-│   ├── ...
-│   └── codegen
-│       ├── ASMInstruction.hpp	# 描述汇编指令
-│       ├── CodeGen.hpp			# 后端框架顶层设计
-│       ├── CodeGenUtil.hpp		# 一些辅助函数及宏的定义
-│       └── Register.hpp		# 描述寄存器
-├── src
-│   ├── ...
-│   └── codegen
-│       ├── CMakeLists.txt
-│       ├── CodeGen.cpp		<-- 你需要修改的文件
-│       └── Register.cpp
-└── tests
-    ├── ...
-    └── 3-codegen/*				# lab3 测试
-```
+本篇文档将介绍后端的代码框架。阅读前，你应该浏览下[这里的目录结构](../#同步实验仓库)，对框架的文件布局有总体的印象。
 
 ## 极简框架
 
