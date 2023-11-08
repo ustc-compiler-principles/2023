@@ -223,7 +223,7 @@ Light IR C++ 库依据 LLVM 设计，用于生成 IR。在介绍其核心类之�
 - basicblock 是指程序顺序执行的语句序列，只有一个入口和一个出口。basicblock 由若干指令 instruction 构成。
 - 注意一个 basicblock 中**只能有一条终止指令**（Ret/Br）。
 
-!!! notes
+!!! note
 
     为了区别 Light IR 中的概念与我们实现的 Light IR C++ 库。我们用小写 plain text 来表示 Light IR 中的概念，例如 module；用大写的 code block 来表示 C++ 实现，例如 `Module`。
 
