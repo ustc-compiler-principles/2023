@@ -1,6 +1,4 @@
-# USTC 编译原理和技术 2023 课程主页
-
-欢迎来到中国科学技术大学“编译原理和技术”（Principles and Techniques of Compiler）课程主页！
+# USTC 编译原理和技术 2023
 
 ## 课程信息
 
