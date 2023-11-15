@@ -61,6 +61,7 @@
 | 2023-11-06 |    中间代码翻译 - 数组寻址 & 运行时管理 - 存储组织     |                                       [part7](https://rec.ustc.edu.cn/share/898d59b0-81e4-11ee-a431-a7ebbdb09b39), [part1](https://rec.ustc.edu.cn/share/898d59b0-81e4-11ee-a431-a7ebbdb09b39)                                        |
 | 2023-11-08 | 运行时管理 - 栈式分配 & 代码生成 - 概述与简单机器模型  |                                       [part2](https://rec.ustc.edu.cn/share/898d59b0-81e4-11ee-a431-a7ebbdb09b39), [part1](https://rec.ustc.edu.cn/share/898d59b0-81e4-11ee-a431-a7ebbdb09b39)                                        |
 | 2023-11-13 |           机器无关代码优化 - 常见的优化方式            |                                                                              [part1](https://rec.ustc.edu.cn/share/898d59b0-81e4-11ee-a431-a7ebbdb09b39)                                                                              |
+| 2023-11-15 |  机器无关代码优化 - 数据流与到达定值、可用表达式分析   |                                       [part2](https://rec.ustc.edu.cn/share/ec735a10-8372-11ee-a33f-3f4ce56e99ac), [part3](https://rec.ustc.edu.cn/share/f7edf830-8372-11ee-a4ee-89e3b900b6a4)                                        |
 
 ## 参考资料
 
