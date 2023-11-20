@@ -24,6 +24,6 @@
   "homepage": "https://github.com/ustc-compiler-principles/2023#readme",
   "dependencies": {
     "autocorrect-node": "^2.8.4",
-    "prettier": "^2.5.1"
+    "prettier": "^3.1.0"
   }
 }
