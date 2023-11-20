@@ -6,9 +6,9 @@
 
 <!-- TODO: 汇编填写挖空 -->
 
-> 本介绍参考自[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-CN.pdf)。
+> 本介绍参考自[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf)。
 
-龙芯架构 LoongArch 是一种精简指令集计算机（RISC）风格的指令系统架构，分为 32 位和 64 位两个版本，分别称为 LA32 架构和 LA64 架构。我们主要关注 LA64 架构中的非向量整数指令和非向量浮点指令中的一部分，如果你想了解更多关于龙芯汇编的内容，可以参考[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-CN.pdf)。
+龙芯架构 LoongArch 是一种精简指令集计算机（RISC）风格的指令系统架构，分为 32 位和 64 位两个版本，分别称为 LA32 架构和 LA64 架构。我们主要关注 LA64 架构中的非向量整数指令和非向量浮点指令中的一部分，如果你想了解更多关于龙芯汇编的内容，可以参考[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf)。
 
 ## 汇编文件的组成
 
@@ -181,7 +181,7 @@ exit:
 
 比如，将长整数型定点数（双字）转化为单精度浮点数的指令名为 `ffint.s.l`（`.s` 表示转化的目标为单精度浮点数，`.l` 表示转化的源头为有双字）。
 
-更复杂的数据位宽情况这里不做讨论，感兴趣的同学可以自行查阅[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-CN.pdf)的 1.3 章节。
+更复杂的数据位宽情况这里不做讨论，感兴趣的同学可以自行查阅[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf)的 1.3 章节。
 
 ### 整数指令
 
@@ -739,7 +739,7 @@ exit:
 ??? info "舍入模式"
 
     为了和 LLVM IR/Light IR 中 `fptosi` 的行为一致，我们选择 “向零方向舍入”（rounding towards zero）作为舍入模式，即选择 `ftintrz` 作为转换浮点数为定点数的指令。
-    龙芯架构中也有支持其他的舍入模式的 `ftint*` 指令，感兴趣的同学可以参考[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-CN.pdf)的第 3.2.3.2 节。
+    龙芯架构中也有支持其他的舍入模式的 `ftint*` 指令，感兴趣的同学可以参考[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf)的第 3.2.3.2 节。
 
 `ftintrz` 指令有两个后缀，其中第一个后缀 `.w` 表示转换的目标是整数型（字，4 字节）定点数，第二个后缀 `.s` 表示转换的来源为单精度浮点数。
 
@@ -873,7 +873,7 @@ exit:
   | `slt`  | `0x3`  |   小于   |        `$fj < $fk`         |
   | `sle`  | `0x7`  | 小于等于 |        `$fj <= $fk`        |
 
-  如果你想了解全部的 22 种 `cond`，可以参考[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-CN.pdf)的第 3.2.2 节
+  如果你想了解全部的 22 种 `cond`，可以参考[《龙芯架构参考手册 - 卷一：基础架构》](https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf)的第 3.2.2 节
 
 - 示例：
 
