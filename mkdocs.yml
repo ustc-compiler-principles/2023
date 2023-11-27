@@ -60,4 +60,5 @@ nav:
     - 龙芯汇编介绍: common/asm_intro.md
     - 栈式分配介绍: lab3/stack_allocation.md
     - 后端框架介绍: lab3/framework.md
+  - Lab4: lab4/index.md
   - FAQ: faq/README.md
