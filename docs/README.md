@@ -67,8 +67,8 @@
 | 2023-11-22 |                        静态类型检查 & 流图中的循环                        |                                       [part1](https://rec.ustc.edu.cn/share/60bbf180-9045-11ee-bc96-e388a9810d5b), [part1](https://rec.ustc.edu.cn/share/4ad00130-9045-11ee-a6b5-83f7236ec56e)                                        |
 | 2023-11-27 |                      运行时刻环境 - 非局部变量的访问                      |                                                                              [part2](https://rec.ustc.edu.cn/share/bef41780-9045-11ee-8887-1ba1740d80fe)                                                                              |
 | 2023-11-29 |                          面向目标机器的代码优化                           |                                                                              [part1](https://rec.ustc.edu.cn/share/d6169380-9045-11ee-8a37-87201671ab8d)                                                                              |
-| 2023-12-04 |                          guest lecture                           |                                                                             None                                                                            |
-| 2023-12-06 |                          guest lecture                         |                                                                              None                                                                            |
+| 2023-12-04 |                          guest lecture                           |                                                                             无slides                                                                           |
+| 2023-12-06 |                          guest lecture                         |                                                                              无slides                                                                           |
 
 
 ## 参考资料
