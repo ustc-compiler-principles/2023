@@ -26,6 +26,7 @@
 - QQ 群：805431263
 - 录课视频（需校内统一身份认证）：<https://v.ustc.edu.cn/1/2023-1/capture-course/011163.02/detail>
 - 希冀实验平台（作业及实验提交）：<http://cscourse.ustc.edu.cn/>
+- 实验框架已公开，见参考资料[<sup>2</sup>](#textbook2)
 
 ## 公告
 
@@ -79,7 +80,7 @@
 ### 教材和参考书
 
 - <div id='textbook'></div>[1] 陈意云、张昱，编译原理（第 3 版），高等教育出版社，2014
-- 李诚、徐伟，面向自主指令集的编译器设计与实现（实验讲义版本，高等教育出版社待出版，2023）。[教材资源及实验框架](https://ustc-compiler-principles.github.io/textbook/)
+- <div id='textbook2'></div>[2] 李诚、徐伟，现代编译器设计与实现（实验讲义版本，高等教育出版社待出版，2023）。[教材资源及实验框架](https://ustc-compiler-principles.github.io/textbook/)
 - A. V. Aho, M. S. Lam, R. Sethi, and J. D. Ullman 著，赵建华等译，编译原理，机械工业出版社，2017
 
 ### 其他资料
