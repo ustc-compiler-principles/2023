@@ -26,7 +26,7 @@
 - QQ 群：805431263
 - 录课视频（需校内统一身份认证）：<https://v.ustc.edu.cn/1/2023-1/capture-course/011163.02/detail>
 - 希冀实验平台（作业及实验提交）：<http://cscourse.ustc.edu.cn/>
-- 实验框架已公开，见参考资料[<sup>2</sup>](#textbook2)
+- **实验框架已公开，见参考资料[<sup>2</sup>](#textbook2)**
 
 ## 公告
 
