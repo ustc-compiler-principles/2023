@@ -1,0 +1,1553 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../visitor_pattern/">
+      
+      
+        <link rel="next" href="../../lab3/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>IR 自动化生成 - USTC 编译原理和技术 2023</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ir-自动化生成" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-header__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            USTC 编译原理和技术 2023
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IR 自动化生成
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-nav__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    USTC 编译原理和技术 2023
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    首页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exp_platform_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程平台介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    公共文档
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            公共文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/cminusf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cminusf 语法语义介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/LightIR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/simple_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++ 介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging 工具使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/asm_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab0
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab0
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab0 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/software/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLVM 等软件环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git 的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/Flex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/Bison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/%E5%AE%9E%E9%AA%8C%E7%BB%86%E8%8A%82%E4%B8%8E%E8%A6%81%E6%B1%82/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验细节与要求
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../warmup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 预热
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visitor_pattern/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    访问者模式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    IR 自动化生成
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    IR 自动化生成
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#实验框架介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验框架介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验框架介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#抽象语法树" class="md-nav__link">
+    <span class="md-ellipsis">
+      抽象语法树
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#符号表-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      符号表 Scope
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cminusfbuilder-类" class="md-nav__link">
+    <span class="md-ellipsis">
+      CminusfBuilder 类
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实验内容" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验内容
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实验要求" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验要求
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验要求">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#仓库目录结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      仓库目录结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译运行和评测" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译、运行和评测
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="编译、运行和评测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#情况一生成-ir-文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      情况一：生成 IR 文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#情况二生成可执行文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      情况二：生成可执行文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab3
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/guidance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 实验指导
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/asm_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/stack_allocation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    栈式分配介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端框架介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../innovative-lab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    建木杯–编译原理创新实验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#实验框架介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验框架介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验框架介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#抽象语法树" class="md-nav__link">
+    <span class="md-ellipsis">
+      抽象语法树
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#符号表-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      符号表 Scope
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cminusfbuilder-类" class="md-nav__link">
+    <span class="md-ellipsis">
+      CminusfBuilder 类
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实验内容" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验内容
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实验要求" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验要求
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验要求">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#仓库目录结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      仓库目录结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译运行和评测" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译、运行和评测
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="编译、运行和评测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#情况一生成-ir-文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      情况一：生成 IR 文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#情况二生成可执行文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      情况二：生成可执行文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="ir-自动化生成">IR 自动化生成<a class="headerlink" href="#ir-自动化生成" title="Permanent link">&para;</a></h1>
+<p>学生将在本阶段提供的实验框架下，利用访问者模式遍历抽象语法树，调用 Light IR C++ 库，实现 IR 自动化生成。</p>
+<h2 id="实验框架介绍">实验框架介绍<a class="headerlink" href="#实验框架介绍" title="Permanent link">&para;</a></h2>
+<h3 id="抽象语法树">抽象语法树<a class="headerlink" href="#抽象语法树" title="Permanent link">&para;</a></h3>
+<div class="admonition notes">
+<p class="admonition-title">分析树（Parse Tree）与抽象语法树（Abstract Syntax Tree）</p>
+<p>分析树在语法分析的过程中被构造；抽象语法树则是分析树的浓缩表示，使用运算符作为根节点和内部节点，并使用操作数作为子节点。进一步了解可以阅读 <a href="https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-trees-and-abstract-syntax-trees-asts">分析树和抽象语法树的比较</a>。</p>
+</div>
+<p>实验框架实现了 Lab1 生成的分析树到 C++ 上的抽象语法树的转换。可以使用<a href="../visitor_pattern/">访问者模式</a>来实现对抽象语法树的遍历，<a href="https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/include/common/ast.hpp">ast.hpp</a> 文件中包含抽象语法树节点定义。</p>
+<h3 id="符号表-scope">符号表 Scope<a class="headerlink" href="#符号表-scope" title="Permanent link">&para;</a></h3>
+<p>在 <code>include/cminusf_builder.hpp</code> 中，我们定义了一个用于存储作用域的类 <code>Scope</code>。它的作用是辅助我们在遍历语法树时，管理不同作用域中的变量。它提供了以下接口：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 进入一个新的作用域</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">enter</span><span class="p">();</span>
+<span class="c1">// 退出一个作用域</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">exit</span><span class="p">();</span>
+<span class="c1">// 往当前作用域插入新的名字-&gt;值映射</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">);</span>
+<span class="c1">// 根据名字，寻找到值</span>
+<span class="n">Value</span><span class="o">*</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<span class="c1">// 判断当前作用域是否是全局作用域</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">in_global</span><span class="p">();</span>
+</code></pre></div>
+<p>你需要根据语义合理调用 <code>enter</code> 与 <code>exit</code>，并且在变量声明和使用时正确调用 <code>push</code> 与 <code>find</code>。</p>
+<h3 id="cminusfbuilder-类"><code>CminusfBuilder</code> 类<a class="headerlink" href="#cminusfbuilder-类" title="Permanent link">&para;</a></h3>
+<p><code>CminusfBuilder</code> 类定义在 <a href="https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2023ustc-jianmu-compiler/-/blob/master/include/cminusfc/cminusf_builder.hpp">cminusf_builder.hpp</a>文件中，<code>CminusfBuilder</code> 类中定义了对抽象语法树不同语法节点的 <code>visit</code> 函数，实验已给出了一些语法树节点的访问规则，其余的需要学生补充。</p>
+<p>在 <code>CminusfBuilder</code> 构造函数函数中，下列代码片段是对 <a href="../../common/cminusf/#cminusf-的语义">Cminusf 语义</a>中的 4 个预定义函数进行声明并加入全局符号表中，在生成 IR 时可从符号表中查找。我们的测试样例会使用这些函数，从而实现 IO。</p>
+<div class="highlight"><pre><span></span><code><span class="n">scope</span><span class="p">.</span><span class="n">enter</span><span class="p">();</span>
+<span class="n">scope</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="s">&quot;input&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">input_fun</span><span class="p">);</span>
+<span class="n">scope</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">output_fun</span><span class="p">);</span>
+<span class="n">scope</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="s">&quot;outputFloat&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">output_float_fun</span><span class="p">);</span>
+<span class="n">scope</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="s">&quot;neg_idx_except&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">neg_idx_except_fun</span><span class="p">);</span>
+</code></pre></div>
+<p><code>CminusfBuilder</code> 类使用成员 <code>context</code> 存储翻译时状态，下列代码片段是 <code>context</code> 的定义，学生需要为该结构体添加更多域来存储翻译时的状态。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// function that is being built</span>
+<span class="w">    </span><span class="n">Function</span><span class="w"> </span><span class="o">*</span><span class="n">func</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">context</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="实验内容">实验内容<a class="headerlink" href="#实验内容" title="Permanent link">&para;</a></h2>
+<p>阅读 <a href="../../common/cminusf/#cminusf-的语义">Cminusf 语义</a>，并根据语义补全 <code>include/cminusfc/cminusf_builder.hpp</code> 与 <code>src/cminusfc/cminusf_builder.cpp</code> 文件，实现 IR 自动产生的算法，使得它能正确编译任何合法的 Cminusf 程序，生成符合 <a href="../../common/cminusf/#cminusf-的语义">Cminusf 语义</a>的 IR。</p>
+<p><strong>友情提示</strong>：</p>
+<ol>
+<li>请比较通过 cminusfc 产生的 IR 和通过 clang 产生的 IR 来找出可能的问题或发现新的思路。</li>
+<li>使用 GDB 进行调试来检查错误的原因。</li>
+<li>我们为 <code>Function</code>、<code>Type</code> 等类都实现了 <code>print</code> 接口，可以使用我们提供的 <a href="../../common/logging/">logging 工具</a> 进行打印调试。</li>
+<li>对于 C++ 不熟悉的学生可以参考 <a href="../../common/simple_cpp/">C++ 简介</a>。</li>
+</ol>
+<h2 id="实验要求">实验要求<a class="headerlink" href="#实验要求" title="Permanent link">&para;</a></h2>
+<h3 id="仓库目录结构">仓库目录结构<a class="headerlink" href="#仓库目录结构" title="Permanent link">&para;</a></h3>
+<p>与该阶段有关的文件如下。</p>
+<div class="highlight"><pre><span></span><code>.
+├── CMakeLists.txt
+├── include                             &lt;- 实验所需的头文件
+│   ├── ...
+|   ├── cminusfc
+|   |    └── cminusf_builder.hpp        &lt;- 该阶段需要修改的文件
+│   ├── lightir/*
+│   └── common
+│        ├── ast.hpp
+│        ├── logging.hpp
+│        └── syntax_tree.h
+├── src
+│   ├── ...
+│   └── cminusfc
+│       ├── cminusfc.cpp                &lt;- cminusfc 的主程序文件
+│       └── cminusf_builder.cpp         &lt;- 该阶段需要修改的文件
+└── tests
+    ├── ...
+    └── 2-ir-gen
+        └── autogen
+            ├── testcases                &lt;- 助教提供的测试样例
+            ├── answers                  &lt;- 助教提供的测试样例
+            └── eval_lab2.py             &lt;- 助教提供的测试脚本
+</code></pre></div>
+<h3 id="编译运行和评测">编译、运行和评测<a class="headerlink" href="#编译运行和评测" title="Permanent link">&para;</a></h3>
+<p><strong>编译</strong></p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>2023ustc-jianmu-compiler
+$<span class="w"> </span>mkdir<span class="w"> </span>build
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="c1"># 使用 cmake 生成 makefile 等文件</span>
+$<span class="w"> </span>cmake<span class="w"> </span>..
+<span class="c1"># 使用 make 进行编译</span>
+$<span class="w"> </span>make
+<span class="c1"># 安装以链接 libcminus_io.a</span>
+$<span class="w"> </span>sudo<span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+<p>如果构建成功，你会在 <code>build</code> 文件夹下找到 cminusfc 可执行文件，它能将 cminus 文件输出为 IR 文件，编译成二进制可执行文件。</p>
+<p><strong>运行</strong></p>
+<p>我们在 <code>tests/testcases_general</code> 文件夹中准备了一些通用案例。当需要对 <code>.cminus</code> 单个文件测试时，可以这样使用：</p>
+<h4 id="情况一生成-ir-文件">情况一：生成 IR 文件<a class="headerlink" href="#情况一生成-ir-文件" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>为了让 cminusfc 在 <code>$PATH</code> 中，一定要 <code>sudo make install</code>。</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># 假设 cminusfc 的路径在你的 $PATH 中，并且你现在在 test.cminus 文件所在目录中</span>
+$<span class="w"> </span>cminusfc<span class="w"> </span>test.cminus<span class="w"> </span>-emit-llvm
+</code></pre></div>
+<p>此时会在同目录下生成同名的 .ll 文件，在这里即为 <code>test.ll</code>。</p>
+<h4 id="情况二生成可执行文件">情况二：生成可执行文件<a class="headerlink" href="#情况二生成可执行文件" title="Permanent link">&para;</a></h4>
+<p>上面生成的 .ll 文件用于阅读，如果需要运行，需要调用 clang 编译链接生成二进制文件 <code>test</code></p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>clang<span class="w"> </span>-O0<span class="w"> </span>-w<span class="w"> </span>-no-pie<span class="w"> </span>test.ll<span class="w"> </span>-o<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-lcminus_io
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>上面的命令编译了 <code>test.ll</code>，并链接了 <code>cminus_io</code> 库。</p>
+</div>
+<p><strong>测试</strong></p>
+<!-- TODO: 把 general 加上去 -->
+
+<p>自动测试脚本和所有测试样例都是公开的，它在 <code>tests/2-ir-gen/autogen</code> 目录下，使用方法如下：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 在 tests/2-ir-gen/autogen 目录下运行：</span>
+$<span class="w"> </span>python3<span class="w"> </span>./eval_lab2.py
+$<span class="w"> </span>cat<span class="w"> </span>eval_result
+</code></pre></div>
+<p>测试结果会输出到 <code>tests/2-ir-gen/autogen/eval_result</code>。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../visitor_pattern/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 访问者模式">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                访问者模式
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../lab3/" class="md-footer__link md-footer__link--next" aria-label="下一页: Lab3 简介">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Lab3 简介
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

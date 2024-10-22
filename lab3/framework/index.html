@@ -1,0 +1,1530 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../stack_allocation/">
+      
+      
+        <link rel="next" href="../../lab4/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>后端框架介绍 - USTC 编译原理和技术 2023</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#后端框架介绍" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-header__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            USTC 编译原理和技术 2023
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              后端框架介绍
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-nav__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    USTC 编译原理和技术 2023
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    首页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exp_platform_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程平台介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    公共文档
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            公共文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/cminusf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cminusf 语法语义介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/LightIR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/simple_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++ 介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging 工具使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/asm_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab0
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab0
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab0 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/software/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLVM 等软件环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git 的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/Flex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/Bison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/%E5%AE%9E%E9%AA%8C%E7%BB%86%E8%8A%82%E4%B8%8E%E8%A6%81%E6%B1%82/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验细节与要求
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/warmup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 预热
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/visitor_pattern/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    访问者模式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/autogen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IR 自动化生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab3
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guidance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 实验指导
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/asm_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack_allocation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    栈式分配介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    后端框架介绍
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    后端框架介绍
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#极简框架" class="md-nav__link">
+    <span class="md-ellipsis">
+      极简框架
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基本类描述" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本类描述
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本类描述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令类" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令类
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#寄存器类" class="md-nav__link">
+    <span class="md-ellipsis">
+      寄存器类
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#辅助函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      辅助函数
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="辅助函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loadstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      load/store
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append_inst" class="md-nav__link">
+    <span class="md-ellipsis">
+      append_inst()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#变量分配" class="md-nav__link">
+    <span class="md-ellipsis">
+      变量分配
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../innovative-lab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    建木杯–编译原理创新实验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#极简框架" class="md-nav__link">
+    <span class="md-ellipsis">
+      极简框架
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基本类描述" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本类描述
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本类描述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令类" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令类
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#寄存器类" class="md-nav__link">
+    <span class="md-ellipsis">
+      寄存器类
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#辅助函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      辅助函数
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="辅助函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loadstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      load/store
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append_inst" class="md-nav__link">
+    <span class="md-ellipsis">
+      append_inst()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#变量分配" class="md-nav__link">
+    <span class="md-ellipsis">
+      变量分配
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="后端框架介绍">后端框架介绍<a class="headerlink" href="#后端框架介绍" title="Permanent link">&para;</a></h1>
+<p>本篇文档将介绍后端的代码框架。阅读前，你应该浏览下<a href="../#同步实验仓库">这里的目录结构</a>，对框架的文件布局有总体的印象。</p>
+<h2 id="极简框架">极简框架<a class="headerlink" href="#极简框架" title="Permanent link">&para;</a></h2>
+<p>本次实验的框架相对简单，你只需要少量的代码阅读就能快速进入代码撰写的环节。</p>
+<p>顶层的 <code>Codegen</code> 类只维护了如下成员：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CodeGen</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">context</span><span class="p">;</span><span class="w">             </span><span class="c1">// 类似 lab2 的 context，用于保存翻译过程中的上下文信息，如当前所在函数</span>
+<span class="w">    </span><span class="n">Module</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">;</span><span class="w">                          </span><span class="c1">// 输入的 IR 模块</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">ASMInstruction</span><span class="o">&gt;</span><span class="w"> </span><span class="n">output</span><span class="p">;</span><span class="w">   </span><span class="c1">// 生成的汇编指令</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>几个上层函数如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CodeGen</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">explicit</span><span class="w"> </span><span class="n">CodeGen</span><span class="p">(</span><span class="n">Module</span><span class="w"> </span><span class="o">*</span><span class="k">module</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m</span><span class="p">(</span><span class="k">module</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="c1">// 构造函数</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                      </span><span class="c1">// 将汇编指令格式化输出</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">();</span><span class="w">                                     </span><span class="c1">// 后端代码生成的入口函数</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>你需要了解或者实现的是下面一系列函数：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CodeGen</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">// 栈式分配的变量分配环节，将在函数翻译开始时调用</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">allocate</span><span class="p">();</span>
+
+<span class="w">    </span><span class="cm">/*=== 以下为助教准备的辅助函数 ===*/</span>
+<span class="w">    </span><span class="c1">// 将数据在寄存器和栈帧间搬移。下边的章节将详细介绍</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">load_xxx</span><span class="p">(...);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">store_xxx</span><span class="p">(...);</span>
+<span class="w">    </span><span class="c1">// 添加汇编指令</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">append_inst</span><span class="p">(...);</span>
+<span class="w">    </span><span class="c1">// 基本块在汇编程序中的名字</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">label_name</span><span class="p">(</span><span class="n">BasicBlock</span><span class="w"> </span><span class="o">*</span><span class="n">bb</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/*=== 以上为助教准备的辅助函数 ===*/</span>
+
+<span class="w">    </span><span class="c1">// 需要补全的部分，进行代码生成的各个环节</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">gen_xxx</span><span class="p">(...);</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>初始代码已经为你处理好了一些繁琐的细节，如全局变量的定义及初始化、汇编中 <code>section</code> <code>type</code> 的定义等，所以你可以把重点放在栈式分配的实现中。</p>
+<h2 id="基本类描述">基本类描述<a class="headerlink" href="#基本类描述" title="Permanent link">&para;</a></h2>
+<p>框架对后端中的指令和寄存器进行了抽象，下面将依次介绍这两个基本类。</p>
+<h3 id="指令类">指令类<a class="headerlink" href="#指令类" title="Permanent link">&para;</a></h3>
+<p>指令类 <code>ASMInstruction</code> 是用来描述一行汇编指令的，在 <code>CodeGen</code> 中以 <code>std::list</code> 形式组织。指令类的代码定义如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">ASMInstruction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="nc">InstType</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Instruction</span><span class="p">,</span><span class="w">    </span><span class="c1">// 汇编指令</span>
+<span class="w">        </span><span class="n">Atrribute</span><span class="p">,</span><span class="w">      </span><span class="c1">// 汇编伪指令、描述符等非常规指令</span>
+<span class="w">        </span><span class="n">Label</span><span class="p">,</span><span class="w">          </span><span class="c1">// 汇编中的 label</span>
+<span class="w">        </span><span class="n">Comment</span><span class="w">         </span><span class="c1">// 注释</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">             </span><span class="c1">// 用来描述指令的用途，会被下面的 format 函数使用</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">content</span><span class="p">;</span><span class="w"> </span><span class="c1">// 汇编代码，不包含换行符等格式化的信息</span>
+
+<span class="w">    </span><span class="k">explicit</span><span class="w"> </span><span class="n">ASMInstruction</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">InstType</span><span class="w"> </span><span class="n">ty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Instruction</span><span class="p">);</span><span class="w"> </span><span class="c1">// 构造函数</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">format</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// 根据 type 对 content 进行格式化（如添加缩进、换行符等）</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>举个例子，<code>ASMInstruction("some debug info", ASMInstruction::Comment)</code> 定义了一个指令类实例，其用途是注释， <code>format()</code> 的返回结果是如下字符串：<code>"#some debug info\n"</code>。</p>
+<h3 id="寄存器类">寄存器类<a class="headerlink" href="#寄存器类" title="Permanent link">&para;</a></h3>
+<p>寄存器分为通用寄存器 <code>Reg</code> 、浮点寄存器 <code>FReg</code> 和条件标志寄存器 <code>CFReg</code>。</p>
+<p>以下是 <code>FReg</code> 的代码定义，<code>Reg</code> 与 <code>CFReg</code> 的定义与之类似：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">FReg</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w"> </span><span class="c1">// 0 &lt;= id &lt;= 31</span>
+
+<span class="w">    </span><span class="k">explicit</span><span class="w"> </span><span class="n">FReg</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">  </span><span class="c1">// 根据 id 返回寄存器别名，如 &quot;$fa0&quot; 而不是 &quot;$f0&quot;</span>
+
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="nf">fa</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"> </span><span class="c1">// 得到寄存器 $faN</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="nf">ft</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"> </span><span class="c1">// 得到寄存器 $ftN</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="nf">fs</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"> </span><span class="c1">// 得到寄存器 $fsN</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>举例：</p>
+<ul>
+<li><code>FReg(0)</code> 定义了寄存器 <code>$f0</code> 的实例，<code>print()</code> 的结果是 <code>"$fa0"</code></li>
+<li>为了获得 <code>$ft0</code> 的实例，你可以使用 <code>FReg(8)</code>，也可以使用更方便的<code>FReg::ft(0)</code></li>
+</ul>
+<h2 id="辅助函数">辅助函数<a class="headerlink" href="#辅助函数" title="Permanent link">&para;</a></h2>
+<p>在顶层的 <code>CodeGen</code> 类中，助教提供了很多辅助函数，主要是进行数据装载/写回的 load/store 相关和追加指令相关两大类，来帮助你更舒适地完成本次实验。</p>
+<h3 id="loadstore">load/store<a class="headerlink" href="#loadstore" title="Permanent link">&para;</a></h3>
+<p>阅读过<a href="../stack_allocation/">栈式分配介绍</a>后，你将认同：我们生成的汇编中，load、store 的使用会非常频繁。</p>
+<p>针对此，我们提供了如下函数，用于方便地提取数据至寄存器和将寄存器数据保存至栈上。</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CodeGen</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">//...</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">// 向寄存器中装载数据</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">load_to_greg</span><span class="p">(</span><span class="n">Value</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Reg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="w">    </span><span class="c1">// 将 IR 中的 Value 加载到整形寄存器中</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">load_to_freg</span><span class="p">(</span><span class="n">Value</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="w">   </span><span class="c1">// 将 IR 中的 Value 加载到浮点寄存器中</span>
+
+<span class="w">    </span><span class="c1">// 将寄存器中的数据保存回栈上</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">store_from_greg</span><span class="p">(</span><span class="n">Value</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Reg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 将整形寄存器中的数据保存至 IR 中 Value 对应的栈帧位置</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">store_from_freg</span><span class="p">(</span><span class="n">Value</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="c1">// 将浮点寄存器中的数据保存至 IR 中 Value 对应的栈帧位置</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>你只需要提供 IR 中的 <code>Value</code> 指针，同时指定目标寄存器，即可方便地完成数据的加载或备份。</p>
+<p>事实上，寄存器的另一大数据来源，还有立即数的提取。对于 12bit 能够表示的整形立即数，你可以直接使用 <code>$dest = $zero + imm</code> 的形式，对于比较复杂的大立即数提取及浮点立即数提取，我们提供了一些辅助函数：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CodeGen</span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">// 向寄存器中加载立即数</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">load_large_int32</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Reg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="w">    </span><span class="c1">// 提取 32 bit 的整数</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">load_large_int64</span><span class="p">(</span><span class="kt">int64_t</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Reg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="w">    </span><span class="c1">// 提取 64 bit 的整数</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">load_float_imm</span><span class="p">(</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">FReg</span><span class="w"> </span><span class="o">&amp;</span><span class="p">);</span><span class="w">       </span><span class="c1">// 提取单精度浮点数（32bit）</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>关于这些 API，虽然在这里给出了一些注释，它们看起来很好用，但是仍然不建议你开箱即用，希望你能简单阅读一下源码，理解其中在做什么后，再拿来使用。</p>
+<h3 id="append_inst">append_inst()<a class="headerlink" href="#append_inst" title="Permanent link">&para;</a></h3>
+<p><code>CodeGen</code> 中以 <code>std::list</code> 的形式组织 <code>ASMInstruction</code>，<code>append_inst()</code> 接口就是用来添加新的 <code>ASMInstruction</code>。</p>
+<p>这里有两个版本的<code>append_inst()</code>：</p>
+<ul>
+<li>
+<p>你可以直接按照 <code>ASMInstruction</code> 的构造函数添加指令，如：</p>
+<div class="highlight"><pre><span></span><code><span class="n">append_inst</span><span class="p">(</span><span class="s">&quot;st.d $ra, $sp, -8&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ASMInstruction</span><span class="o">::</span><span class="n">Instruction</span><span class="p">);</span>
+<span class="c1">// 第二个参数的默认值即为 ASMInstruction::Instruction，所以下边的代码等价</span>
+<span class="n">append_inst</span><span class="p">(</span><span class="s">&quot;st.d $ra, $sp, -8&quot;</span><span class="p">);</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>也可以使用二次封装后的版本：</p>
+<div class="highlight"><pre><span></span><code><span class="n">append_inst</span><span class="p">(</span><span class="s">&quot;st.d&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;$ra&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$sp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-8&quot;</span><span class="p">},</span><span class="w"> </span><span class="n">ASMInstruction</span><span class="o">::</span><span class="n">Instruction</span><span class="p">);</span>
+<span class="c1">// 最后一个参数的默认值即为 ASMInstruction::Instruction，所以下边的代码等价</span>
+<span class="n">append_inst</span><span class="p">(</span><span class="s">&quot;st.d&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;$ra&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$sp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-8&quot;</span><span class="p">});</span>
+</code></pre></div>
+<p>这么看还没有什么区别，在 <code>include/codegen/CodeGenUtil.hpp</code> 中，我们定义了一系列宏定义，你可以去看看，使用这些宏定义，结合其他 API，上述调用会变得不太一样：</p>
+<div class="highlight"><pre><span></span><code><span class="n">append_inst</span><span class="p">(</span><span class="n">STORE</span><span class="w"> </span><span class="n">DOUBLE</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">Reg</span><span class="o">::</span><span class="n">ra</span><span class="p">().</span><span class="n">print</span><span class="p">(),</span><span class="w"> </span><span class="n">Reg</span><span class="o">::</span><span class="n">sp</span><span class="p">().</span><span class="n">print</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;-8&quot;</span><span class="p">});</span>
+</code></pre></div>
+</li>
+</ul>
+<h2 id="变量分配">变量分配<a class="headerlink" href="#变量分配" title="Permanent link">&para;</a></h2>
+<p>关于变量分配的实验方案，我们已经在<a href="../stack_allocation/#实验方案">栈式分配介绍</a>中有过提及，初始代码已经为你实现，在 <code>src/codegen/CodeGen.cpp</code> 中的 <code>CodeGen::allocate()</code>。</p>
+<p>你可以设计自己喜欢的 <code>allocate()</code>，但是这不被推荐，因为我们不能保证框架的其他部分（主要是辅助函数）和你的设计兼容。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../stack_allocation/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 栈式分配介绍">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                栈式分配介绍
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../lab4/" class="md-footer__link md-footer__link--next" aria-label="下一页: Lab4">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Lab4
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

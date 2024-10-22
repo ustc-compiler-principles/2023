@@ -1,0 +1,1729 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Bison/">
+      
+      
+        <link rel="next" href="../../lab2/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>实验细节与要求 - USTC 编译原理和技术 2023</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#实验细节与要求" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-header__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            USTC 编译原理和技术 2023
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验细节与要求
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-nav__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    USTC 编译原理和技术 2023
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    首页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exp_platform_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程平台介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    公共文档
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            公共文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/cminusf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cminusf 语法语义介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/LightIR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/simple_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++ 介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging 工具使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/asm_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab0
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab0
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab0 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/software/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLVM 等软件环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git 的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Flex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Bison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    实验细节与要求
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    实验细节与要求
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#词法分析器" class="md-nav__link">
+    <span class="md-ellipsis">
+      词法分析器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="词法分析器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cminusf-词法" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cminusf 词法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实验内容" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验内容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#语法分析器" class="md-nav__link">
+    <span class="md-ellipsis">
+      语法分析器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="语法分析器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cminusf-语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cminusf 语法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实验内容_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验内容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实验要求" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验要求
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验要求">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#仓库目录结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      仓库目录结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译运行和评测" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译、运行和评测
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/warmup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 预热
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/visitor_pattern/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    访问者模式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/autogen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IR 自动化生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab3
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/guidance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 实验指导
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/asm_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/stack_allocation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    栈式分配介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端框架介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../innovative-lab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    建木杯–编译原理创新实验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#词法分析器" class="md-nav__link">
+    <span class="md-ellipsis">
+      词法分析器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="词法分析器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cminusf-词法" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cminusf 词法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实验内容" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验内容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#语法分析器" class="md-nav__link">
+    <span class="md-ellipsis">
+      语法分析器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="语法分析器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cminusf-语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cminusf 语法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实验内容_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验内容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实验要求" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验要求
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验要求">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#仓库目录结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      仓库目录结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译运行和评测" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译、运行和评测
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="实验细节与要求">实验细节与要求<a class="headerlink" href="#实验细节与要求" title="Permanent link">&para;</a></h1>
+<h2 id="词法分析器">词法分析器<a class="headerlink" href="#词法分析器" title="Permanent link">&para;</a></h2>
+<p>现在我们开始编写 Cminusf 的词法解析器。首先，让我们了解一下 Cminusf 的词法规则，随后将介绍实验要求和细节。</p>
+<h3 id="cminusf-词法">Cminusf 词法<a class="headerlink" href="#cminusf-词法" title="Permanent link">&para;</a></h3>
+<p>Cminus 是 C 语言的一个子集，该语言的语法在《编译原理与实践》第九章附录中有详细的介绍。而 Cminusf 则是在 Cminus 上追加了浮点操作。</p>
+<ol>
+<li>
+<p>关键字</p>
+<div class="highlight"><pre><span></span><code><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="kt">float</span>
+</code></pre></div>
+</li>
+<li>
+<p>专用符号</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="cm">/* */</span>
+</code></pre></div>
+</li>
+<li>
+<p>标识符 ID 和数值，通过下列正则表达式定义：</p>
+<div class="highlight"><pre><span></span><code><span class="n">letter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">|</span><span class="p">...</span><span class="o">|</span><span class="n">z</span><span class="o">|</span><span class="n">A</span><span class="o">|</span><span class="p">...</span><span class="o">|</span><span class="n">Z</span>
+<span class="n">digit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">|</span><span class="p">...</span><span class="o">|</span><span class="mi">9</span>
+<span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">letter</span><span class="o">+</span>
+<span class="n">INTEGER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digit</span><span class="o">+</span>
+<span class="n">FLOAT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">digit</span><span class="o">+</span><span class="p">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">digit</span><span class="o">*</span><span class="p">.</span><span class="n">digit</span><span class="o">+</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>注释用 <code>/*...*/</code> 表示，可以超过一行。注释不能嵌套。</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/*...*/</span>
+</code></pre></div>
+</li>
+</ol>
+<p>请认真阅读 Cminusf 的词法。其词法特性相比 C 语言做了大量简化，比如标识符 <code>student_id</code> 在 C 语言中是合法的，但是在 Cminusf 中是不合法的。</p>
+<h3 id="实验内容">实验内容<a class="headerlink" href="#实验内容" title="Permanent link">&para;</a></h3>
+<p>本部分需要各位同学在 <code>src/parser/lexical_analyzer.l</code> 文件中根据 Cminusf 的词法规则完成词法分析器。在 <code>lexical_analyzer.l</code> 文件中，你只需在规则部分补全模式和动作即可，能够输出识别出的 <code>token</code>，<code>text</code>，<code>line(刚出现的行数)</code>，<code>pos_start(该行开始位置)</code>，<code>pos_end(结束的位置，不包含)</code>。比如：</p>
+<p>文本输入：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>则识别结果应该如下：</p>
+<div class="highlight"><pre><span></span><code>Token<span class="w">         </span>Text<span class="w">      </span>Line<span class="w">    </span>Column<span class="w"> </span><span class="o">(</span>Start,End<span class="o">)</span>
+<span class="m">282</span><span class="w">           </span>void<span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">1</span>,5<span class="o">)</span>
+<span class="m">284</span><span class="w">           </span>main<span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">6</span>,10<span class="o">)</span>
+<span class="m">272</span><span class="w">              </span><span class="o">(</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">10</span>,11<span class="o">)</span>
+<span class="m">282</span><span class="w">           </span>void<span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">11</span>,15<span class="o">)</span>
+<span class="m">273</span><span class="w">              </span><span class="o">)</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">15</span>,16<span class="o">)</span>
+<span class="m">276</span><span class="w">              </span><span class="o">{</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">17</span>,18<span class="o">)</span>
+<span class="m">281</span><span class="w">         </span><span class="k">return</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">19</span>,25<span class="o">)</span>
+<span class="m">270</span><span class="w">              </span><span class="p">;</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">25</span>,26<span class="o">)</span>
+<span class="m">277</span><span class="w">              </span><span class="o">}</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">27</span>,28<span class="o">)</span>
+</code></pre></div>
+<p>必须维护正确的：<code>token</code>、<code>text</code></p>
+<p>选择维护的（方便 debug，测试）：<code>line</code>、<code>pos_start</code>、<code>pos_end</code></p>
+<p>请注意以下几点：</p>
+<ol>
+<li>在补全 <code>lexical_analyzer.l</code> 前，你需要在 <code>src/parser/syntax_analyzer.y</code> 中补全 <code>%union</code> 的相关内容；</li>
+<li>在补全 <code>lexical_analyzer.l</code> 前，需要首先修改 <code>src/parser/syntax_analyzer.y</code> 文件对 token 进行定义，定义方式形如 <code>%token &lt;node&gt; ERROR</code>；</li>
+<li>token 编号是程序自动生成的，根据 token 定义顺序不同，输出的 token 编号也可能不同，是正常现象；</li>
+<li>对于部分 token，只需被识别，但不应该被输出到分析结果中，因为这些 token 对程序运行没有作用。</li>
+</ol>
+<h2 id="语法分析器">语法分析器<a class="headerlink" href="#语法分析器" title="Permanent link">&para;</a></h2>
+<h3 id="cminusf-语法">Cminusf 语法<a class="headerlink" href="#cminusf-语法" title="Permanent link">&para;</a></h3>
+<p>本小节将给出 Cminusf 的语法，我们将 Cminusf 的所有规则分为五类。</p>
+<ol>
+<li>字面量、关键字、运算符与标识符<ul>
+<li><code>type-specifier</code></li>
+<li><code>relop</code></li>
+<li><code>addop</code></li>
+<li><code>mulop</code></li>
+</ul>
+</li>
+<li>声明<ul>
+<li><code>declaration-list</code></li>
+<li><code>declaration</code></li>
+<li><code>var-declaration</code></li>
+<li><code>fun-declaration</code></li>
+<li><code>local-declarations</code></li>
+</ul>
+</li>
+<li>语句<ul>
+<li><code>compound-stmt</code></li>
+<li><code>statement-list</code></li>
+<li><code>statement</code></li>
+<li><code>expression-stmt</code></li>
+<li><code>iteration-stmt</code></li>
+<li><code>selection-stmt</code></li>
+<li><code>return-stmt</code></li>
+</ul>
+</li>
+<li>表达式<ul>
+<li><code>expression</code></li>
+<li><code>simple-expression</code></li>
+<li><code>var</code></li>
+<li><code>additive-expression</code></li>
+<li><code>term</code></li>
+<li><code>factor</code></li>
+<li><code>integer</code></li>
+<li><code>float</code></li>
+<li><code>call</code></li>
+</ul>
+</li>
+<li>其他<ul>
+<li><code>params</code></li>
+<li><code>param-list</code></li>
+<li><code>param</code></li>
+<li><code>args</code></li>
+<li><code>arg-list</code></li>
+</ul>
+</li>
+</ol>
+<p>起始符号是 <code>program</code>。文法中用到的 token 均以下划线和粗体标出。</p>
+<ol>
+<li>$\text{program} \rightarrow \text{declaration-list}$</li>
+<li>$\text{declaration-list} \rightarrow \text{declaration-list}\ \text{declaration}\ |\ \text{declaration}$</li>
+<li>$\text{declaration} \rightarrow \text{var-declaration}\ |\ \text{fun-declaration}$</li>
+<li>$\text{var-declaration}\ \rightarrow \text{type-specifier}\ \underline{\textbf{ID}}\ \underline{\textbf{;}}\ |\ \text{type-specifier}\ \underline{\textbf{ID}}\ \underline{\textbf{[}}\ \underline{\textbf{INTEGER}}\ \underline{\textbf{]}}\ \underline{\textbf{;}}$</li>
+<li>$\text{type-specifier} \rightarrow \underline{\textbf{int}}\ |\ \underline{\textbf{float}}\ |\ \underline{\textbf{void}}$</li>
+<li>$\text{fun-declaration} \rightarrow \text{type-specifier}\ \underline{\textbf{ID}}\ \underline{\textbf{(}}\ \text{params}\ \underline{\textbf{)}}\ \text{compound-stmt}$</li>
+<li>$\text{params} \rightarrow \text{param-list}\ |\ \underline{\textbf{void}}$</li>
+<li>$\text{param-list} \rightarrow \text{param-list}\ \underline{\textbf{,}}\ \text{param}\ |\ \text{param}$</li>
+<li>$\text{param} \rightarrow \text{type-specifier}\ \underline{\textbf{ID}}\ |\ \text{type-specifier}\ \underline{\textbf{ID}}\ \underline{\textbf{[}}\ \underline{\textbf{]}}$</li>
+<li>$\text{compound-stmt} \rightarrow \underline{\textbf{\{}}\ \text{local-declarations}\ \text{statement-list}\ \underline{\textbf{\}}}$</li>
+<li>$\text{local-declarations} \rightarrow \text{local-declarations var-declaration}\ |\ \text{empty}$</li>
+<li>$\text{statement-list} \rightarrow \text{statement-list}\ \text{statement}\ |\ \text{empty}$</li>
+<li>$\begin{aligned}\text{statement} \rightarrow\ &amp;\text{expression-stmt}\\ &amp;|\ \text{compound-stmt}\\ &amp;|\ \text{selection-stmt}\\ &amp;|\ \text{iteration-stmt}\\ &amp;|\ \text{return-stmt}\end{aligned}$</li>
+<li>$\text{expression-stmt} \rightarrow \text{expression}\ \underline{\textbf{;}}\ |\ \underline{\textbf{;}}$</li>
+<li>$\begin{aligned}\text{selection-stmt} \rightarrow\ &amp;\underline{\textbf{if}}\ \underline{\textbf{(}}\ \text{expression}\ \underline{\textbf{)}}\ \text{statement}\\ &amp;|\ \underline{\textbf{if}}\ \underline{\textbf{(}}\ \text{expression}\ \underline{\textbf{)}}\ \text{statement}\ \underline{\textbf{else}}\ \text{statement}\end{aligned}$</li>
+<li>$\text{iteration-stmt} \rightarrow \underline{\textbf{while}}\ \underline{\textbf{(}}\ \text{expression}\ \underline{\textbf{)}}\ \text{statement}$</li>
+<li>$\text{return-stmt} \rightarrow \underline{\textbf{return}}\ \underline{\textbf{;}}\ |\ \underline{\textbf{return}}\ \text{expression}\ \underline{\textbf{;}}$</li>
+<li>$\text{expression} \rightarrow \text{var}\ \underline{\textbf{=}}\ \text{expression}\ |\ \text{simple-expression}$</li>
+<li>$\text{var} \rightarrow \underline{\textbf{ID}}\ |\ \underline{\textbf{ID}}\ \underline{\textbf{[}}\ \text{expression} \underline{\textbf{]}}$</li>
+<li>$\text{simple-expression} \rightarrow \text{additive-expression}\ \text{relop}\ \text{additive-expression}\ |\ \text{additive-expression}$</li>
+<li>$\text{relop}\ \rightarrow \underline{\textbf{&lt;=}}\ |\ \underline{\textbf{&lt;}}\ |\ \underline{\textbf{&gt;}}\ |\ \underline{\textbf{&gt;=}}\ |\ \underline{\textbf{==}}\ |\ \underline{\textbf{!=}}$</li>
+<li>$\text{additive-expression} \rightarrow \text{additive-expression}\ \text{addop}\ \text{term}\ |\ \text{term}$</li>
+<li>$\text{addop} \rightarrow \underline{\textbf{+}}\ |\ \underline{\textbf{-}}$</li>
+<li>$\text{term} \rightarrow \text{term}\ \text{mulop}\ \text{factor}\ |\ \text{factor}$</li>
+<li>$\text{mulop} \rightarrow \underline{\textbf{*}}\ |\ \underline{\textbf{/}}$</li>
+<li>$\text{factor} \rightarrow \underline{\textbf{(}}\ \text{expression}\ \underline{\textbf{)}}\ |\ \text{var}\ |\ \text{call}\ |\ \text{integer}\ |\ \text{float}$</li>
+<li>$\text{integer} \rightarrow \underline{\textbf{INTEGER}}$</li>
+<li>$\text{float} \rightarrow \underline{\textbf{FLOATPOINT}}$</li>
+<li>$\text{call} \rightarrow \underline{\textbf{ID}}\ \underline{\textbf{(}}\ \text{args} \underline{\textbf{)}}$</li>
+<li>$\text{args} \rightarrow \text{arg-list}\ |\ \text{empty}$</li>
+<li>$\text{arg-list} \rightarrow \text{arg-list}\ \underline{\textbf{,}}\ \text{expression}\ |\ \text{expression}$</li>
+</ol>
+<h3 id="实验内容_1">实验内容<a class="headerlink" href="#实验内容_1" title="Permanent link">&para;</a></h3>
+<p>本部分需要同学们完成 <code>src/parser/syntax_analyzer.y</code>。与词法分析器相同，你只需要补全代码中规则部分即可。</p>
+<p>如果实现正确，该语法分析器可以从 Cminusf 代码分析得到一颗语法树。例如输入</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>可以得到如下语法树</p>
+<div class="highlight"><pre><span></span><code>&gt;--+ program
+|  &gt;--+ declaration-list
+|  |  &gt;--+ declaration
+|  |  |  &gt;--+ fun-declaration
+|  |  |  |  &gt;--+ type-specifier
+|  |  |  |  |  &gt;--* int
+|  |  |  |  &gt;--* main
+|  |  |  |  &gt;--* (
+|  |  |  |  &gt;--+ params
+|  |  |  |  |  &gt;--* void
+|  |  |  |  &gt;--* )
+|  |  |  |  &gt;--+ compound-stmt
+|  |  |  |  |  &gt;--* {
+|  |  |  |  |  &gt;--+ local-declarations
+|  |  |  |  |  |  &gt;--* epsilon
+|  |  |  |  |  &gt;--+ statement-list
+|  |  |  |  |  |  &gt;--+ statement-list
+|  |  |  |  |  |  |  &gt;--* epsilon
+|  |  |  |  |  |  &gt;--+ statement
+|  |  |  |  |  |  |  &gt;--+ return-stmt
+|  |  |  |  |  |  |  |  &gt;--* return
+|  |  |  |  |  |  |  |  &gt;--+ expression
+|  |  |  |  |  |  |  |  |  &gt;--+ simple-expression
+|  |  |  |  |  |  |  |  |  |  &gt;--+ additive-expression
+|  |  |  |  |  |  |  |  |  |  |  &gt;--+ term
+|  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ factor
+|  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ integer
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--* 0
+|  |  |  |  |  |  |  |  &gt;--* ;
+|  |  |  |  |  &gt;--* }
+</code></pre></div>
+<p><strong>这一部分必须严格遵守我们给出的语法，输出必须与标准程序输出完全一致。</strong></p>
+<h2 id="实验要求">实验要求<a class="headerlink" href="#实验要求" title="Permanent link">&para;</a></h2>
+<h3 id="仓库目录结构">仓库目录结构<a class="headerlink" href="#仓库目录结构" title="Permanent link">&para;</a></h3>
+<p>与本次实验有关的文件如下。</p>
+<div class="highlight"><pre><span></span><code><span class="p">|</span>--<span class="w"> </span>CMakeLists.txt
+<span class="p">|</span>--<span class="w"> </span>build<span class="w"> </span><span class="c1"># 在编译过程中产生，不需要通过 git add 添加到仓库中</span>
+<span class="p">|</span>--<span class="w"> </span>src
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>CMakeLists.txt
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>common
+<span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>parser
+<span class="p">|</span><span class="w">       </span><span class="p">|</span>--<span class="w"> </span>CMakeLists.txt
+<span class="p">|</span><span class="w">       </span><span class="p">|</span>--<span class="w"> </span>lexer.c
+<span class="p">|</span><span class="w">       </span><span class="p">|</span>--<span class="w"> </span>lexical_analyzer.l<span class="w"> </span><span class="c1"># 你需要修改本文件</span>
+<span class="p">|</span><span class="w">       </span><span class="p">|</span>--<span class="w"> </span>parser.c
+<span class="p">|</span><span class="w">       </span><span class="sb">`</span>--<span class="w"> </span>syntax_analyzer.y<span class="w"> </span><span class="c1"># 你需要修改本文件</span>
+<span class="sb">`</span>--<span class="w"> </span>tests
+<span class="w">    </span><span class="p">|</span>--<span class="w"> </span><span class="m">1</span>-parser
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>input<span class="w"> </span><span class="c1"># 针对 Lab1 的测试样例</span>
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>output_standard<span class="w"> </span><span class="c1"># 助教提供的标准参考结果</span>
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>output_student<span class="w"> </span><span class="c1"># 测试脚本产生的你解析后的结果</span>
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>cleanup.sh
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>eval_lab1.sh<span class="w"> </span><span class="c1"># 测试用的脚本</span>
+<span class="w">    </span><span class="sb">`</span>--<span class="w"> </span>testcases_general<span class="w"> </span><span class="c1"># 整个课程所用到的测试样例</span>
+</code></pre></div>
+<h3 id="编译运行和评测">编译、运行和评测<a class="headerlink" href="#编译运行和评测" title="Permanent link">&para;</a></h3>
+<p>首先将你的实验仓库克隆的本地虚拟机中。要编译和运行词法分析器，请按照以下步骤在本地虚拟机中进行操作：</p>
+<p><strong>编译</strong></p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>2023ustc-jianmu-compiler
+$<span class="w"> </span>mkdir<span class="w"> </span>build
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="c1"># 使用 cmake 生成 makefile 等文件</span>
+$<span class="w"> </span>cmake<span class="w"> </span>..
+<span class="c1"># 使用 make 进行编译</span>
+$<span class="w"> </span>make
+</code></pre></div>
+<p>如果构建成功，你会在 <code>build</code> 文件夹下找到 <code>lexer</code> 和 <code>parser</code> 可执行文件，用于对 Cminusf 文件进行词法和语法分析。</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ls<span class="w"> </span>lexer<span class="w"> </span>parser
+lexer<span class="w"> </span>parser
+
+$<span class="w"> </span>./lexer
+usage:<span class="w"> </span>lexer<span class="w"> </span>input_file
+</code></pre></div>
+<p><strong>运行</strong></p>
+<p>我们在 <code>tests/testcases_general</code> 文件夹中准备了一些通用案例。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 返回 2023ustc-jianmu-compiler 的根目录</span>
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">WORKSPACE</span><span class="si">}</span>
+
+<span class="c1"># 运行 lexer，进行词法分析</span>
+$<span class="w"> </span>./build/lexer<span class="w"> </span>tests/testcases_general/1-return.cminus
+Token<span class="w">         </span>Text<span class="w">      </span>Line<span class="w">    </span>Column<span class="w"> </span><span class="o">(</span>Start,End<span class="o">)</span>
+<span class="m">282</span><span class="w">           </span>void<span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">1</span>,5<span class="o">)</span>
+<span class="m">284</span><span class="w">           </span>main<span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">6</span>,10<span class="o">)</span>
+<span class="m">272</span><span class="w">              </span><span class="o">(</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">10</span>,11<span class="o">)</span>
+<span class="m">282</span><span class="w">           </span>void<span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">11</span>,15<span class="o">)</span>
+<span class="m">273</span><span class="w">              </span><span class="o">)</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">15</span>,16<span class="o">)</span>
+<span class="m">276</span><span class="w">              </span><span class="o">{</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">17</span>,18<span class="o">)</span>
+<span class="m">281</span><span class="w">         </span><span class="k">return</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">19</span>,25<span class="o">)</span>
+<span class="m">270</span><span class="w">              </span><span class="p">;</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">25</span>,26<span class="o">)</span>
+<span class="m">277</span><span class="w">              </span><span class="o">}</span><span class="w">      </span><span class="m">1</span><span class="w">       </span><span class="o">(</span><span class="m">27</span>,28<span class="o">)</span>
+
+<span class="c1"># 运行 parser，解析 1-return.cminus 输出语法树</span>
+$<span class="w"> </span>./build/parser<span class="w"> </span>./tests/testcases_general/1-return.cminus
+&gt;--+<span class="w"> </span>program
+<span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>declaration-list
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>declaration
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>fun-declaration
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>type-specifier
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span>void
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span>main
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span><span class="o">(</span>
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>params
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span>void
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span><span class="o">)</span>
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>compound-stmt
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span><span class="o">{</span>
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>local-declarations
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span>epsilon
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>statement-list
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>statement-list
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span>epsilon
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span>statement
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--+<span class="w"> </span><span class="k">return</span>-stmt
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span><span class="k">return</span>
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span><span class="p">;</span>
+<span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w">  </span>&gt;--*<span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+<p><strong>测试</strong></p>
+<p>测试样例分为两个部分，分别是 <code>tests/testcases_general</code> 和 lab1 限定的 <code>tests/1-parser</code>。</p>
+<p>我们重点使用 <code>tests/1-parser</code> 考察语法分析器的正确性。其结构如下：</p>
+<div class="highlight"><pre><span></span><code>.
+<span class="p">|</span>--<span class="w"> </span>input<span class="w"> </span><span class="c1"># 输入目录，包含 xxx.cminus 文件</span>
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>easy
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>hard
+<span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>normal
+<span class="p">|</span>--<span class="w"> </span>output_standard<span class="w"> </span><span class="c1"># 助教标准输出目录，包含 xxx.syntax_tree 文件</span>
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>easy
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>normal
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>hard
+<span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>testcases_general
+<span class="p">|</span>--<span class="w"> </span>output_student<span class="w"> </span><span class="c1"># 学生输出目录，测试过程中产生 xxx.syntax_tree 文件</span>
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>easy
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>hard
+<span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>normal
+<span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>testcases_general
+<span class="p">|</span>--<span class="w"> </span>eval_lab1.sh<span class="w"> </span><span class="c1"># 测试脚本</span>
+<span class="sb">`</span>--<span class="w"> </span>cleanup.sh
+</code></pre></div>
+<p>我们使用 <code>diff</code> 命令进行结果比较：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>2023ustc-jianmu-compiler
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>realpath<span class="w"> </span>./build<span class="k">)</span><span class="s2">:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>tests/1-parser
+$<span class="w"> </span>parser<span class="w"> </span>input/normal/local-decl.cminus<span class="w"> </span>&gt;<span class="w"> </span>output_student/normal/local-decl.syntax_tree
+$<span class="w"> </span>diff<span class="w"> </span>output_student/normal/local-decl.syntax_tree<span class="w"> </span>output_standard/normal/local-decl.syntax_tree
+<span class="o">[</span>输出为空，代表没有区别，该测试通过<span class="o">]</span>
+</code></pre></div>
+<p>我们提供了 <code>eval_lab1.sh</code> 脚本进行快速批量测试。该脚本的第一个参数可以是 <code>easy</code>、 <code>normal</code>、 <code>hard</code> 以及 <code>testcases_general</code>，并且有第二个可选参数，用于批量 <code>diff</code> 和助教提供的标准参考结果进行比较。脚本运行后会将生成结果放在 <code>tests/1-parser/output_student</code> 文件夹里，而助教的参考输出则在 <code>tests/1-parser/output_standard</code> 中。</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>./eval_lab1.sh<span class="w"> </span>easy
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Analyzing<span class="w"> </span>FAIL_comment.cminus
+error<span class="w"> </span>at<span class="w"> </span>line<span class="w"> </span><span class="m">1</span><span class="w"> </span>column<span class="w"> </span><span class="m">4</span>:<span class="w"> </span>syntax<span class="w"> </span>error
+...
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Analyzing<span class="w"> </span>id.cminus
+
+$<span class="w"> </span>./eval_lab1.sh<span class="w"> </span>easy<span class="w"> </span>yes
+...
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Analyzing<span class="w"> </span>FAIL_comment.cminus
+error<span class="w"> </span>at<span class="w"> </span>line<span class="w"> </span><span class="m">1</span><span class="w"> </span>column<span class="w"> </span><span class="m">4</span>:<span class="w"> </span>syntax<span class="w"> </span>error
+...
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Comparing...
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>No<span class="w"> </span>difference!<span class="w"> </span>Congratulations!
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../Bison/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Bison">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Bison
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../lab2/" class="md-footer__link md-footer__link--next" aria-label="下一页: Lab2 简介">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Lab2 简介
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

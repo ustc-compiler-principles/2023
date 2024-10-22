@@ -1,0 +1,5087 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../lab3/environment/">
+      
+      
+        <link rel="next" href="../../lab3/stack_allocation/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>龙芯汇编介绍 - USTC 编译原理和技术 2023</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#龙芯汇编介绍" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-header__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            USTC 编译原理和技术 2023
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              龙芯汇编介绍
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="USTC 编译原理和技术 2023" class="md-nav__button md-logo" aria-label="USTC 编译原理和技术 2023" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    USTC 编译原理和技术 2023
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ustc-compiler-principles/2023" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ustc-compiler-principles/2023
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    首页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exp_platform_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程平台介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    公共文档
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            公共文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cminusf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cminusf 语法语义介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LightIR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simple_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++ 介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logging 工具使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#汇编文件的组成" class="md-nav__link">
+    <span class="md-ellipsis">
+      汇编文件的组成
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#寄存器介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      寄存器介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="寄存器介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#通用寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      通用寄存器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点寄存器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点寄存器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#浮点寄存器_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点寄存器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#条件标志寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件标志寄存器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基础指令介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      基础指令介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基础指令介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令编码格式" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令编码格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#汇编助记格式" class="md-nav__link">
+    <span class="md-ellipsis">
+      汇编助记格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="汇编助记格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令名前缀" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令名前缀
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#指令名后缀" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令名后缀
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#整数指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="整数指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#算数逻辑运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      算数/逻辑运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="算数/逻辑运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addw-addd-subw-subd" class="md-nav__link">
+    <span class="md-ellipsis">
+      add.w, add.d, sub.w, sub.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mulw-muld-divw-divd" class="md-nav__link">
+    <span class="md-ellipsis">
+      mul.w, mul.d, div.w, div.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addiw-addid" class="md-nav__link">
+    <span class="md-ellipsis">
+      addi.w, addi.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lu12iw-lu32id-lu52id" class="md-nav__link">
+    <span class="md-ellipsis">
+      lu12i.w, lu32i.d, lu52i.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#整数比较指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数比较指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="整数比较指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slt-sltu" class="md-nav__link">
+    <span class="md-ellipsis">
+      slt, sltu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slti-sltui" class="md-nav__link">
+    <span class="md-ellipsis">
+      slti, sltui
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      位运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="位运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#and-or-nor-xor" class="md-nav__link">
+    <span class="md-ellipsis">
+      and, or, nor, xor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andn-orn" class="md-nav__link">
+    <span class="md-ellipsis">
+      andn, orn
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andi-ori-xori" class="md-nav__link">
+    <span class="md-ellipsis">
+      andi, ori, xori
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位操作指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      位操作指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="位操作指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bstrpickw-bstrpickd" class="md-nav__link">
+    <span class="md-ellipsis">
+      bstrpick.w, bstrpick.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分支指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      分支指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="分支指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beq-bne-blt-bge-bltu-bgeu" class="md-nav__link">
+    <span class="md-ellipsis">
+      beq, bne, blt, bge, bltu, bgeu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beqz-bnez" class="md-nav__link">
+    <span class="md-ellipsis">
+      beqz, bnez
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      b
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bl" class="md-nav__link">
+    <span class="md-ellipsis">
+      bl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jirl" class="md-nav__link">
+    <span class="md-ellipsis">
+      jirl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#普通访存指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      普通访存指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="普通访存指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ldb-ldh-ldw-ldd" class="md-nav__link">
+    <span class="md-ellipsis">
+      ld.b, ld.h, ld.w, ld.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stb-sth-stw-std" class="md-nav__link">
+    <span class="md-ellipsis">
+      st.b, st.h, st.w, st.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#宏指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jr" class="md-nav__link">
+    <span class="md-ellipsis">
+      jr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lalocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      la.local
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点数指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点数指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点数指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#浮点运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fadds-fsubs-fmuls-fdivs" class="md-nav__link">
+    <span class="md-ellipsis">
+      fadd.s, fsub.s, fmul.s, fdiv.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点转换指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点转换指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点转换指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffintsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffint.s.w
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftintrzws" class="md-nav__link">
+    <span class="md-ellipsis">
+      ftintrz.w.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点搬运指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点搬运指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点搬运指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#movgr2frw" class="md-nav__link">
+    <span class="md-ellipsis">
+      movgr2fr.w
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#movfr2grs" class="md-nav__link">
+    <span class="md-ellipsis">
+      movfr2gr.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点普通访存指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点普通访存指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点普通访存指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flds-fldd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fld.s, fld.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsts-fstd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fst.s, fst.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点比较指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点比较指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点比较指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fcmpconds-fcmpcondd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fcmp.cond.s, fcmp.cond.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点分支指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点分支指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点分支指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bceqz-bcnez" class="md-nav__link">
+    <span class="md-ellipsis">
+      bceqz, bcnez
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-汇编伪指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNU 汇编伪指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GNU 汇编伪指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#示例" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#栈帧与函数调用" class="md-nav__link">
+    <span class="md-ellipsis">
+      栈帧与函数调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="栈帧与函数调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#栈帧布局" class="md-nav__link">
+    <span class="md-ellipsis">
+      栈帧布局
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#函数调用过程" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数调用过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数传递" class="md-nav__link">
+    <span class="md-ellipsis">
+      参数传递
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#函数的返回" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数的返回
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la64-汇编示例" class="md-nav__link">
+    <span class="md-ellipsis">
+      LA64 汇编示例
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LA64 汇编示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#示例-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 4
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab0
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab0
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab0 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/software/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLVM 等软件环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git 的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/Flex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/Bison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/%E5%AE%9E%E9%AA%8C%E7%BB%86%E8%8A%82%E4%B8%8E%E8%A6%81%E6%B1%82/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验细节与要求
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/warmup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Light IR 预热
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/visitor_pattern/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    访问者模式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/autogen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IR 自动化生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab3
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/guidance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3 实验指导
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    龙芯汇编介绍
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#汇编文件的组成" class="md-nav__link">
+    <span class="md-ellipsis">
+      汇编文件的组成
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#寄存器介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      寄存器介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="寄存器介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#通用寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      通用寄存器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点寄存器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点寄存器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#浮点寄存器_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点寄存器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#条件标志寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件标志寄存器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基础指令介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      基础指令介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基础指令介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令编码格式" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令编码格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#汇编助记格式" class="md-nav__link">
+    <span class="md-ellipsis">
+      汇编助记格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="汇编助记格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令名前缀" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令名前缀
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#指令名后缀" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令名后缀
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#整数指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="整数指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#算数逻辑运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      算数/逻辑运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="算数/逻辑运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addw-addd-subw-subd" class="md-nav__link">
+    <span class="md-ellipsis">
+      add.w, add.d, sub.w, sub.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mulw-muld-divw-divd" class="md-nav__link">
+    <span class="md-ellipsis">
+      mul.w, mul.d, div.w, div.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addiw-addid" class="md-nav__link">
+    <span class="md-ellipsis">
+      addi.w, addi.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lu12iw-lu32id-lu52id" class="md-nav__link">
+    <span class="md-ellipsis">
+      lu12i.w, lu32i.d, lu52i.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#整数比较指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数比较指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="整数比较指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slt-sltu" class="md-nav__link">
+    <span class="md-ellipsis">
+      slt, sltu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slti-sltui" class="md-nav__link">
+    <span class="md-ellipsis">
+      slti, sltui
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      位运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="位运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#and-or-nor-xor" class="md-nav__link">
+    <span class="md-ellipsis">
+      and, or, nor, xor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andn-orn" class="md-nav__link">
+    <span class="md-ellipsis">
+      andn, orn
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andi-ori-xori" class="md-nav__link">
+    <span class="md-ellipsis">
+      andi, ori, xori
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位操作指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      位操作指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="位操作指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bstrpickw-bstrpickd" class="md-nav__link">
+    <span class="md-ellipsis">
+      bstrpick.w, bstrpick.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分支指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      分支指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="分支指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beq-bne-blt-bge-bltu-bgeu" class="md-nav__link">
+    <span class="md-ellipsis">
+      beq, bne, blt, bge, bltu, bgeu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beqz-bnez" class="md-nav__link">
+    <span class="md-ellipsis">
+      beqz, bnez
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      b
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bl" class="md-nav__link">
+    <span class="md-ellipsis">
+      bl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jirl" class="md-nav__link">
+    <span class="md-ellipsis">
+      jirl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#普通访存指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      普通访存指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="普通访存指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ldb-ldh-ldw-ldd" class="md-nav__link">
+    <span class="md-ellipsis">
+      ld.b, ld.h, ld.w, ld.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stb-sth-stw-std" class="md-nav__link">
+    <span class="md-ellipsis">
+      st.b, st.h, st.w, st.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#宏指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jr" class="md-nav__link">
+    <span class="md-ellipsis">
+      jr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lalocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      la.local
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点数指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点数指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点数指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#浮点运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fadds-fsubs-fmuls-fdivs" class="md-nav__link">
+    <span class="md-ellipsis">
+      fadd.s, fsub.s, fmul.s, fdiv.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点转换指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点转换指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点转换指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffintsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffint.s.w
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftintrzws" class="md-nav__link">
+    <span class="md-ellipsis">
+      ftintrz.w.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点搬运指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点搬运指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点搬运指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#movgr2frw" class="md-nav__link">
+    <span class="md-ellipsis">
+      movgr2fr.w
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#movfr2grs" class="md-nav__link">
+    <span class="md-ellipsis">
+      movfr2gr.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点普通访存指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点普通访存指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点普通访存指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flds-fldd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fld.s, fld.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsts-fstd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fst.s, fst.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点比较指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点比较指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点比较指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fcmpconds-fcmpcondd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fcmp.cond.s, fcmp.cond.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点分支指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点分支指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点分支指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bceqz-bcnez" class="md-nav__link">
+    <span class="md-ellipsis">
+      bceqz, bcnez
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-汇编伪指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNU 汇编伪指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GNU 汇编伪指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#示例" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#栈帧与函数调用" class="md-nav__link">
+    <span class="md-ellipsis">
+      栈帧与函数调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="栈帧与函数调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#栈帧布局" class="md-nav__link">
+    <span class="md-ellipsis">
+      栈帧布局
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#函数调用过程" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数调用过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数传递" class="md-nav__link">
+    <span class="md-ellipsis">
+      参数传递
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#函数的返回" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数的返回
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la64-汇编示例" class="md-nav__link">
+    <span class="md-ellipsis">
+      LA64 汇编示例
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LA64 汇编示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#示例-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 4
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/stack_allocation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    栈式分配介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    后端框架介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../innovative-lab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    建木杯–编译原理创新实验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#汇编文件的组成" class="md-nav__link">
+    <span class="md-ellipsis">
+      汇编文件的组成
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#寄存器介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      寄存器介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="寄存器介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#通用寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      通用寄存器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点寄存器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点寄存器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#浮点寄存器_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点寄存器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#条件标志寄存器" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件标志寄存器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基础指令介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      基础指令介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基础指令介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令编码格式" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令编码格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#汇编助记格式" class="md-nav__link">
+    <span class="md-ellipsis">
+      汇编助记格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="汇编助记格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#指令名前缀" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令名前缀
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#指令名后缀" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令名后缀
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#整数指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="整数指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#算数逻辑运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      算数/逻辑运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="算数/逻辑运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addw-addd-subw-subd" class="md-nav__link">
+    <span class="md-ellipsis">
+      add.w, add.d, sub.w, sub.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mulw-muld-divw-divd" class="md-nav__link">
+    <span class="md-ellipsis">
+      mul.w, mul.d, div.w, div.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addiw-addid" class="md-nav__link">
+    <span class="md-ellipsis">
+      addi.w, addi.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lu12iw-lu32id-lu52id" class="md-nav__link">
+    <span class="md-ellipsis">
+      lu12i.w, lu32i.d, lu52i.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#整数比较指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数比较指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="整数比较指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slt-sltu" class="md-nav__link">
+    <span class="md-ellipsis">
+      slt, sltu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slti-sltui" class="md-nav__link">
+    <span class="md-ellipsis">
+      slti, sltui
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      位运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="位运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#and-or-nor-xor" class="md-nav__link">
+    <span class="md-ellipsis">
+      and, or, nor, xor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andn-orn" class="md-nav__link">
+    <span class="md-ellipsis">
+      andn, orn
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andi-ori-xori" class="md-nav__link">
+    <span class="md-ellipsis">
+      andi, ori, xori
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位操作指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      位操作指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="位操作指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bstrpickw-bstrpickd" class="md-nav__link">
+    <span class="md-ellipsis">
+      bstrpick.w, bstrpick.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分支指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      分支指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="分支指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beq-bne-blt-bge-bltu-bgeu" class="md-nav__link">
+    <span class="md-ellipsis">
+      beq, bne, blt, bge, bltu, bgeu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beqz-bnez" class="md-nav__link">
+    <span class="md-ellipsis">
+      beqz, bnez
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      b
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bl" class="md-nav__link">
+    <span class="md-ellipsis">
+      bl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jirl" class="md-nav__link">
+    <span class="md-ellipsis">
+      jirl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#普通访存指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      普通访存指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="普通访存指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ldb-ldh-ldw-ldd" class="md-nav__link">
+    <span class="md-ellipsis">
+      ld.b, ld.h, ld.w, ld.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stb-sth-stw-std" class="md-nav__link">
+    <span class="md-ellipsis">
+      st.b, st.h, st.w, st.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#宏指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jr" class="md-nav__link">
+    <span class="md-ellipsis">
+      jr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lalocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      la.local
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点数指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点数指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点数指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#浮点运算指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点运算指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点运算指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fadds-fsubs-fmuls-fdivs" class="md-nav__link">
+    <span class="md-ellipsis">
+      fadd.s, fsub.s, fmul.s, fdiv.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点转换指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点转换指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点转换指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffintsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffint.s.w
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftintrzws" class="md-nav__link">
+    <span class="md-ellipsis">
+      ftintrz.w.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点搬运指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点搬运指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点搬运指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#movgr2frw" class="md-nav__link">
+    <span class="md-ellipsis">
+      movgr2fr.w
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#movfr2grs" class="md-nav__link">
+    <span class="md-ellipsis">
+      movfr2gr.s
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点普通访存指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点普通访存指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点普通访存指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flds-fldd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fld.s, fld.d
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsts-fstd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fst.s, fst.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点比较指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点比较指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点比较指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fcmpconds-fcmpcondd" class="md-nav__link">
+    <span class="md-ellipsis">
+      fcmp.cond.s, fcmp.cond.d
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点分支指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点分支指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="浮点分支指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bceqz-bcnez" class="md-nav__link">
+    <span class="md-ellipsis">
+      bceqz, bcnez
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-汇编伪指令" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNU 汇编伪指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GNU 汇编伪指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#示例" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#栈帧与函数调用" class="md-nav__link">
+    <span class="md-ellipsis">
+      栈帧与函数调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="栈帧与函数调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#栈帧布局" class="md-nav__link">
+    <span class="md-ellipsis">
+      栈帧布局
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#函数调用过程" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数调用过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数传递" class="md-nav__link">
+    <span class="md-ellipsis">
+      参数传递
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#函数的返回" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数的返回
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la64-汇编示例" class="md-nav__link">
+    <span class="md-ellipsis">
+      LA64 汇编示例
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LA64 汇编示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#示例-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#示例-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例 4
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="龙芯汇编介绍">龙芯汇编介绍<a class="headerlink" href="#龙芯汇编介绍" title="Permanent link">&para;</a></h1>
+<!-- TODO: 拆分文件 -->
+
+<!-- TODO: 习题课 -->
+
+<!-- TODO: 汇编填写挖空 -->
+
+<blockquote>
+<p>本介绍参考自<a href="https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf">《龙芯架构参考手册 - 卷一：基础架构》</a>。</p>
+</blockquote>
+<p>龙芯架构 LoongArch 是一种精简指令集计算机（RISC）风格的指令系统架构，分为 32 位和 64 位两个版本，分别称为 LA32 架构和 LA64 架构。我们主要关注 LA64 架构中的非向量整数指令和非向量浮点指令中的一部分，如果你想了解更多关于龙芯汇编的内容，可以参考<a href="https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf">《龙芯架构参考手册 - 卷一：基础架构》</a>。</p>
+<h2 id="汇编文件的组成">汇编文件的组成<a class="headerlink" href="#汇编文件的组成" title="Permanent link">&para;</a></h2>
+<p>以<a href="#示例-2">示例 2</a> 中的汇编文件为例，下图展示了一个汇编文件的整体结构与组成：</p>
+<p><img alt="汇编文件结构" src="../figs/asm_structure.png" /></p>
+<p>其中</p>
+<ul>
+<li>每一行 <code>#</code> 之后的是注释；</li>
+<li>以 <code>.</code> 开头的语句是 <a href="#gnu-汇编伪指令">GNU 汇编伪指令</a>，比如 <code>.text</code>、<code>.globl a</code> 和 <code>.space 4</code> 等等；</li>
+<li>以 <code>:</code> 结尾的是标签，用于标记一条语句的位置，比如 <code>main</code>、<code>a</code> 和 <code>.main_label_entry</code> 等等；</li>
+<li>形如 <code>$sp</code>、<code>$fp</code>、<code>$zero</code>、<code>$ra</code> 和 <code>$t0</code> 等以 <code>$</code> 开头的是<a href="#寄存器介绍">寄存器</a>。</li>
+</ul>
+<h2 id="寄存器介绍">寄存器介绍<a class="headerlink" href="#寄存器介绍" title="Permanent link">&para;</a></h2>
+<p>寄存器通过不同的首字母表明其属于哪个寄存器文件。对于非向量寄存器，以 <code>$rN</code> 标记通用寄存器，<code>$fN</code> 标记浮点寄存器。其中 <code>N</code> 是数字，表示操作的时该寄存器文件中的第 N 号寄存器。</p>
+<h3 id="通用寄存器">通用寄存器<a class="headerlink" href="#通用寄存器" title="Permanent link">&para;</a></h3>
+<p>整数指令涉及的寄存器包括<strong>通用寄存器</strong> GR 和<strong>程序计数器</strong> PC。</p>
+<p>其中通用寄存器有 32 个，记为 <code>$r0</code> ~ <code>$r31</code>，其中第 0 号寄存器 <code>$r0</code> 的值恒为 <code>0</code>。在 LA64 架构下，通用寄存器的位宽为 64 比特。</p>
+<p>龙芯架构 ELF psABI 规范对通用寄存器遵循的使用作出了规定，其中，我们将用到以下寄存器：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">名称</th>
+<th style="text-align: center;">别名</th>
+<th style="text-align: center;">用途</th>
+<th style="text-align: center;">在调用中是否保留</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>$r0</code></td>
+<td style="text-align: center;"><code>$zero</code></td>
+<td style="text-align: center;">常数 <code>0</code></td>
+<td style="text-align: center;">（常数）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$r1</code></td>
+<td style="text-align: center;"><code>$ra</code></td>
+<td style="text-align: center;">返回地址</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$r3</code></td>
+<td style="text-align: center;"><code>$sp</code></td>
+<td style="text-align: center;">堆栈指针</td>
+<td style="text-align: center;">是</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$r4</code> - <code>$r5</code></td>
+<td style="text-align: center;"><code>$a0</code> - <code>$a1</code></td>
+<td style="text-align: center;">传参寄存器、返回值寄存器</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$r6</code> - <code>$r11</code></td>
+<td style="text-align: center;"><code>$a2</code> - <code>$a7</code></td>
+<td style="text-align: center;">传参寄存器</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$r12</code> - <code>$r20</code></td>
+<td style="text-align: center;"><code>$t0</code> - <code>$t8</code></td>
+<td style="text-align: center;">临时寄存器</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$r22</code></td>
+<td style="text-align: center;"><code>$fp</code> / <code>$s9</code></td>
+<td style="text-align: center;">栈帧指针 / 静态寄存器</td>
+<td style="text-align: center;">是</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>便于理解和记忆，寄存器一般都有一个别名。在汇编程序中可使用寄存器名、也可使用对应的别名来指代相应寄存器</li>
+<li>”在调用中是否保留“这一栏表示在函数调用时，被调用函数是否需要在返回前将该寄存器的值恢复到调用前的状态</li>
+</ul>
+<p>对于这些寄存器的用途，更详细的解释如下</p>
+<ul>
+<li><code>$ra</code> (<code>$r1</code>)：用于存储函数的返回地址，在调用一个函数时（详见 <a href="#bl"><code>bl</code></a> 指令），函数的返回地址（即调用指令的下一条指令地址）会自动写入 <code>$ra</code> 中，用于在返回时恢复 <code>PC</code> 的值；</li>
+</ul>
+<ul>
+<li><code>$sp</code> (<code>$r3</code>)、<code>$fp</code> (<code>$r22</code>)：分别存储当前函数的堆栈指针和栈帧指针，你可以在<a href="#栈帧布局">栈帧布局</a>中了解到关于它们的更多信息</li>
+</ul>
+<ul>
+<li>
+<p><code>$a0</code> - <code>$a7</code> (<code>$r4</code> - <code>$r11</code>)：用于存储函数参数中的整数值</p>
+<p>比如在调用函数 <code>int func(int a, int b, int c[], float d)</code> 时，参数 <code>a</code>、 <code>b</code> 和 <code>c</code> 的值就分别存储在 <code>$a0</code>，<code>$a1</code> 和 <code>$a2</code> 中</p>
+</li>
+</ul>
+<ul>
+<li>
+<p><code>$a0</code> (<code>$r4</code>) 和 <code>$a1</code> (<code>$r5</code>) 还用于存储返回值，即函数的整数返回值会存储在这两个寄存器中，被调用者获取</p>
+<p>比如在调用函数 <code>int const_ret() { return 0; }</code> 后，<code>$a0</code> 的值就是 <code>0</code></p>
+</li>
+</ul>
+<ul>
+<li><code>$t0</code> - <code>$t8</code> (<code>$r12</code> - <code>$r20</code>)：用作临时寄存器，存储各个指令产生的中间值</li>
+</ul>
+<h3 id="浮点寄存器">浮点寄存器<a class="headerlink" href="#浮点寄存器" title="Permanent link">&para;</a></h3>
+<p>浮点数指令涉及到的寄存器包括<strong>浮点寄存器</strong> FR、<strong>条件标志寄存器</strong> CFR 和<strong>浮点控制状态寄存器</strong> FCSR。我们将着重介绍前两种寄存器。</p>
+<h4 id="浮点寄存器_1">浮点寄存器<a class="headerlink" href="#浮点寄存器_1" title="Permanent link">&para;</a></h4>
+<p>浮点寄存器共有 32 个，记为 <code>$f0</code> ~ <code>$f31</code>，每一个都可以读写。</p>
+<p>龙芯架构 ELF psABI 规范对浮点寄存器遵循使用作出了规定，其中，我们将用到以下浮点寄存器：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">名称</th>
+<th style="text-align: center;">别名</th>
+<th style="text-align: center;">用途</th>
+<th style="text-align: center;">在调用中是否保留</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>$f0</code> - <code>$f1</code></td>
+<td style="text-align: center;"><code>$fa0</code> - <code>$fa1</code></td>
+<td style="text-align: center;">传参寄存器、返回值寄存器</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$f2</code> - <code>$f7</code></td>
+<td style="text-align: center;"><code>$fa2</code> - <code>$fa7</code></td>
+<td style="text-align: center;">传参寄存器</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>$f8</code> - <code>$f23</code></td>
+<td style="text-align: center;"><code>$ft0</code> - <code>$ft15</code></td>
+<td style="text-align: center;">临时寄存器</td>
+<td style="text-align: center;">否</td>
+</tr>
+</tbody>
+</table>
+<p>这些寄存器的用途与对应的浮点寄存器类似，这里不再赘述。</p>
+<h4 id="条件标志寄存器">条件标志寄存器<a class="headerlink" href="#条件标志寄存器" title="Permanent link">&para;</a></h4>
+<p>条件标志寄存器共有 8 个，记为 <code>$fcc0</code> ~ <code>$fcc7</code>，每一个都可以读写，位宽为 1 比特。它们主要在以下两个场景中被用到：</p>
+<ul>
+<li><strong>浮点比较</strong>的结果将写到条件标志寄存器中，比较结果为真时置 <code>1</code>，否则置 <code>0</code></li>
+<li><strong>浮点分支指令的判断条件</strong>来自条件标志寄存器</li>
+</ul>
+<p>比如对于如下的 C 语言代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">func_fcmp</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>可以手写 LA64 汇编如下（为了便于理解，这里的汇编代码与编译器生成的代码有所不同）：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># $fcc0 是条件标志寄存器, $fa0 和 $fa1 是浮点寄存器, $zero $t0 和 $a0 是通用寄存器</span>
+<span class="nl">func_fcmp:</span>
+<span class="nl">entry:</span>
+<span class="w">    </span><span class="c1"># 这里省略保存各个保留寄存器 (即调用者信息) 的过程</span>
+<span class="w">    </span><span class="c1"># 在调用函数时, $fa0 = a, $fa1 = b</span>
+<span class="w">    </span><span class="nf">fcmp.slt.s</span><span class="w"> </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">$fa0</span><span class="p">,</span><span class="w"> </span><span class="no">$fa1</span><span class="w"> </span><span class="c1"># 浮点比较指令: $fcc0 = $fa0 &lt; $fa1 ? 1 : 0</span>
+<span class="w">    </span><span class="nf">bcnez</span><span class="w">      </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">true_label</span><span class="w"> </span><span class="c1"># 浮点分支指令: 如果 $fcc0 != 0, 则跳转到 true_label</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">          </span><span class="no">false_label</span><span class="w">       </span><span class="c1"># 无条件跳转指令, 跳转到 false_label</span>
+<span class="nl">true_label:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">     </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">     </span><span class="c1"># $t0 = 0 + 1 = 1</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">          </span><span class="no">exit</span><span class="w">              </span><span class="c1"># 无条件跳转指令, 跳转到 exit</span>
+<span class="nl">false_label:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">     </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">     </span><span class="c1"># $t0 = 0 + 0 = 0</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">          </span><span class="no">exit</span><span class="w">              </span><span class="c1"># 无条件跳转指令, 跳转到 exit</span>
+<span class="nl">exit:</span>
+<span class="w">    </span><span class="nf">ori</span><span class="w">        </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">       </span><span class="c1"># $a0 = $t0, $a0 是存储返回值的通用寄存器</span>
+<span class="w">    </span><span class="c1"># 这里省略恢复各个保留寄存器 (即调用者信息) 的过程</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w">         </span><span class="no">$ra</span><span class="w">               </span><span class="c1"># return</span>
+</code></pre></div>
+<h2 id="基础指令介绍">基础指令介绍<a class="headerlink" href="#基础指令介绍" title="Permanent link">&para;</a></h2>
+<h3 id="指令编码格式">指令编码格式<a class="headerlink" href="#指令编码格式" title="Permanent link">&para;</a></h3>
+<p>在龙芯架构中，所有指令均采用 32 位固定长度，且指令的地址都要求 4 字节边界对齐。如下，为某个汇编程序进入函数体时，首条汇编指令及后 2 条指令的地址，可见指令的地址按照 4 字节边界对齐：</p>
+<div class="highlight"><pre><span></span><code>==&gt; 0x120000660 &lt;main+0&gt;:        addi.d $r3,$r3,-32
+    0x120000664 &lt;main+4&gt;:        st.d   $r22,$r3,24
+    0x120000668 &lt;main+8&gt;:        addi.d $r22,$r3,32
+</code></pre></div>
+<h3 id="汇编助记格式">汇编助记格式<a class="headerlink" href="#汇编助记格式" title="Permanent link">&para;</a></h3>
+<p>龙芯架构对指令名的前、后缀进行了统一考虑，以方便汇编编程人员和编译器开发人员使用，例如 <code>fadd.s</code> 指令为“单精度” “浮点”加法指令。</p>
+<h4 id="指令名前缀">指令名前缀<a class="headerlink" href="#指令名前缀" title="Permanent link">&para;</a></h4>
+<p>龙芯架构指令前缀和指令类型的对应关系为：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">指令前缀</th>
+<th style="text-align: center;">指令类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">无前缀</td>
+<td style="text-align: center;">非向量整数指令</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>f</code></td>
+<td style="text-align: center;">非向量浮点数指令</td>
+</tr>
+<tr>
+<td style="text-align: center;">……</td>
+<td style="text-align: center;">……</td>
+</tr>
+</tbody>
+</table>
+<h4 id="指令名后缀">指令名后缀<a class="headerlink" href="#指令名后缀" title="Permanent link">&para;</a></h4>
+<p>其次，绝大多数指令通过指令名中 <code>.XX</code> 形式的后缀来指示指令的操作对象类型：</p>
+<ul>
+<li>
+<p>对于整数指令，后缀和操作对象类型的对应关系为</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">指令后缀</th>
+<th style="text-align: center;">操作对象类型</th>
+<th style="text-align: center;">操作对象长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>.b</code></td>
+<td style="text-align: center;">字节</td>
+<td style="text-align: center;">1 字节 / 8 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.h</code></td>
+<td style="text-align: center;">半字</td>
+<td style="text-align: center;">2 字节 / 16 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.w</code></td>
+<td style="text-align: center;">字</td>
+<td style="text-align: center;">4 字节 / 32 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.d</code></td>
+<td style="text-align: center;">双字</td>
+<td style="text-align: center;">8 字节 / 64 位</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<ul>
+<li>
+<p>对于浮点数指令，后缀和指令类型的对应关系为</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">指令后缀</th>
+<th style="text-align: center;">操作对象类型</th>
+<th style="text-align: center;">操作对象长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>.h</code></td>
+<td style="text-align: center;">半精度浮点数</td>
+<td style="text-align: center;">2 字节 / 16 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.s</code></td>
+<td style="text-align: center;">单精度浮点数</td>
+<td style="text-align: center;">4 字节 / 32 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.d</code></td>
+<td style="text-align: center;">双精度浮点数</td>
+<td style="text-align: center;">8 字节 / 64 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.w</code></td>
+<td style="text-align: center;">字</td>
+<td style="text-align: center;">4 字节 / 32 位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.l</code></td>
+<td style="text-align: center;">双字</td>
+<td style="text-align: center;">8 字节 / 64 位</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>当源操作数和目的操作数的数据位宽/类型一致时，指令名只有一个后缀。但是如果源操作数的数据位宽/类型情况一致，但和目的操作数不一致时，那么指令名将有两个后缀：</p>
+<ul>
+<li>左边的后缀表示目的操作数的情况</li>
+<li>右边的操作数表示源操作数的情况</li>
+</ul>
+<p>比如，将长整数型定点数（双字）转化为单精度浮点数的指令名为 <code>ffint.s.l</code>（<code>.s</code> 表示转化的目标为单精度浮点数，<code>.l</code> 表示转化的源头为有双字）。</p>
+<p>更复杂的数据位宽情况这里不做讨论，感兴趣的同学可以自行查阅<a href="https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf">《龙芯架构参考手册 - 卷一：基础架构》</a>的 1.3 章节。</p>
+<h3 id="整数指令">整数指令<a class="headerlink" href="#整数指令" title="Permanent link">&para;</a></h3>
+<p>在龙芯架构中，基础整数指令操作的数据类型有 5 种：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">数据类型</th>
+<th style="text-align: center;">英文</th>
+<th style="text-align: center;">简记</th>
+<th style="text-align: center;">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">比特</td>
+<td style="text-align: center;">bit</td>
+<td style="text-align: center;">b</td>
+<td style="text-align: center;">1b</td>
+</tr>
+<tr>
+<td style="text-align: center;">字节</td>
+<td style="text-align: center;">Byte</td>
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">8b</td>
+</tr>
+<tr>
+<td style="text-align: center;">半字</td>
+<td style="text-align: center;">Halfword</td>
+<td style="text-align: center;">H</td>
+<td style="text-align: center;">16b</td>
+</tr>
+<tr>
+<td style="text-align: center;">字</td>
+<td style="text-align: center;">Word</td>
+<td style="text-align: center;">W</td>
+<td style="text-align: center;">32b</td>
+</tr>
+<tr>
+<td style="text-align: center;">双字</td>
+<td style="text-align: center;">Doubleword</td>
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">64b</td>
+</tr>
+</tbody>
+</table>
+<p>字节、半字、字和双字数据类型均采用二进制补码的编码方式。</p>
+<h4 id="算数逻辑运算指令">算数/逻辑运算指令<a class="headerlink" href="#算数逻辑运算指令" title="Permanent link">&para;</a></h4>
+<h5 id="addw-addd-subw-subd">add.w, add.d, sub.w, sub.d<a class="headerlink" href="#addw-addd-subw-subd" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">add.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">sub.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">add.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">sub.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>add.w</code>：将通用寄存器 <code>$rj</code> 中的 <code>[31:0]</code> 位数据加上通用寄存器 <code>$rk</code> 中的 <code>[31:0]</code> 位数据，所得结果的 <code>[31:0]</code> 位符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>sub.w</code>：将通用寄存器 <code>$rj</code> 中的 <code>[31:0]</code> 位数据减去通用寄存器 <code>$rk</code> 中的 <code>[31:0]</code> 位数据，所得结果的 <code>[31:0]</code> 位符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>add.d</code>：将通用寄存器 <code>$rj</code> 中的 <code>[63:0]</code> 位数据加上通用寄存器 <code>$rk</code> 中的 <code>[63:0]</code> 位数据，所得结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>sub.d</code>：将通用寄存器 <code>$rj</code> 中的 <code>[63:0]</code> 位数据减去通用寄存器 <code>$rk</code> 中的 <code>[63:0]</code> 位数据，所得结果写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>上述指令执行时不对溢出作特殊处理</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0003</code>，<code>$t1</code> 寄存器的值为 <code>0x0000_0000_0000_0005</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">sub.w</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span>
+</code></pre></div>
+<p>执行指令后，<code>$t2</code> 寄存器的值为 <code>0xffff_ffff_ffff_fffe</code>，即其 <code>[31:0]</code> 位数据等于 -2</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="mulw-muld-divw-divd">mul.w, mul.d, div.w, div.d<a class="headerlink" href="#mulw-muld-divw-divd" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">mul.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">div.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">mul.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">div.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>mul.w</code>：将通用寄存器 <code>$rj</code> 中的 <code>[31:0]</code> 位数据乘以通用寄存器 <code>$rk</code> 中的 <code>[31:0]</code> 位数据，所得乘积/商的 <code>[31:0]</code> 位数据符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>div.w</code>：将通用寄存器 <code>$rj</code> 中的 <code>[31:0]</code> 位数据除去通用寄存器 <code>$rk</code> 中的 <code>[31:0]</code> 位数据，所得乘积/商的 <code>[31:0]</code> 位数据符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>mul.d</code>：将通用寄存器 <code>$rj</code> 中的 <code>[63:0]</code> 位数据乘以通用寄存器 <code>$rk</code> 中的 <code>[63:0]</code> 位数据，所得乘积/商的 <code>[63:0]</code> 位数据写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>div.d</code>：将通用寄存器 <code>$rj</code> 中的 <code>[63:0]</code> 位数据除去通用寄存器 <code>$rk</code> 中的 <code>[63:0]</code> 位数据，所得乘积/商的 <code>[63:0]</code> 位数据写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>在 LA64 兼容的机器上，执行 <code>div.w</code> 指令时，如果通用寄存器 <code>$rj</code> 和 <code>$rk</code> 中的数值超过了 32 位有符号数的数值范围，则执行结果可以是无意义的任意值</li>
+<li><code>div.w</code> 进行除法操作时，操作数均视作有符号数</li>
+<li>对 <code>div.w</code> 指令，当除数是 0 时，结果可以是任意值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0009</code>，<code>$t1</code> 寄存器的值为 <code>0x0000_0000_0000_0002</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">mul.w</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span>
+<span class="nf">div.w</span><span class="w"> </span><span class="no">$t3</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span>
+</code></pre></div>
+<p>执行指令后，<code>$t2</code> 寄存器的值为 <code>0x0000_0000_0000_0012</code>，<code>$t3</code> 寄存器的值为 <code>0x0000_0000_0000_0004</code>，即其 <code>[31:0]</code> 位数据分别等于 18 和 4</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="addiw-addid">addi.w, addi.d<a class="headerlink" href="#addiw-addid" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">addi.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">addi.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>addi.w</code>：将通用寄存器 <code>$rj</code> 中的 <code>[31:0]</code> 位数据加上 12 比特立即数 <code>si12</code> 符号扩展后的 32 位数据，所得结果的 <code>[31:0]</code> 位符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+<ul>
+<li><code>addi.d</code>：将通用寄存器 <code>$rj</code> 中的 <code>[63:0]</code> 位数据加上 12 比特立即数 <code>si12</code> 符号扩展后的 64 位数据，所得结果写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>上述指令执行时不对溢出作特殊处理</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$sp</code> 寄存器的值为 <code>0x0000_00ff_ffff_33f0</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-32</span>
+</code></pre></div>
+<p>执行后，<code>$fp</code> 寄存器的值为 <code>0x0000_00ff_ffff_33d0</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="lu12iw-lu32id-lu52id">lu12i.w, lu32i.d, lu52i.d<a class="headerlink" href="#lu12iw-lu32id-lu52id" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">lu12i.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">si20</span>
+<span class="nf">lu32i.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">si20</span>
+<span class="nf">lu52i.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>lu12i.w</code>：将 20 比特立即数 <code>si20</code> 后的数据最低位连接上 12 比特 0（即 <code>si20</code> 逻辑左移 12 位），然后符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>lu32i.d</code>：将 20 比特立即数 <code>si20</code> 符号扩展后的数据最低位连接上通用寄存器 <code>$rd</code> 中 <code>[31:0]</code> 位数据，结果写入到通用寄存器 <code>$rd</code> 中</li>
+<li><code>lu52i.d</code>：将 12 比特立即数 <code>si12</code>最低位连接上通用寄存器 <code>$rj</code> 中 <code>[51:0]</code> 位数据，结果写入到通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>上述指令搭配 <code>ori</code> 指令，可以将超过 12 位的立即数装入通用寄存器中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>下面的指令将 <code>0x1234_5678_90ab_cdef</code> 装入了 <code>$t0</code> 寄存器</p>
+<div class="highlight"><pre><span></span><code><span class="nf">lu12i.w</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">-0</span><span class="no">x6f543</span><span class="w">    </span><span class="c1"># $t0 = 0xffff_ffff_90ab_c000</span>
+<span class="nf">ori</span><span class="w">     </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0xdef</span><span class="w">  </span><span class="c1"># $t0 = 0xffff_ffff_90ab_cdef</span>
+<span class="nf">lu32i.d</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0x45678</span><span class="w">     </span><span class="c1"># $t0 = 0xfff4_5678_90ab_cdef</span>
+<span class="nf">lu52i.d</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0x123</span><span class="w">  </span><span class="c1"># $t0 = 0x1234_5678_90ab_cdef</span>
+</code></pre></div>
+</li>
+</ul>
+<p>其中 <code>(int32_t)(-0x6f544)</code> = <code>(int32_t)(0xfff90abc)</code></p>
+</li>
+</ul>
+<h4 id="整数比较指令">整数比较指令<a class="headerlink" href="#整数比较指令" title="Permanent link">&para;</a></h4>
+<h5 id="slt-sltu">slt, sltu<a class="headerlink" href="#slt-sltu" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">slt</span><span class="w">  </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">sltu</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>slt</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据视<strong>作有符号整数</strong>进行大小比较，如果前者小于后者，则将通用寄存器 <code>$rd</code> 的值置为 <code>1</code>，否则置为 <code>0</code></li>
+</ul>
+<ul>
+<li><code>sltu</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据<strong>视作无符号整数</strong>进行大小比较，如果前者小于后者，则将通用寄存器 <code>$rd</code> 的值置为 <code>1</code>，否则置为 <code>0</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code>，<code>$t1</code> 寄存器的值为 <code>0x0000_0000_0000_0002</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">slt</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span>
+</code></pre></div>
+<p>执行指令后，<code>$t2</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="slti-sltui">slti, sltui<a class="headerlink" href="#slti-sltui" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">slti</span><span class="w">  </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">sltui</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>slti</code>：将通用寄存器 <code>$rj</code> 中数据与 12 比特立即数 <code>si12</code> 符号扩展后所得的数据<strong>视作有符号整数</strong>进行大小比较，如果前者小于后者，则将通用寄存器 <code>$rd</code> 的值置为 <code>1</code>，否则置为 <code>0</code></li>
+</ul>
+<ul>
+<li><code>sltui</code>：将通用寄存器 <code>$rj</code> 中数据与 12 比特立即数 <code>si12</code> 符号扩展后所得的数据<strong>视作无符号整数</strong>进行大小比较，如果前者小于后者，则将通用寄存器 <code>$rd</code> 的值置为 <code>1</code>，否则置为 <code>0</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0008</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">slti</span><span class="w"> </span><span class="no">$t1</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span>
+</code></pre></div>
+<p>执行指令后，<code>$t1</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="位运算指令">位运算指令<a class="headerlink" href="#位运算指令" title="Permanent link">&para;</a></h4>
+<h5 id="and-or-nor-xor">and, or, nor, xor<a class="headerlink" href="#and-or-nor-xor" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">and</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">or</span><span class="w">  </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">nor</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">xor</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>and</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据进行按位逻辑与运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>or</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据进行按位逻辑或运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>nor</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据进行按位逻辑或非运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>xor</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据进行按位逻辑异或运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<h5 id="andn-orn">andn, orn<a class="headerlink" href="#andn-orn" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">andn</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+<span class="nf">orn</span><span class="w">  </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>andn</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据<strong>按位取反后</strong>的数据进行按位逻辑与运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>orn</code>：将通用寄存器 <code>$rj</code> 中的数据与通用寄存器 <code>$rk</code> 中的数据<strong>按位取反后</strong>的数据进行按位逻辑或运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<h5 id="andi-ori-xori">andi, ori, xori<a class="headerlink" href="#andi-ori-xori" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">andi</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">ui12</span>
+<span class="nf">ori</span><span class="w">  </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">ui12</span>
+<span class="nf">xori</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">ui12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>andi</code>：将通用寄存器 <code>$rj</code> 中数据与 12 比特立即数零扩展后的数据进行按位逻辑与运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>ori</code>：将通用寄存器 <code>$rj</code> 中数据与 12 比特立即数零扩展后的数据进行按位逻辑或运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+<li><code>xori</code>：将通用寄存器 <code>$rj</code> 中数据与 12 比特立即数零扩展后的数据进行按位逻辑异或运算，结果写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<h4 id="位操作指令">位操作指令<a class="headerlink" href="#位操作指令" title="Permanent link">&para;</a></h4>
+<h5 id="bstrpickw-bstrpickd">bstrpick.w, bstrpick.d<a class="headerlink" href="#bstrpickw-bstrpickd" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">bstrpick.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">msbw</span><span class="p">,</span><span class="w"> </span><span class="no">lsbw</span>
+<span class="nf">bstrpick.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">msbd</span><span class="p">,</span><span class="w"> </span><span class="no">lsbd</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>bstrpick.w</code>：提取通用寄存器 <code>$rj</code> 中 <code>[msbw:lsbw]</code> 位零扩展至 32 位，所形成 32 位中间结果符号扩展后写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+<ul>
+<li><code>bstrpick.d</code>：提取通用寄存器 <code>$rj</code> 中 <code>[msbd:lsbd]</code> 位零扩展至 64 位写入通用寄存器 <code>$rd</code> 中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_00FF</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">bstrpick.w</span><span class="w"> </span><span class="no">$t1</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+<p>执行指令后，<code>$t1</code> 寄存器的值为 <code>0x0000_0000_0000_0007</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="分支指令">分支指令<a class="headerlink" href="#分支指令" title="Permanent link">&para;</a></h4>
+<p><a href="#示例-2">示例 2</a> 给出了分支指令 <code>B</code> 的使用参考，<a href="#示例-3">示例 3</a> 给出了过程调用中 <code>BL</code> 和 <code>JIRL</code> 的使用参考。</p>
+<div class="admonition info">
+<p class="admonition-title">跳转目标的表示</p>
+<p>在汇编代码中，分支指令的跳转目标地址可以通过相应标签或使用字节为单位的偏移量表示。如果选择使用偏移量表示目标地址，那么在指令格式中的立即数字段应该填入以字节为单位的偏移值，即指令格式中的 <code>offs &lt;&lt; 2</code>。</p>
+<p>比如，对于下面的汇编指令
+<div class="highlight"><pre><span></span><code><span class="nl">label_1:</span>
+<span class="w">    </span><span class="nf">b</span><span class="w"> </span><span class="no">label_2</span>
+<span class="nl">label_2:</span>
+<span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span>
+</code></pre></div>
+它等价于
+<div class="highlight"><pre><span></span><code><span class="nl">label_1:</span>
+<span class="w">    </span><span class="nf">b</span><span class="w"> </span><span class="mi">0x4</span>
+<span class="nl">label_2:</span>
+<span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span>
+</code></pre></div></p>
+</div>
+<h5 id="beq-bne-blt-bge-bltu-bgeu">beq, bne, blt, bge, bltu, bgeu<a class="headerlink" href="#beq-bne-blt-bge-bltu-bgeu" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">beq</span><span class="w">  </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">offs16</span>
+<span class="nf">bne</span><span class="w">  </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">offs16</span>
+<span class="nf">blt</span><span class="w">  </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">offs16</span>
+<span class="nf">bge</span><span class="w">  </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">offs16</span>
+<span class="nf">bltu</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">offs16</span>
+<span class="nf">bgeu</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">offs16</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>目标地址的计算方式：将指令码中的 16 比特立即数 <code>offs16</code> 逻辑左移 2 位后再符号扩展，所得偏移值加上该分支指令的 <code>PC</code></li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>beq</code>：将通用寄存器 <code>$rj</code> 和通用寄存器 <code>$rd</code> 的值进行比较，如果两者相等则跳转到目标地址，否则不跳转</li>
+</ul>
+<ul>
+<li><code>bne</code>：将通用寄存器 <code>$rj</code> 和通用寄存器 <code>$rd</code> 的值进行比较，如果两者不等则跳转到目标地址，否则不跳转</li>
+</ul>
+<ul>
+<li><code>blt</code>：将通用寄存器 <code>$rj</code> 和通用寄存器 <code>$rd</code> 的值视作<strong>有符号数</strong>进行比较，如果前者小于后者则跳转到目标地址，否则不跳转</li>
+</ul>
+<ul>
+<li><code>bge</code>：将通用寄存器 <code>$rj</code> 和通用寄存器 <code>$rd</code> 的值视作<strong>有符号数</strong>进行比较，如果前者大于等于后者则跳转到目标地址，否则不跳转</li>
+</ul>
+<ul>
+<li><code>bltu</code>：将通用寄存器 <code>$rj</code> 和通用寄存器 <code>$rd</code> 的值视作<strong>无符号数</strong>进行比较，如果前者小于后者则跳转到目标地址，否则不跳转</li>
+<li><code>bgeu</code>：将通用寄存器 <code>$rj</code> 和通用寄存器 <code>$rd</code> 的值视作<strong>无符号数</strong>进行比较，如果前者大于等于后者则跳转到目标地址，否则不跳转</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code>，<code>$t1</code> 寄存器的值为 <code>0x0000_0000_0000_0002</code></p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nf">blt</span><span class="w">    </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span><span class="p">,</span><span class="w"> </span><span class="no">true_label</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">      </span><span class="no">exit</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">true_label:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">      </span><span class="no">exit</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">exit:</span>
+<span class="w">    </span><span class="c1"># ...</span>
+</code></pre></div>
+<p>执行后，<code>$t2</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="beqz-bnez">beqz, bnez<a class="headerlink" href="#beqz-bnez" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">beqz</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">offs21</span>
+<span class="nf">bnez</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">offs21</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>目标地址计算方式：将指令码中的 21 比特立即数 <code>offs21</code> 逻辑左移 2 位后再符号扩展，所得偏移值加上该分支指令的 <code>PC</code></li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>beqz</code>：对通用寄存器 <code>$rj</code> 的值进行判断，如果等于 0 则跳转到目标地址，否则不跳转</li>
+<li><code>bnez</code>：对通用寄存器 <code>$rj</code> 的值进行判断，如果不等于 0 则跳转到目标地址，否则不跳转</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code></p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nf">bnez</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">true_label</span>
+<span class="w">    </span><span class="nf">addi</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">    </span><span class="no">exit</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">true_label:</span>
+<span class="w">    </span><span class="nf">addi</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">    </span><span class="no">exit</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">exit:</span>
+<span class="w">    </span><span class="c1"># ...</span>
+</code></pre></div>
+<p>执行后，<code>$t2</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="b">b<a class="headerlink" href="#b" title="Permanent link">&para;</a></h5>
+<ul>
+<li>指令格式：<code>b offs26</code></li>
+</ul>
+<ul>
+<li>目标地址计算方式：将指令码中的 26 比特立即数 <code>offs26</code> 逻辑左移 2 位后再符号扩展，所得偏移值加上该分支指令的 <code>PC</code></li>
+</ul>
+<ul>
+<li>行为：无条件跳转到目标地址处</li>
+</ul>
+<h5 id="bl">bl<a class="headerlink" href="#bl" title="Permanent link">&para;</a></h5>
+<ul>
+<li>指令格式：<code>bl offs26</code></li>
+<li>目标地址计算方式：将指令码中的 26 比特立即数 <code>offs26</code> 逻辑左移 2 位后再符号扩展，所得偏移值加上该分支指令的 <code>PC</code></li>
+<li>行为：无条件跳转到目标地址处，同时将该指令的 <code>PC</code> 值加 4 的结果写入到 1 号通用寄存器 <code>$r1</code>（<code>$ra</code>）中</li>
+<li>注意事项：<ul>
+<li>1 号通用寄存器 <code>$r1</code> 作为返回地址寄存器 <code>$ra</code></li>
+<li>该指令通常配合 <code>jirl</code> 指令，完成函数调用</li>
+</ul>
+</li>
+</ul>
+<h5 id="jirl">jirl<a class="headerlink" href="#jirl" title="Permanent link">&para;</a></h5>
+<ul>
+<li>指令格式：<code>jirl $rd, $rj, offs16</code></li>
+<li>目标地址计算方式：将指令码中的 16 比特立即数 <code>offs16</code> 逻辑左移 2 位后再符号扩展，所得偏移值加上通用寄存器 <code>$rj</code> 中的值</li>
+<li>行为：无条件跳转到目标地址处，同时将该指令的 <code>PC</code> 值加 4 的结果写入到通用寄存器 <code>$rd</code> 中。</li>
+</ul>
+<ul>
+<li>注意事项：<ul>
+<li>宏指令 <code>jr $rj</code> 等价于 <code>jirl $zero, $rj, 0</code></li>
+<li>当 <code>$rd</code> 为 <code>$r0</code> (<code>$zero</code>) 时，<code>jirl</code> 的功能即是一条普通的非调用间接跳转指令。</li>
+<li><code>$rd</code> 为 <code>$r0</code> (<code>$zero</code>)，<code>$rj</code> 为 <code>$r1</code> (<code>$ra</code>) 且 <code>offs16</code> 等于 0 的 <code>jirl</code>（即 <code>jr $ra</code>）常作为调用返回间接跳转使用</li>
+</ul>
+</li>
+</ul>
+<h4 id="普通访存指令">普通访存指令<a class="headerlink" href="#普通访存指令" title="Permanent link">&para;</a></h4>
+<div class="admonition info">
+<p class="admonition-title">小端序</p>
+<p>龙芯架构只采用小端序（little endian）的储存方式，即一个字 <code>0x0123_4567</code> 在内存中的存储形式如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">地址</th>
+<th style="text-align: center;">字节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>base + 3</code></td>
+<td style="text-align: center;"><code>0x01</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>base + 2</code></td>
+<td style="text-align: center;"><code>0x23</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>base + 1</code></td>
+<td style="text-align: center;"><code>0x45</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>base</code></td>
+<td style="text-align: center;"><code>0x67</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>为了简化实验，可以假设运算环境支持并允许非对齐访存，即 <code>ld</code> 和 <code>st</code> 指令不需要考虑地址对齐的问题。</p>
+<h5 id="ldb-ldh-ldw-ldd">ld.b, ld.h, ld.w, ld.d<a class="headerlink" href="#ldb-ldh-ldw-ldd" title="Permanent link">&para;</a></h5>
+<p>后缀 <code>.b</code>、<code>.h</code>、<code>.w</code> 和 <code>.d</code> 分别代表字节/半字/字/双字数据类型，长度分别为 1 / 2 / 4 / 8 字节。</p>
+<ul>
+<li><code>ld.b</code> / <code>ld.h</code> / <code>ld.w</code></li>
+</ul>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">ld.b</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">ld.h</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">ld.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">ld.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>访存地址：通用寄存器 <code>$rj</code> 中的值与符号扩展后的 12 比特立即数 <code>si12</code> 相加求和的结果</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>ld.b</code>：从内存取回一个字节的数据符号扩展后写入通用寄存器 <code>$rd</code></li>
+<li><code>ld.h</code>：从内存取回一个半字的数据符号扩展后写入通用寄存器 <code>$rd</code></li>
+<li><code>ld.w</code>：从内存取回一个字的数据符号扩展后写入通用寄存器 <code>$rd</code></li>
+<li><code>ld.d</code>：从内存取回一个双字的数据写入通用寄存器 <code>$rd</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="stb-sth-stw-std">st.b, st.h, st.w, st.d<a class="headerlink" href="#stb-sth-stw-std" title="Permanent link">&para;</a></h5>
+<p>后缀 <code>.b</code>、<code>.h</code>、<code>.w</code> 和 <code>.d</code> 分别代表字节/半字/字/双字数据类型，长度分别为 1 / 2 / 4 / 8 字节。</p>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">st.b</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">st.h</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">st.w</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">st.d</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>访存地址：通用寄存器 <code>$rj</code> 中的值与零扩展后的 12 比特立即数 <code>si12</code> 相加求和的结果</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>st.b</code>：将通用寄存器 <code>$rd</code> 中的 <code>[7:0]</code> 位数据写入到内存中</li>
+<li><code>st.h</code>：将通用寄存器 <code>$rd</code> 中的 <code>[15:0]</code> 位数据写入到内存中</li>
+<li><code>st.w</code>：将通用寄存器 <code>$rd</code> 中的 <code>[31:0]</code> 位数据写入到内存中</li>
+<li><code>st.d</code>：将通用寄存器 <code>$rd</code> 中的 <code>[63:0]</code> 位数据写入到内存中</li>
+</ul>
+</li>
+</ul>
+<h4 id="宏指令">宏指令<a class="headerlink" href="#宏指令" title="Permanent link">&para;</a></h4>
+<h5 id="jr">jr<a class="headerlink" href="#jr" title="Permanent link">&para;</a></h5>
+<ul>
+<li>指令格式：<code>jr $rj</code></li>
+<li>行为：等价于 <code>jirl $zero, $rj, 0</code></li>
+<li>注意事项：<ul>
+<li><code>jr $ra</code> 常作为调用返回间接跳转使用</li>
+</ul>
+</li>
+</ul>
+<h5 id="lalocal">la.local<a class="headerlink" href="#lalocal" title="Permanent link">&para;</a></h5>
+<ul>
+<li>指令格式：<code>la.local $rd, label</code></li>
+</ul>
+<ul>
+<li>行为：将定义在模块内的符号/标签（比如全局变量）的地址加载到通用寄存器 rd 中</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<div class="highlight"><pre><span></span><code><span class="nl">a:</span><span class="w"> </span><span class="c1"># 假设 a 的地址为 0x10000000</span>
+<span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">4</span>
+<span class="c1"># ...</span>
+<span class="nf">la.local</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">a</span><span class="w"> </span><span class="c1"># 将 a 对应的地址加载到 $t0 中，即 $t0 = 0x10000000</span>
+</code></pre></div>
+</li>
+</ul>
+<h3 id="浮点数指令">浮点数指令<a class="headerlink" href="#浮点数指令" title="Permanent link">&para;</a></h3>
+<p>在龙芯架构中，浮点数据类型包括单精度浮点数和双精度浮点数，二者均遵循 IEEE 754-2008 标准规范中的定义。部分浮点指令（如浮点转换指令）也会涉及定点（整数）数据，包括字（Word，简记 W，长度 32b）和长字（Longword，简记 L，长度 64b），它们均采用二进制补码的编码方式。</p>
+<h4 id="浮点运算指令">浮点运算指令<a class="headerlink" href="#浮点运算指令" title="Permanent link">&para;</a></h4>
+<h5 id="fadds-fsubs-fmuls-fdivs">fadd.s, fsub.s, fmul.s, fdiv.s<a class="headerlink" href="#fadds-fsubs-fmuls-fdivs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">fadd.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span><span class="p">,</span><span class="w"> </span><span class="no">$fk</span>
+<span class="nf">fsub.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span><span class="p">,</span><span class="w"> </span><span class="no">$fk</span>
+<span class="nf">fmul.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span><span class="p">,</span><span class="w"> </span><span class="no">$fk</span>
+<span class="nf">fdiv.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span><span class="p">,</span><span class="w"> </span><span class="no">$fk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>fadd.s</code>：将浮点寄存器 <code>$fj</code> 中的单精度浮点数加上浮点寄存器 <code>$fk</code> 中的单精度浮点数，得到的单精度浮点数结果写入到浮点寄存器 <code>$fd</code> 中</li>
+<li><code>fsub.s</code>：将浮点寄存器 <code>$fj</code> 中的单精度浮点数减去浮点寄存器 <code>$fk</code> 中的单精度浮点数，得到的单精度浮点数结果写入到浮点寄存器 <code>$fd</code> 中</li>
+<li><code>fmul.s</code>：将浮点寄存器 <code>$fj</code> 中的单精度浮点数乘以浮点寄存器 <code>$fk</code> 中的单精度浮点数，得到的单精度浮点数结果写入到浮点寄存器 <code>$fd</code> 中</li>
+<li><code>fmul.d</code>：将浮点寄存器 <code>$fj</code> 中的单精度浮点数除以浮点寄存器 <code>$fk</code> 中的单精度浮点数，得到的单精度浮点数结果写入到浮点寄存器 <code>$fd</code> 中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>当操作数是单精度浮点数时，结果浮点寄存器的高 32 位可以是任意值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$ft0</code> 寄存器的值为 <code>0x0000_0000_4060_0000</code>（<code>3.5</code> 的 FP32 表示），<code>$ft1</code> 寄存器的值为 <code>0x0000_0000_4090_0000</code>（<code>4.5</code> 的 FP32 表示）`</p>
+<div class="highlight"><pre><span></span><code><span class="nf">fadd.s</span><span class="w"> </span><span class="no">$ft2</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft1</span>
+<span class="nf">fsub.s</span><span class="w"> </span><span class="no">$ft3</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft1</span>
+</code></pre></div>
+<p>执行后，<code>$ft2</code> 寄存器的值为 <code>0x0000_0000_4100_0000</code>（<code>8.0</code> 的 FP32 表示），<code>$ft3</code> 寄存器的值为 <code>0x0000_0000_3f80_0000</code>（<code>4.5</code> 的 FP32 表示）`</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="浮点转换指令">浮点转换指令<a class="headerlink" href="#浮点转换指令" title="Permanent link">&para;</a></h4>
+<h5 id="ffintsw">ffint.s.w<a class="headerlink" href="#ffintsw" title="Permanent link">&para;</a></h5>
+<p><code>ffint</code> 指令有两个后缀，其中第一个后缀 <code>.s</code> 表示转换的目标为单精度浮点数，第二个后缀 <code>.w</code> 表示转换的来源是整数型（字，4 字节）定点数。</p>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">ffint.s.w</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>行为：选择<strong>浮点寄存器</strong> <code>$fj</code> 中的整数型定点数转换为单精度浮点数，得到的单精度浮点数写入到浮点寄存器 <code>$fd</code> 中</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<p>在执行下面的指令前，<code>$ft0</code> 寄存器的值为 <code>0x0000_0000_0000_0008</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">ffint.s.w</span><span class="w"> </span><span class="no">$ft1</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span>
+</code></pre></div>
+<p>执行后，<code>$ft1</code> 寄存器的值为 <code>0x0000_0000_4100_0000</code>（<code>8.0</code> 的 FP32 表示）</p>
+</li>
+</ul>
+<h5 id="ftintrzws">ftintrz.w.s<a class="headerlink" href="#ftintrzws" title="Permanent link">&para;</a></h5>
+<details class="info">
+<summary>舍入模式</summary>
+<p>为了和 LLVM IR/Light IR 中 <code>fptosi</code> 的行为一致，我们选择 “向零方向舍入”（rounding towards zero）作为舍入模式，即选择 <code>ftintrz</code> 作为转换浮点数为定点数的指令。
+龙芯架构中也有支持其他的舍入模式的 <code>ftint*</code> 指令，感兴趣的同学可以参考<a href="https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf">《龙芯架构参考手册 - 卷一：基础架构》</a>的第 3.2.3.2 节。</p>
+</details>
+<p><code>ftintrz</code> 指令有两个后缀，其中第一个后缀 <code>.w</code> 表示转换的目标是整数型（字，4 字节）定点数，第二个后缀 <code>.s</code> 表示转换的来源为单精度浮点数。</p>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">ftintrz.w.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>行为：选择浮点寄存器 <code>$fj</code> 中的单精度浮点数转换为整数型定点数，得到的整数型定点数写入到<strong>浮点寄存器</strong> <code>$fd</code> 中</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$ft0</code> 寄存器的值为 <code>0x0000_0000_4108_0000</code>（<code>8.5</code> 的 FP32 表示）</p>
+<div class="highlight"><pre><span></span><code><span class="nf">ftintrz.w.s</span><span class="w"> </span><span class="no">$ft1</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span>
+</code></pre></div>
+<p>执行后，<code>$ft1</code> 寄存器的值为 <code>0x0000_0000_0000_0008</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="浮点搬运指令">浮点搬运指令<a class="headerlink" href="#浮点搬运指令" title="Permanent link">&para;</a></h4>
+<h5 id="movgr2frw">movgr2fr.w<a class="headerlink" href="#movgr2frw" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">movgr2fr.w</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>行为：将通用寄存器 <code>$rj</code> 中的 <code>[31:0]</code> 位数据写入浮点寄存器 <code>$fd</code> 中的 <code>[31:0]</code> 位中</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>使用 <code>movgr2fr.w</code> 指令后，浮点寄存器 <code>$fd</code> 的 <code>[63:32]</code> 位值不确定</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>下面的指令将 <code>0x4108_0000</code> 装入 <code>$ft0</code> 寄存器的 <code>[31:0]</code> 位</p>
+<div class="highlight"><pre><span></span><code><span class="nf">lu12i.w</span><span class="w">    </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0x41080</span>
+<span class="nf">movgr2fr.w</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span>
+</code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="movfr2grs">movfr2gr.s<a class="headerlink" href="#movfr2grs" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>movfr2gr.s</code></li>
+</ul>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">movfr2gr.s</span><span class="w"> </span><span class="no">$rd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>行为：将浮点寄存器中的 <code>[31:0]</code> 位数据符号扩展后写入通用寄存器 <code>$rd</code></li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>下面的指令将全局浮点数变量 <code>a</code> 转换为整型载入 <code>$t0</code> 中</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 这里省略了一系列伪指令</span>
+<span class="nl">a:</span>
+<span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="c1"># 申请 4 字节空间存储 a 的值</span>
+<span class="c1"># ...</span>
+<span class="w">    </span><span class="nf">la.local</span><span class="w">    </span><span class="no">$t1</span><span class="p">,</span><span class="w"> </span><span class="no">a</span><span class="w">       </span><span class="c1"># 将 a 的地址载入 $t1</span>
+<span class="w">    </span><span class="nf">fld.s</span><span class="w">       </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1"># 将 a 的值载入 $ft0</span>
+<span class="w">    </span><span class="nf">ftintrz.w.s</span><span class="w"> </span><span class="no">$ft1</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span><span class="w">   </span><span class="c1"># $ft1 = (int)a</span>
+<span class="w">    </span><span class="nf">movfr2gr.s</span><span class="w">  </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft1</span><span class="w">    </span><span class="c1"># 将 $ft1 的数据载入 $t0 中</span>
+</code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="浮点普通访存指令">浮点普通访存指令<a class="headerlink" href="#浮点普通访存指令" title="Permanent link">&para;</a></h4>
+<h5 id="flds-fldd">fld.s, fld.d<a class="headerlink" href="#flds-fldd" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：<code>fld.s $fd, $rj, si12</code></p>
+<div class="highlight"><pre><span></span><code><span class="nf">fld.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">fld.d</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>访存地址：通用寄存器 <code>$rj</code> 中的值与符号扩展后的 12 比特立即数 <code>si12</code> 相加求和的结果</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>fld.s</code>：从内存取回一个字的数据写入浮点寄存器 <code>$fd</code> 的 <code>[31:0]</code> 位</li>
+<li><code>fld.d</code>：从内存取回一个双字的数据写入浮点寄存器 <code>$fd</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>使用 <code>fld.s</code> 指令后，浮点寄存器 <code>$fd</code> 的 <code>[63:32]</code> 位值不确定</li>
+</ul>
+</li>
+</ul>
+<h5 id="fsts-fstd">fst.s, fst.d<a class="headerlink" href="#fsts-fstd" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">fst.s</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+<span class="nf">fst.d</span><span class="w"> </span><span class="no">$fd</span><span class="p">,</span><span class="w"> </span><span class="no">$rj</span><span class="p">,</span><span class="w"> </span><span class="no">si12</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>访存地址：通用寄存器 <code>$rj</code> 中的值与符号扩展后的 12 比特立即数 <code>si12</code> 相加求和的结果</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>fst.s</code>：将浮点寄存器 <code>$fd</code> 中的 <code>[31:0]</code> 位数据写入到内存中</li>
+<li><code>fst.d</code>：将浮点寄存器 <code>$fd</code> 中的数据写入到内存中</li>
+</ul>
+</li>
+</ul>
+<h4 id="浮点比较指令">浮点比较指令<a class="headerlink" href="#浮点比较指令" title="Permanent link">&para;</a></h4>
+<h5 id="fcmpconds-fcmpcondd">fcmp.cond.s, fcmp.cond.d<a class="headerlink" href="#fcmpconds-fcmpcondd" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">fcmp.cond.s</span><span class="w"> </span><span class="no">$fccd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span><span class="p">,</span><span class="w"> </span><span class="no">$fk</span>
+<span class="nf">fcmp.cond.d</span><span class="w"> </span><span class="no">$fccd</span><span class="p">,</span><span class="w"> </span><span class="no">$fj</span><span class="p">,</span><span class="w"> </span><span class="no">$fk</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>行为：根据 <code>cond</code> 对 <code>$fj</code> 和 <code>$fk</code> 进行比较，将比较的结果存入<a href="#条件标志寄存器">条件标志寄存器</a> <code>$fccd</code></li>
+</ul>
+<ul>
+<li>
+<p><code>cond</code>：下面是一部分实验中可能会使用到的 <code>cond</code> 的信息，</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">助记符</th>
+<th style="text-align: center;"><code>cond</code></th>
+<th style="text-align: center;">含义</th>
+<th style="text-align: center;">为真的条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>seq</code></td>
+<td style="text-align: center;"><code>0x5</code></td>
+<td style="text-align: center;">相等</td>
+<td style="text-align: center;"><code>$fj == $fk</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>sne</code></td>
+<td style="text-align: center;"><code>0x11</code></td>
+<td style="text-align: center;">不等</td>
+<td style="text-align: center;"><code>$fj &gt; $fk</code> 或 <code>$fj &lt; $fk</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>slt</code></td>
+<td style="text-align: center;"><code>0x3</code></td>
+<td style="text-align: center;">小于</td>
+<td style="text-align: center;"><code>$fj &lt; $fk</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>sle</code></td>
+<td style="text-align: center;"><code>0x7</code></td>
+<td style="text-align: center;">小于等于</td>
+<td style="text-align: center;"><code>$fj &lt;= $fk</code></td>
+</tr>
+</tbody>
+</table>
+<p>如果你想了解全部的 22 种 <code>cond</code>，可以参考<a href="https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/LoongArch-Vol1-v1.10-CN.pdf">《龙芯架构参考手册 - 卷一：基础架构》</a>的第 3.2.2 节</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，<code>$ft0</code> 寄存器的值为 <code>0x0000_0000_4060_0000</code>（<code>3.5</code> 的 FP32 表示），<code>$ft1</code> 寄存器的值为 <code>0x0000_0000_4090_0000</code>（<code>4.5</code> 的 FP32 表示）`</p>
+<div class="highlight"><pre><span></span><code><span class="nf">fcmp.slt.s</span><span class="w"> </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft1</span>
+</code></pre></div>
+<p>执行后，条件标志寄存器 <code>$fcc0</code> 的值为 1</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="浮点分支指令">浮点分支指令<a class="headerlink" href="#浮点分支指令" title="Permanent link">&para;</a></h4>
+<div class="admonition info">
+<p class="admonition-title">跳转目标的表示</p>
+<p>在汇编代码中，分支指令的跳转目标地址可以通过相应标签或使用字节为单位的偏移量表示。如果选择使用偏移量表示目标地址，那么在指令格式中的立即数字段应该填入以字节为单位的偏移值，即指令格式中的 <code>offs &lt;&lt; 2</code>。</p>
+<p>比如，对于下面的汇编指令
+<div class="highlight"><pre><span></span><code><span class="nl">label_1:</span>
+<span class="w">    </span><span class="nf">bceqz</span><span class="w"> </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">label_2</span>
+<span class="nl">label_2:</span>
+<span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span>
+</code></pre></div>
+它等价于
+<div class="highlight"><pre><span></span><code><span class="nl">label_1:</span>
+<span class="w">    </span><span class="nf">bceqz</span><span class="w"> </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="mi">0x4</span>
+<span class="nl">label_2:</span>
+<span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span>
+</code></pre></div></p>
+</div>
+<h5 id="bceqz-bcnez">bceqz, bcnez<a class="headerlink" href="#bceqz-bcnez" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>指令格式：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">bceqz</span><span class="w"> </span><span class="no">$fccj</span><span class="p">,</span><span class="w"> </span><span class="no">offs21</span>
+<span class="nf">bcnez</span><span class="w"> </span><span class="no">$fccj</span><span class="p">,</span><span class="w"> </span><span class="no">offs21</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>跳转地址：将指令码中的 21 比特立即数 <code>offs21</code> 逻辑左移 2 位后再符号扩展，所得偏移值加上该分支指令的 <code>PC</code> 的和</li>
+</ul>
+<ul>
+<li>
+<p>行为：</p>
+<ul>
+<li><code>bceqz</code>：对<a href="#条件标志寄存器">条件标志寄存器</a> <code>$fccj</code> 的值进行判断，如果等于 0 则跳转到目标地址，否则不跳转</li>
+<li><code>bcnez</code>：对<a href="#条件标志寄存器">条件标志寄存器</a> <code>$fccj</code> 的值进行判断，如果不等于 0 则跳转到目标地址，否则不跳转</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：</p>
+<ul>
+<li>
+<p>在执行下面的指令前，条件标志寄存器 <code>$fcc0</code> 的值为 1</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nf">bcnez</span><span class="w"> </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">true_label</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">     </span><span class="no">false_label</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">true_label:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">      </span><span class="no">exit</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">false_label:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">      </span><span class="no">exit</span><span class="w"> </span><span class="c1"># 无条件跳转</span>
+<span class="nl">exit:</span>
+<span class="w">    </span><span class="c1"># ...</span>
+</code></pre></div>
+<p>执行后，<code>$t0</code> 寄存器的值为 <code>0x0000_0000_0000_0001</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="gnu-汇编伪指令">GNU 汇编伪指令<a class="headerlink" href="#gnu-汇编伪指令" title="Permanent link">&para;</a></h3>
+<p>由于生成的汇编代码最终会被 GNU 工具链中的 Assembler 翻译为机器语言，所以汇编代码中会包含一些 <strong>GNU 汇编伪指令</strong>。这里将简要介绍可能会用到的伪指令，如果想要更进一步了解 GNU 汇编伪指令，可以参考 <a href="https://sourceware.org/binutils/docs-2.37/as/Pseudo-Ops.html#Pseudo-Ops">Assembler Directives</a>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">伪指令</th>
+<th style="text-align: center;">简介</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>.text</code></td>
+<td style="text-align: center;">告诉汇编器将下面的语句汇编到目标程序的代码段</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.globl &lt;symbol&gt;</code>/<code>.global &lt;symbol&gt;</code></td>
+<td style="text-align: center;">声明一个符号（通常是标签） <code>symbol</code> 为全局符号<br />这意味着该符号可被其他源文件或目标文件访问</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.type &lt;symbol&gt;, &lt;type_desc&gt;</code></td>
+<td style="text-align: center;">将符号指定为特定的类型，我们将主要用到两种类型：<br /><code>@function</code>（函数）和 <code>@object</code>（数据对象/变量）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.section ...</code></td>
+<td style="text-align: center;">指定汇编代码或数据应该放在哪个段中，并可以控制段的属性</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.size &lt;symbol&gt;, &lt;expr&gt;</code></td>
+<td style="text-align: center;">告诉汇编器 <code>symbol</code> 的大小为 <code>expr</code> 字节</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>.space &lt;size&gt;</code></td>
+<td style="text-align: center;">分配 <code>size</code> 字节的空间</td>
+</tr>
+</tbody>
+</table>
+<p>其中，对于 <code>.section</code> 伪指令，我们只在给全局变量分配空间时会用到它，具体的语句为：</p>
+<div class="highlight"><pre><span></span><code><span class="na">.section</span><span class="w"> </span><span class="no">.bss</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;aw&quot;</span><span class="p">,</span><span class="w"> </span><span class="na">@nobits</span>
+</code></pre></div>
+<p>这三个参数的含义分别是：</p>
+<ul>
+<li><code>.bss</code>：将数据放在 BSS 段中</li>
+<li><code>"aw"</code>：指定这段空间为可分配（allocatable）且可写（writable）的</li>
+<li><code>@nobits</code>：这段空间不占用实际的文件空间，而是在加载可执行文件时被分配</li>
+</ul>
+<h4 id="示例">示例<a class="headerlink" href="#示例" title="Permanent link">&para;</a></h4>
+<p>下面是一段简单的 C 代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">globalInt</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">globalFloat</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">globalIntArray</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>编译器生成的汇编代码如下，其中有大量的伪指令，注释中有对各条伪指令的说明：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Global variables</span>
+<span class="w">    </span><span class="na">.text</span><span class="w">                         </span><span class="c1"># 后面的内容将放在代码段 (但是由于 .section, 全局变量实际被放到了 BSS 段)</span>
+<span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.bss</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;aw&quot;</span><span class="p">,</span><span class="w"> </span><span class="na">@nobits</span><span class="w">  </span><span class="c1"># 将后面的全局变量放到 BSS 段, 并设置属性</span>
+
+<span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">globalInt</span><span class="w">              </span><span class="c1"># 标记 globalInt 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w"> </span><span class="no">globalInt</span><span class="p">,</span><span class="w"> </span><span class="na">@object</span><span class="w">      </span><span class="c1"># 标记 globalInt 为数据对象/变量</span>
+<span class="w">    </span><span class="na">.size</span><span class="w"> </span><span class="no">globalInt</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w">            </span><span class="c1"># 标记 globalInt 的大小为 4 字节</span>
+<span class="nl">globalInt:</span>
+<span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">4</span><span class="w">                      </span><span class="c1"># 为 globalInt 分配 4 字节空间</span>
+
+<span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">globalFloat</span><span class="w">            </span><span class="c1"># 标记 globalFloat 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w"> </span><span class="no">globalFloat</span><span class="p">,</span><span class="w"> </span><span class="na">@object</span><span class="w">    </span><span class="c1"># 标记 globalFloat 为数据对象/变量</span>
+<span class="w">    </span><span class="na">.size</span><span class="w"> </span><span class="no">globalFloat</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w">          </span><span class="c1"># 标记 globalFloat 的大小为 4 字节</span>
+<span class="nl">globalFloat:</span>
+<span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">4</span><span class="w">                      </span><span class="c1"># 为 globalFloat 分配 4 字节空间</span>
+
+<span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">globalIntArray</span><span class="w">         </span><span class="c1"># 标记 globalIntArray 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w"> </span><span class="no">globalIntArray</span><span class="p">,</span><span class="w"> </span><span class="na">@object</span><span class="w"> </span><span class="c1"># 标记 globalIntArray 为数据对象/变量</span>
+<span class="w">    </span><span class="na">.size</span><span class="w"> </span><span class="no">globalIntArray</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="w">      </span><span class="c1"># 标记 globalIntArray 的大小为 40 字节 (4 * 10)</span>
+<span class="nl">globalIntArray:</span>
+<span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">40</span><span class="w">                     </span><span class="c1"># 为 globalIntArray 分配 40 字节空间</span>
+
+<span class="c1"># Functions</span>
+<span class="w">    </span><span class="na">.text</span><span class="w">                 </span><span class="c1"># 后面的内容将放在代码段</span>
+<span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">main</span><span class="w">           </span><span class="c1"># 标记 main 为全局符号, main 函数是程序的入口, 因此这个标记是必须的</span>
+<span class="w">    </span><span class="na">.type</span><span class="w"> </span><span class="no">main</span><span class="p">,</span><span class="w"> </span><span class="na">@function</span><span class="w"> </span><span class="c1"># 标记 main 为函数</span>
+<span class="nl">main:</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span>
+<span class="nl">.main_label_entry:</span>
+<span class="c1"># ret i32 0</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w"> </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nf">b</span><span class="w"> </span><span class="no">main_exit</span>
+<span class="nl">main_exit:</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w"> </span><span class="no">$ra</span>
+</code></pre></div>
+<h2 id="栈帧与函数调用">栈帧与函数调用<a class="headerlink" href="#栈帧与函数调用" title="Permanent link">&para;</a></h2>
+<h3 id="栈帧布局">栈帧布局<a class="headerlink" href="#栈帧布局" title="Permanent link">&para;</a></h3>
+<p>栈帧是程序执行中的一个重要概念，主要用于支持函数调用和返回。因为函数的调用常常是嵌套的，所以堆栈中可能有多个函数的上下文信息。每个未完成运行的函数占用堆栈中一段独立的连续区域，这段区域即为栈帧（Stack Frame）。在调用函数时，栈帧被压入堆栈；在函数返回时，栈帧从堆栈中弹出。</p>
+<p>龙芯架构 ELF psABI 规范中使用两个寄存器来访问堆栈：</p>
+<ul>
+<li>栈帧指针 <code>$fp</code> 指向栈帧的底部</li>
+<li>堆栈指针 <code>$sp</code> 指向栈帧的顶部</li>
+</ul>
+<p>这两个寄存器的值应该对齐到 16 字节。维护好这两个寄存器的值后，就可以比较方便地访问栈帧中的函数上下文信息，比如返回地址和局部变量。下面是调用堆栈的一个示意图：</p>
+<p><img alt="栈帧示意图" src="../figs/stack_frame.png" /></p>
+<h3 id="函数调用过程">函数调用过程<a class="headerlink" href="#函数调用过程" title="Permanent link">&para;</a></h3>
+<p>函数调用的过程由调用者和被调用函数共同完成：</p>
+<ol>
+<li>
+<p>调用方调用函数</p>
+<p>调用方将参数加载到适当的寄存器和堆栈位置，然后执行跳转指令：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">bl</span><span class="w"> </span><span class="no">function</span><span class="w"> </span><span class="c1"># 执行跳转，并将 PC + 4 写入 $ra</span>
+</code></pre></div>
+</li>
+<li>
+<p>被调用方进入</p>
+<p>被调用方需要初始其堆栈并保存上下文信息，假设堆栈大小为 <code>N</code>，则对应的指令为：</p>
+<div class="highlight"><pre><span></span><code><span class="nl">function:</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w">   </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">  </span><span class="c1"># 保存返回地址</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w">   </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w"> </span><span class="c1"># 保存栈帧指针的值</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">   </span><span class="c1"># 将新的栈底值写入 $fp</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="p">-</span><span class="no">N</span><span class="w">  </span><span class="c1"># 分配栈帧</span>
+<span class="nl">.function_label_entry:</span>
+<span class="w">    </span><span class="na">...</span>
+</code></pre></div>
+</li>
+<li>
+<p>被调用方退出</p>
+<p>在被调用方执行完指令后，被调用方将执行退出。被调用方将返回值放入对应寄存器，释放栈帧并恢复各个保留寄存器，最后返回调用方</p>
+<div class="highlight"><pre><span></span><code><span class="nl">.function_label_exit:</span>
+<span class="w">    </span><span class="nf">ori</span><span class="w">    </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">   </span><span class="c1"># 将返回结果保存至 $ra</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">      </span><span class="no">function_exit</span>
+<span class="nl">function_exit:</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">N</span><span class="w">   </span><span class="c1"># 恢复 $sp</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w">   </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">  </span><span class="c1"># 恢复 $ra</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w">   </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w"> </span><span class="c1"># 恢复 $fp</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w">     </span><span class="no">$ra</span><span class="w">           </span><span class="c1"># 返回到调用方</span>
+</code></pre></div>
+</li>
+<li>
+<p>调用方还原</p>
+<p>如果调用方在调用时分配了堆栈空间，则它需要将这些空间释放</p>
+</li>
+</ol>
+<h3 id="参数传递">参数传递<a class="headerlink" href="#参数传递" title="Permanent link">&para;</a></h3>
+<p>为了简化实验，编译器将遵循下面的参数传递规则：</p>
+<ul>
+<li>
+<p>与龙芯架构 ELF psABI 规范一致，编译器将使用 8 个通用寄存器 <code>$a0</code> - <code>$a7</code> (<code>$r4</code> - <code>$r11</code>) 和 8 个浮点寄存器 <code>$fa0</code> - <code>$fa1</code> (<code>$f0</code> - <code>$f7</code>) 用于参数传递，其中</p>
+<ul>
+<li>整数类型（指针或者整型）的参数用通用寄存器<code>$a0</code> - <code>$a7</code> (<code>$r4</code> - <code>$r11</code>) 传递</li>
+<li>浮点数类型的参数使用浮点寄存器 <code>$fa0</code> - <code>$fa1</code> (<code>$f0</code> - <code>$f7</code>) 传递</li>
+<li>按照顺序，参数依次放入对应的寄存器中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>示例：下面的函数在注释中提供了各个参数对应的寄存器分配情况</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">function</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w">    </span><span class="c1">// 整型，放入 $a0</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">[],</span><span class="w">  </span><span class="c1">// 指针，放入 $a1</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w">  </span><span class="c1">// 浮点数，放入 $fa0</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w">    </span><span class="c1">// 整型，放入 $a2</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w">  </span><span class="c1">// 浮点数，放入 $fa1</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">f</span><span class="w">   </span><span class="c1">// 浮点数，放入 $fa2</span>
+<span class="p">)</span>
+</code></pre></div>
+</li>
+</ul>
+<p>这个规则只使用通用/浮点参数寄存器来传递参数，不会将参数传递到栈上。具体而言，编译器假定函数的整数类型参数和浮点类型参数均不超过 8 个，对于参数个数超过 8 个的情况，暂不做考虑。</p>
+<p>你可以在这个规则上进行拓展，以支持更多参数的情况。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>上面说的只用寄存器传递参数，指的是函数调用时只使用寄存器传参，这是我们对函数传参的约定；在之后的栈式分配过程中，我们依然会将参数备份到栈上，这并不矛盾。</p>
+<p>你也可以选择其他的策略来节省栈空间的使用。</p>
+</div>
+<h3 id="函数的返回">函数的返回<a class="headerlink" href="#函数的返回" title="Permanent link">&para;</a></h3>
+<ul>
+<li>如果返回值类型时整数类型（指针或者整型），则返回值放入 <code>$a0</code> 中</li>
+<li>如果返回值类型时浮点数类型，则返回值放入 <code>$fa0</code> 中</li>
+</ul>
+<h2 id="la64-汇编示例">LA64 汇编示例<a class="headerlink" href="#la64-汇编示例" title="Permanent link">&para;</a></h2>
+<p>下面的汇编代码可能与实验需要实现的编译器的生成结果有所差异。</p>
+<h3 id="示例-1">示例 1<a class="headerlink" href="#示例-1" title="Permanent link">&para;</a></h3>
+<p>源程序：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>汇编代码：</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="na">.text</span><span class="w">                 </span><span class="c1"># 标记代码段</span>
+<span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">main</span><span class="w">           </span><span class="c1"># 标记 main 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w"> </span><span class="no">main</span><span class="p">,</span><span class="w"> </span><span class="na">@function</span><span class="w"> </span><span class="c1"># 标记 main 为函数</span>
+<span class="nl">main:</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">     </span><span class="c1"># 保存返回地址</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">    </span><span class="c1"># 保存调用者的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c1"># 设置新的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">  </span><span class="c1"># 入栈, 为栈帧分配 16 字节的空间</span>
+
+<span class="w">    </span><span class="nf">addi.w</span><span class="w"> </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="c1"># 将返回值设置成 1</span>
+
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w">   </span><span class="c1"># 出栈, 恢复原来的栈指针</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">     </span><span class="c1"># 恢复返回地址</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">    </span><span class="c1"># 恢复栈帧指针</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w"> </span><span class="no">$ra</span><span class="w">                </span><span class="c1"># 返回至调用者</span>
+</code></pre></div>
+<p>在这个例子中，<code>main</code> 函数的栈帧大小为 16 字节，其中存储了返回地址和调用者的栈帧指针</p>
+<h3 id="示例-2">示例 2<a class="headerlink" href="#示例-2" title="Permanent link">&para;</a></h3>
+<p>源程序：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>汇编代码：</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="na">.text</span><span class="w">                        </span><span class="c1"># 标记代码段</span>
+<span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.bss</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;aw&quot;</span><span class="p">,</span><span class="w"> </span><span class="na">@nobits</span><span class="w"> </span><span class="c1"># 将后面的全局变量放到 BSS 段, 并设置属性</span>
+<span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">a</span><span class="w">                     </span><span class="c1"># 标记 a 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w"> </span><span class="no">a</span><span class="p">,</span><span class="w"> </span><span class="na">@object</span><span class="w">             </span><span class="c1"># 标记 a 为数据对象/变量</span>
+<span class="w">    </span><span class="na">.size</span><span class="w"> </span><span class="no">a</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w">                   </span><span class="c1"># 标记 a 的大小为 4 字节</span>
+<span class="nl">a:</span>
+<span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">4</span><span class="w">                     </span><span class="c1"># 为 a 分配 4 字节的空间</span>
+
+<span class="w">    </span><span class="na">.text</span><span class="w">                    </span><span class="c1"># 标记代码段</span>
+<span class="w">    </span><span class="na">.globl</span><span class="w">  </span><span class="no">main</span><span class="w">             </span><span class="c1"># 标记 main 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w">   </span><span class="no">main</span><span class="p">,</span><span class="w"> </span><span class="na">@function</span><span class="w">  </span><span class="c1"># 标记 main 为函数</span>
+<span class="nl">main:</span><span class="w"> </span><span class="c1"># 进入 main 函数</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">        </span><span class="c1"># 保存返回地址</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">       </span><span class="c1"># 保存调用者的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">       </span><span class="c1"># 设置新的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">     </span><span class="c1"># 入栈, 为栈帧分配 16 字节空间</span>
+<span class="nl">.main_label_entry:</span><span class="w"> </span><span class="c1"># 分支判断入口</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$t4</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w">    </span><span class="c1"># t4 = 4</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c1"># t2 = 0</span>
+<span class="w">    </span><span class="nf">la.local</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">a</span><span class="w">          </span><span class="c1"># 将 a 所处的内存地址加载入 t0</span>
+<span class="w">    </span><span class="nf">st.w</span><span class="w"> </span><span class="no">$t4</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">         </span><span class="c1"># 将 t4 的数据保存入 t0 指向的地址中</span>
+<span class="w">    </span><span class="nf">blt</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$t4</span><span class="p">,</span><span class="w"> </span><span class="no">.main_then</span><span class="w"> </span><span class="c1"># 将 t2 和 t4 比较,如果 t2 &lt; t4 则跳转到 main_then</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">   </span><span class="no">.main_else</span><span class="w">           </span><span class="c1"># 否则跳转到 .main_else</span>
+<span class="nl">.main_else:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c1"># 设置返回值为 0</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">   </span><span class="no">.main_label_exit</span><span class="w">     </span><span class="c1"># 跳转到 .main_label_exit</span>
+<span class="nl">.main_then:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">    </span><span class="c1"># 设置返回值为 1</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">   </span><span class="no">.main_label_exit</span><span class="w">     </span><span class="c1"># 跳转到 .main_label_exit</span>
+<span class="nl">.main_label_return:</span><span class="w"> </span><span class="c1"># 退出 main 函数</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w">      </span><span class="c1"># 出栈, 恢复原来的栈指针</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">        </span><span class="c1"># 恢复返回地址</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">       </span><span class="c1"># 恢复栈帧指针</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w"> </span><span class="no">$ra</span><span class="w">                   </span><span class="c1"># 返回至调用者</span>
+</code></pre></div>
+<h3 id="示例-3">示例 3<a class="headerlink" href="#示例-3" title="Permanent link">&para;</a></h3>
+<p>源程序：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<span class="w">    </span><span class="n">output</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>汇编程序：</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="na">.text</span><span class="w">                   </span><span class="c1"># 标记代码段</span>
+<span class="w">    </span><span class="na">.globl</span><span class="w">  </span><span class="no">add</span><span class="w">             </span><span class="c1"># 标记 add 全局可见（必需）</span>
+<span class="w">    </span><span class="na">.type</span><span class="w">   </span><span class="no">add</span><span class="p">,</span><span class="w"> </span><span class="na">@function</span><span class="w">  </span><span class="c1"># 标记 main 是一个函数</span>
+<span class="nl">add:</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">       </span><span class="c1"># 保存返回地址, 在这里即为 bl add 指令的下一条指令地址</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">      </span><span class="c1"># 保存调用者的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">      </span><span class="c1"># 设置新的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">    </span><span class="c1"># 入栈, 为栈帧分配 16 字节空间</span>
+
+<span class="w">    </span><span class="nf">add.d</span><span class="w">   </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$a1</span><span class="w">   </span><span class="c1"># 计算 a0 + a1, 函数返回值存储到 a0 中</span>
+
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w">     </span><span class="c1"># 出栈, 恢复原来的栈指针</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">       </span><span class="c1"># 恢复返回地址</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">      </span><span class="c1"># 恢复栈帧指针</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w"> </span><span class="no">$ra</span><span class="w">                  </span><span class="c1"># 返回至调用者 main 函数</span>
+
+<span class="w">    </span><span class="na">.globl</span><span class="w">  </span><span class="no">main</span><span class="w">            </span><span class="c1"># 标记 main 为全局符号</span>
+<span class="w">    </span><span class="na">.type</span><span class="w">   </span><span class="no">main</span><span class="p">,</span><span class="w"> </span><span class="na">@function</span><span class="w"> </span><span class="c1"># 标记 main 为函数</span>
+<span class="nl">main:</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">       </span><span class="c1"># 保存返回地址</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">      </span><span class="c1"># 保存调用者的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">      </span><span class="c1"># 设置新的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">    </span><span class="c1"># 入栈, 为栈帧分配 16 字节空间</span>
+
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">   </span><span class="c1"># 设置第一个参数</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$a1</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w">   </span><span class="c1"># 设置第二个参数</span>
+<span class="w">    </span><span class="nf">bl</span><span class="w">  </span><span class="no">add</span><span class="w">                 </span><span class="c1"># 调用 add 函数</span>
+<span class="w">    </span><span class="nf">bl</span><span class="w">  </span><span class="no">output</span><span class="w">              </span><span class="c1"># 输出结果</span>
+
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w">      </span><span class="c1"># 出栈, 恢复原来的栈指针</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">        </span><span class="c1"># 恢复返回地址</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">       </span><span class="c1"># 恢复栈帧指针</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w"> </span><span class="no">$ra</span><span class="w">                   </span><span class="c1"># 返回至调用者</span>
+</code></pre></div>
+<h3 id="示例-4">示例 4<a class="headerlink" href="#示例-4" title="Permanent link">&para;</a></h3>
+<p>源程序：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.5</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">c</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>汇编程序如下：</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="na">.text</span>
+<span class="w">    </span><span class="na">.globl</span><span class="w">  </span><span class="no">main</span>
+<span class="w">    </span><span class="na">.type</span><span class="w">   </span><span class="no">main</span><span class="p">,</span><span class="w"> </span><span class="na">@function</span>
+<span class="nl">main:</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">    </span><span class="c1"># 保存返回地址</span>
+<span class="w">    </span><span class="nf">st.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">   </span><span class="c1"># 保存调用者的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">   </span><span class="c1"># 设置新的栈帧指针</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w"> </span><span class="c1"># 入栈, 为栈帧分配 16 字节空间</span>
+
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$t0</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w">        </span><span class="c1"># t0 = 8</span>
+<span class="w">    </span><span class="nf">movgr2fr.w</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$t0</span><span class="w">         </span><span class="c1"># 将 0x8 搬运到 $ft0 中</span>
+<span class="w">    </span><span class="nf">ffint.s.w</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span><span class="w">         </span><span class="c1"># 将浮点寄存器 $ft0 中存放的定点数转换为浮点格式</span>
+<span class="w">    </span><span class="nf">lu12i.w</span><span class="w"> </span><span class="no">$t1</span><span class="p">,</span><span class="w"> </span><span class="mi">0x40600</span><span class="w">         </span><span class="c1"># $t1[31:0] = 0x40600000, 即浮点数 3.5 的单精度表示</span>
+<span class="w">    </span><span class="nf">movgr2fr.w</span><span class="w"> </span><span class="no">$ft1</span><span class="p">,</span><span class="w"> </span><span class="no">$t1</span><span class="w">         </span><span class="c1"># 将 0x40600000 搬运到 $ft1 中</span>
+<span class="w">    </span><span class="nf">fcmp.slt.s</span><span class="w"> </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft0</span><span class="p">,</span><span class="w"> </span><span class="no">$ft1</span><span class="w"> </span><span class="c1"># $fcc0 = ($ft0 &lt; $ft1) ? 1 : 0</span>
+<span class="w">    </span><span class="nf">bceqz</span><span class="w">   </span><span class="no">$fcc0</span><span class="p">,</span><span class="w"> </span><span class="no">.L1</span><span class="w">           </span><span class="c1"># 如果 $fcc0 等于 0, 则跳转到 .L1 处</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">        </span><span class="c1"># $t2 = 1</span>
+<span class="w">    </span><span class="nf">b</span><span class="w">   </span><span class="no">.L2</span>
+<span class="nl">.L1:</span>
+<span class="w">    </span><span class="nf">addi.w</span><span class="w">  </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="no">$zero</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1"># $t2 = 0</span>
+<span class="nl">.L2:</span>
+<span class="w">    </span><span class="nf">ori</span><span class="w">  </span><span class="no">$a0</span><span class="p">,</span><span class="w"> </span><span class="no">$t2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c1"># 设置返回值 $a0 = $t2</span>
+<span class="w">    </span><span class="nf">addi.d</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="c1"># 出栈, 恢复原来的栈指针</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$ra</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-8</span><span class="w">   </span><span class="c1"># 恢复返回地址</span>
+<span class="w">    </span><span class="nf">ld.d</span><span class="w"> </span><span class="no">$fp</span><span class="p">,</span><span class="w"> </span><span class="no">$sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">  </span><span class="c1"># 恢复栈帧指针</span>
+<span class="w">    </span><span class="nf">jr</span><span class="w"> </span><span class="no">$ra</span><span class="w">              </span><span class="c1"># 返回至调用者</span>
+</code></pre></div>
+<p>这里使用了两种方式来设置浮点寄存器的值：</p>
+<ul>
+<li>将通用寄存器 <code>$t0</code> 中的定点值 <code>0x8</code> 通过 <code>movgr2fr.w</code> 指令搬运到 <code>$ft0</code> 后，通过 <code>ffint.s.w</code> 指令转化为浮点值</li>
+<li>通过 <code>lu12i.w</code> 指令将 <code>$t1</code> 的 <code>[31:0]</code> 位设置为 <code>3.5</code> 的单精度表示 <code>0x40600000</code>，然后通过 <code>movgr2fr.w</code> 指令搬运到 <code>$ft1</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../../lab3/environment/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 后端环境配置">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                后端环境配置
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../lab3/stack_allocation/" class="md-footer__link md-footer__link--next" aria-label="下一页: 栈式分配介绍">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                栈式分配介绍
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
